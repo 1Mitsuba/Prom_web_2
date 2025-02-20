@@ -1,0 +1,159 @@
+@import url('https://fonts.googleapis.com/css2?family=Krona+One&family=Montserrat:wght@400;600&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Chewy&display=swap');
+
+:root {
+    --color-primaria: #310a53;
+    --color-secundaria: #d29fff;
+    --color-terciaria: #f0dfff;
+    --color-hover: #120220;
+    --color-1 : #8800ff;
+    --color-2 : #0877ff;
+    --color-3 : #012cd9;
+    --color-4 : #b560ff;
+    --color-5 : #c480ff;
+    --color-6 :rgb(0, 163, 212);
+    --color-7 : rgba(58, 199, 242, 0.608);
+    --color-8 : #f0dfff;
+    --color-9 : #65d6ff;
+
+
+    --fuente-krona: 'Krona One', sans-serif;
+    --fuente-montserrat: 'Montserrat', sans-serif;
+    --fuente-Chewy:  "Chewy", serif;
+}
+
+.mensaje{
+    padding-top: 3.5rem;
+    padding-bottom: 3.5rem;
+    display: flex;
+    flex-direction: column;
+}
+.mensaje__lista{
+    display: flex;
+    justify-content: space-evenly;
+}
+.mensaje__item{
+    max-width: 300px;
+    background-size: cover;
+    background-repeat: no-repeat;
+    padding: 35px;
+    
+}
+.mensaje__logo{
+    background-image: url('../img/prod1.jpg');
+    height: 180px;
+    width: 180px;
+    border-radius: 20px;
+}
+.mensaje__item__titulo{
+    color: rgb(249, 249, 249);
+    font-family: var(--fuente-krona);
+    font-weight: 600;
+    font-size: 1rem;
+    text-transform: uppercase;
+    margin-bottom: 1rem;
+    background-color: var(--color-7);
+    padding: 8px;
+    border-radius: 10px;
+}
+.mensaje__item__texto{
+    line-height: normal;
+    font-family:  var(--fuente-krona);
+    background-color: var(--color-7);
+    font-size: 0.9rem;
+    padding: 8px;
+    border-radius: 10px;
+    color: #ffffff;
+}
+.nosotros{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.nosotros__titulo{
+    color: rgb(249, 249, 249);
+    font-family: var(--fuente-krona);
+    font-weight: 600;
+    font-size: 1rem;
+    text-transform: uppercase;
+    margin-bottom: 1rem;
+    background-color: var(--color-6);
+    padding: 8px;
+    border-radius: 10px;
+}
+.nosotros__texto{
+    color: rgb(249, 249, 249);
+    font-family: var(--fuente-krona);
+    font-weight: 600;
+    font-size: 1rem;
+    text-transform: uppercase;
+    margin-bottom: 1rem;
+    background-color: var(--color-6);
+    padding: 8px;
+    border-radius: 10px;
+}
+.nosotros__imagen{
+    border-radius: 25px;
+    
+}
+.imagenes{
+    width: 100%;
+    display: flex;
+    justify-content: space-evenly;
+    justify-items:center;
+}
+
+
+.producto{
+    justify-items: center;
+    margin: 15px;
+}
+.producto__titulo{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: var(--fuente-Chewy);
+    font-weight: 400;
+    font-size: 2.5rem;
+    background-color: var(--color-6);
+    border-radius: 10px;
+    margin: 10px;
+    padding: 10px;
+}
+.producto__card{
+    display: flex;
+    flex-direction: row;
+    width: 100%;
+    justify-content: center;
+    padding: 15px;
+    border-radius: 20px;
+    background-color: var(--color-6);
+}
+.card{
+    padding: 3%;
+    
+    
+}
+.card__titulo{
+    padding: 2%;
+    font-family: var(--fuente-Chewy);
+    font-weight: 400;
+    font-size: 1.5rem;
+}
+.card__contenido{
+    padding: 2%;
+    font-family: var(--fuente-Chewy);
+    font-weight: 200;
+    font-size: 1rem;
+}
+.card__precio{
+    padding: 2%;
+}
+.card__desc{
+    padding: 2%;
+}
+.card__boton{
+    padding: 2%;
+}
