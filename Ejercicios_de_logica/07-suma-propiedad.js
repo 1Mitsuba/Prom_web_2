@@ -8,13 +8,13 @@ const objetos = [
     { 'x': 5 }
 ];
 
-console.log(sumaPropiedad(objetos, "x"));
+console.log(sumaPropiedad(objetos));
 
-function sumaPropiedad(objetos, propiedad) {
+function sumaPropiedad(objetos) {
   let suma = 0;
 
   for (let i = 0; i < objetos.length; i++) {
-    suma += objetos[i][propiedad];
+    suma += objetos[i].x;
   }
 
   return suma;
