@@ -1,15 +1,16 @@
 // Ejercicio: 5. Convertir un numero decimal a binario
-console.log(decimalBinario(25));
+console.log(decimalBinario(255));
 
-function decimalBinario(numero) {
-  let binario = "";
-  let cociente = numero;
-
-  while (cociente > 0) {
-    let residuo = cociente % 2;
-    binario = residuo + binario;
-    cociente = Math.floor(cociente / 2);
+function decimalBinario(num) {
+  let binario = [];
+  if (num === 0) return "0";
+  while (num > 0){
+    binario[binario.length] = num % 2;
+    num = (num - num % 2) / 2;
   }
-
-  return binario;
+  let resultado = "";
+  for (let i = binario.length - 1; i >= 0; i--){
+    resultado += binario[i];
+  }
+  return resultado;
 }
