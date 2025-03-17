@@ -1,3 +1,7 @@
+import checkComplete from './Componentes/checkComplete.js';
+import deleteIcon from './Componentes/deleteIcon.js';
+import editIcon from './Componentes/editTask.js';
+
 (() => {
 const btn = document.querySelector('[data-form-btn]');
 
@@ -21,6 +25,7 @@ const createTask = (evento)=>{
                 <i class="fas fa-trash-alt trashIcon icon"></i>
             `;
     */
+
     const contTask = document.createElement('div');
     contTask.appendChild(checkComplete());
 
@@ -29,13 +34,13 @@ const createTask = (evento)=>{
     titleTask.classList.add('task');
     titleTask.innerText = value;
     contTask.appendChild(titleTask);
+    
 
-    const deleteIcon = document.createElement('i');
-    deleteIcon.classList.add('fas', 'fa-trash-alt', 'trashIcon', 'icon');
-    deleteIcon.addEventListener('click', deleteTask);
-    contTask.appendChild(deleteIcon);
-
+     
+    
     task.appendChild(contTask);
+    task.appendChild(editIcon());
+    task.appendChild(deleteIcon());
     list.appendChild(task);
     console.log(contenido);
 }
@@ -43,21 +48,24 @@ const createTask = (evento)=>{
 //Evento para el boton
 btn.addEventListener('click', createTask);
 
-const checkComplete = ()=>{
+/*const checkComplete = ()=>{
     const i = document.createElement('i');//creacion del icono
     i.classList.add("far","fa-check-square","icon");//Estilos del icono  
     i.addEventListener('click', color);//Evento para cambiar de color
     return i;
 }
+
 const color = (evento)=>{
     const elemento = evento.target;
     elemento.classList.add('fas');
     elemento.classList.add('CompleteIcon');
     elemento.classList.remove('far');
 }
-const deleteTask = (evento) => {
+
+*/
+/*const deleteTask = (evento) => {
     const parent = evento.target.parentElement.parentElement;
     parent.remove();
 }
-
+*/
 })();
