@@ -1,0 +1,437 @@
+/* http://meyerweb.com/eric/tools/css/reset/ 
+   v2.0 | 20110126
+   License: none (public domain)
+*/
+
+:root {
+    --color-primaria: #310a53;
+    --color-secundaria: #d29fff;
+    --color-terciaria: #f0dfff;
+    --color-hover: #120220;
+
+    --fuente-krona: 'Krona One', sans-serif;
+    --fuente-montserrat: 'Montserrat', sans-serif;
+}
+.color-1 {color: #8800ff;}
+.color-2 {color: #9720ff;}
+.color-3 {color: #a640ff;}
+.color-4 {color: #b560ff;}
+.color-5 {color: #c480ff;}
+.color-6 {color: #d29fff;}
+.color-7 {color: #e1bfff;}
+.color-8 {color: #f0dfff;}
+
+html, body, div, span, applet, object, iframe,
+h1, h2, h3, h4, h5, h6, p, blockquote, pre,
+a, abbr, acronym, address, big, cite, code,
+del, dfn, em, img, ins, kbd, q, s, samp,
+small, strike, strong, sub, sup, tt, var,
+b, u, i, center,
+dl, dt, dd, ol, ul, li,
+fieldset, form, label, legend,
+table, caption, tbody, tfoot, thead, tr, th, td,
+article, aside, canvas, details, embed, 
+figure, figcaption, footer, header, hgroup, 
+menu, nav, output, ruby, section, summary,
+time, mark, audio, video {
+	margin: 0;
+	padding: 0;
+	border: 0;
+	font-size: 100%;
+	font: inherit;
+	vertical-align: baseline;
+    
+}
+/* HTML5 display-role reset for older browsers */
+article, aside, details, figcaption, figure, 
+footer, header, hgroup, menu, nav, section {
+	display: block;
+    
+}
+body {
+	line-height: 1;
+    background-color: var(--color-primaria);
+    color: var(--color-secundaria);
+}
+ol, ul {
+	list-style: none;
+    background-color: var(--color-primaria);
+    color: var(--color-secundaria);
+}
+blockquote, q {
+	quotes: none;
+    background-color: var(--color-primaria);
+    color: var(--color-secundaria);
+}
+blockquote:before, blockquote:after,
+q:before, q:after {
+	content: '';
+	content: none;
+    
+}
+table {
+	border-collapse: collapse;
+	border-spacing: 0;
+    background-color: var(--color-primaria);
+    color: var(--color-secundaria);
+}
+
+.container {
+	width: 94%;
+	margin: 0 auto;
+	display: flex;
+	flex-direction: row;
+	justify-content: space-between;
+    background-color: var(--color-primaria);
+    color: var(--color-secundaria);
+}
+
+.headerPrincipal {
+	padding: 20px 0;
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+    background-color: var(--color-primaria);
+    color: var(--color-secundaria);
+	
+}
+
+.headerPrincipal-titulo {
+	font-weight: bold;
+	font-size: 2em;
+	margin-bottom: 20px;
+    background-color: var(--color-primaria);
+    color: var(--color-secundaria);
+}
+
+.headerPrincipal-titulo a {
+	text-decoration: none;
+	color: inherit;
+    background-color: var(--color-primaria);
+    color: var(--color-secundaria);
+}
+
+.headerPrincipal-nav {
+	text-align: center;
+	display: flex;
+	flex-direction: row;
+    background-color: var(--color-primaria);
+    color: var(--color-secundaria);
+}	
+
+.headerPrincipal-nav-link {
+	padding: 10px;
+	margin-bottom: 10px;
+	color: var(--color-secundaria);
+	background-color: var(--color-primaria);
+	text-decoration: none;
+	transition: .5s;
+	display: block;
+    background-color: var(--color-primaria);
+    color: var(--color-secundaria);
+
+	border-bottom: 1px solid var(--color-secundaria);
+}
+
+.contenidoPrincipal {
+	margin-top: 20px;
+}
+.container-producto {
+	margin: 30px;
+}
+
+.subtitulo {
+	font-weight: bold;
+	font-size: 32px;
+	margin-bottom: 10px;
+	text-align: center;
+	justify-content: center;
+	display: flex;
+}
+
+.contenidoPrincipal-productos {
+	display: flex;
+	flex-flow: row wrap;
+	
+	gap: 9%;
+	width: auto;
+}
+
+.contenidoPrincipal-productos-link {
+	height: 100px;
+	background-color: var(--color-primaria);
+	text-align: center;
+	margin: 15px;
+	transition: .3s;
+	box-shadow: 2px 2px 2px var(--color-terciaria);
+	position: relative;
+}
+
+.contenidoPrincipal-productos-link a {
+	text-decoration: none;
+	color: var(--color-secundaria);
+	font-weight: bold;
+	display: block;
+	width: 100%;
+	height: 100%;
+	position: absolute;
+	top: 0;
+	left: 0;
+}
+
+.contenidoPrincipal-productos-link:hover {
+	box-shadow: 4px 4px 4px var(--color-terciaria);
+}
+
+.contenidoPrincipal-productos-link a:before {
+	content: '';
+	display: block;
+	width: 50px;
+	height: 50px;
+	margin: 10px auto;
+}
+
+.contenidoPrincipal-productos-link:nth-child(even) a:before {
+	background: url(../Img/prod1.jpg) no-repeat;	
+	background-size: cover;
+}
+
+.contenidoPrincipal-productos-link:nth-child(odd) a:before {
+	background: url(../Img/prod1.jpg) no-repeat;
+	background-size: cover;
+}
+
+
+.rodapePrincipal {
+	background-color: var(--color-primaria);
+    color: var(--color-secundaria);
+	padding-top: 20px;
+}
+
+.rodapePrincipal .subtitulo {
+	color: var(--color-secundaria);
+    font-size: 2em;
+
+}
+
+.rodapePrincipal-navMap-link {
+	text-decoration: none;
+	color: var(--color-secundaria);
+	margin-top: 10px;
+}
+
+.rodapePrincipal-navMap-link {
+	font-size: .9em;
+}
+
+.navmap-list-title {
+	font-weight: 700;
+	font-size: 1.3em;
+	margin: .9em 0;
+	padding-left: .3em;
+	padding-top: .2em;
+	padding-bottom: .2em;
+}
+
+.navmap-list-title + .rodapePrincipal-navMap-link {
+	margin-top: 0;
+}
+
+
+.navmap-list-title-zara { color: #f99484; border-left: 4px solid #EC6E5A; }
+.navmap-list-title-adidas { color: #cd9fe2; border-left: 4px solid #AD85BF; }
+.navmap-list-title-nike { color: #4ac9ff; border-left: 4px solid #5EC6F3; }
+.navmap-list-title-polo { color: #0cd57b; border-left: 4px solid #25D285; }
+
+.rodapePrincipal-patrocinadores {
+	margin-top: 30px;
+	background: var(--color-primaria);
+	padding: 20px 0;
+}
+
+.rodapePrincipal-contatoForm {
+	margin-top: 20px;
+	text-align: center;
+}
+
+.rodapePrincipal-contatoForm label[for=email-contato] {
+	font-weight: bold;
+	font-size: 14px;
+	color: var(--color-secundaria);
+	margin-bottom: 5px;
+	display: block;
+}
+
+.rodapePrincipal-contatoForm-emailInput {
+	border-top-left-radius: 5px;
+	border-bottom-left-radius: 5px;
+	padding: 10px;
+}
+
+.rodapePrincipal-contatoForm-submit {
+	border-top-right-radius: 5px;
+	border-bottom-right-radius: 5px;
+	background-color: var(--color-primaria);
+	color: var(--color-secundaria);
+	cursor: pointer;
+	
+}
+
+.rodapePrincipal-contatoForm-submit,
+.rodapePrincipal-contatoForm-emailInput {
+	outline: 0;
+    padding: 10px;
+	border: 3px solid var(--color-secundaria);
+	box-sizing: border-box;
+	font-size: 16px;
+}
+
+.videoSobre {
+	background-color: var(--color-primaria);
+	padding: 25px 0;
+
+}
+
+.videoSobre-video {
+	max-width: 100%;
+}
+
+.videoSobre .container {
+	color: var(--color-secundaria);
+}
+
+.videoSobre-sobre-title {
+	font-size: 1.2em;
+	font-weight: bolder;
+}
+
+.videoSobre-sobre {
+	font-size: 1.3em;
+	line-height: 2;
+}
+.color-1 {color: #8800ff;}
+.color-2 {color: #9720ff;}
+.color-3 {color: #a640ff;}
+.color-4 {color: #b560ff;}
+.color-5 {color: #c480ff;}
+.color-6 {color: #d29fff;}
+.color-7 {color: #e1bfff;}
+.color-8 {color: #f0dfff;}
+
+.videoSobre-button {
+	border-radius: 8px;
+	background-color:#9720ff ;
+	display: block;
+	color: var(--color-secundaria);
+	border: none;
+	height: 50px;
+	font-size: .8em;
+	outline: none;
+}
+.rodapePrincipal-contatoForm 
+{
+	padding: 20px;
+	text-align: center;
+}
+.rodapePrincipal-contatoForm-legend {
+	margin-bottom: 10px;
+}
+
+.container-footer {
+	padding-left: 80px;
+}
+
+.container-logo-footer {
+	display: flex;
+	flex-direction: row;
+	justify-content: space-around;
+}
+.rodapePrincipal-patrocinadores-list {
+	display: flex;
+	flex-direction: row;
+	justify-content: space-between;
+	gap: 40%;
+}
+
+.texto-marca {
+	font-size: 1rem;
+	color: var(--color-secundaria);
+}
+
+@media(min-width: 769px) {
+
+	.container {
+		width: 85%;	
+	}
+
+	.subtitulo {
+		text-align: left;
+	}
+
+	.headerPrincipal-nav-link {
+		border-radius: 5px;
+		border: 2px solid var(--color-secundaria);
+	}
+
+	.headerPrincipal-nav-link:hover {
+		color: var(--color-primaria);
+		background-color: var(--color-secundaria);
+        font-family: var(--fuente-krona);
+	}
+
+	.headerPrincipal-titulo {
+		margin: 0;
+	}
+
+	.headerPrincipal-nav {
+		width: auto;
+	}
+
+	.headerPrincipal-nav-link {
+		width: auto;
+		margin: 0 0 0 10px;
+	}
+
+	.rodapePrincipal-contatoForm {
+		margin-top: 0;
+		text-align: left;
+	}
+
+	.contenidoPrincipal-cursos-link:nth-child(3n) {
+		margin-right: 0;
+	}
+
+	.contenidoPrincipal-cursos-link:nth-child(3n+1) {
+		margin-left: 0;
+	}
+
+}
+
+@media(min-width: 1000px) {
+	.contenidoPrincipal-cursos-link {
+		margin: 1.333%;
+	}
+
+	.contenidoPrincipal-cursos-link:nth-child(3n) {
+		margin-right: 1.33%;
+	}
+
+	.contenidoPrincipal-cursos-link:nth-child(3n+1) {
+		margin-left: 1.333%;
+	}
+
+	.contenidoPrincipal-cursos-link:nth-child(4n) {
+		margin-right: 0;
+	}
+
+	.contenidoPrincipal-cursos-link:nth-child(4n+1) {
+		margin-left: 0;
+	}
+
+	.videoSobre-sobre {
+		margin-left: 1.5em;
+	}
+
+}
+
+
