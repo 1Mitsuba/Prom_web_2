@@ -5,12 +5,12 @@
 const API_URL = 'http://localhost:3000/posts';
 
 const getData =() => {
-    fetch(API_URL) 
+    fetch(API_URL) // conexión a la api 
         .then(response => {
-            if (!response.ok) { // si es diferende de ok lanzamos un error 
+            if (!response.ok) { // si es diferende de ok lanzamos un error   // verificador de errores 
                 throw new Error(`Eror en la petición get el estado es ${response.status}`); 
             }
-            return response.json(); // cuando es ok devolvemos el json
+            return response.json(); // cuando es ok devolvemos los datos del json 
         })
         .then(data => showResult(data)) // mostramos el resultado
         .catch(error => showResult(error.message.true)); // si hay un error lo mostramos
