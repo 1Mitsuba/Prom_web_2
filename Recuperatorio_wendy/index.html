@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Gestor de Tareas</title>
+  <link rel="stylesheet" href="css/styles.css">
+</head>
+<body>
+  <h1>Gestor de Tareas</h1>
+
+  <!-- Formulario para agregar tareas -->
+  <div class="form-container">
+    <h2>Agregar Tarea</h2>
+    <label for="task">Tarea:</label>
+    <input type="text" id="task" placeholder="Nombre de la tarea">
+    
+    <label for="fecha">Fecha:</label>
+    <input type="date" id="fecha">
+    
+    <label for="priori">Prioridad:</label>
+    <input type="text" id="priori" placeholder="Alta, Media, Baja">
+    
+    <label for="valor">Valor:</label>
+    <input type="number" id="valor" placeholder="Valor entero">
+    
+    <button onclick="postData()">Agregar Tarea</button>
+    <div id="form-error" class="error"></div>
+  </div>
+
+  <!-- Formulario para buscar tareas por valor -->
+  <div class="search-container">
+    <h2>Buscar Tareas por Valor</h2>
+    <label for="search-valor">Valor:</label>
+    <input type="number" id="search-valor" placeholder="Buscar por valor">
+    <button onclick="searchTasks()">Buscar</button>
+  </div>
+
+  <!-- Lista de tareas -->
+  <div class="task-list" id="task-list">
+    <h2>Lista de Tareas</h2>
+    <!-- Las tareas se agregarán aquí dinámicamente -->
+  </div>
+  <!-- Código de utils.js directamente incluido -->
+  <script>
+    // Definir constantes globales y funciones de utilidad compartidas
+    const API_URL = 'http://localhost:3000/tasks';
+  
+    // Función para mostrar resultados (con menos alerts)
+    function showResult(message, isError = false) {
+      console.log(isError ? `Error: ${message}` : message);
+      
+      if (isError) {
+        // Mostrar error en el elemento correspondiente
+        const errorElement = document.querySelector('#form-error');
+        if (errorElement) {
+          errorElement.textContent = message;
+          // Limpiar mensaje de error después de 3 segundos
+          setTimeout(() => {
+            errorElement.textContent = '';
+          }, 3000);
+        } else {
+          // Solo mostrar alert para errores cuando no hay elemento de error
+          alert(`Error: ${message}`);
+        }
+      } else if (typeof message === 'object') {
+        // Si es un objeto, mostrar resultado en consola solamente
+        console.log('Resultado:', message);
+      } else {
+        // Para mensajes de éxito, mostrar solo en consola y no mostrar alert
+        console.log('Éxito:', message);
+      }
+    }
+  </script>
+  
+  <!-- Importar los scripts en orden correcto (sin módulos) -->
+  <script src="js/searchTasks.js"></script>
+  <script src="js/put.js"></script>
+  <script src="js/delete.js"></script>
+  <script src="js/post.js"></script>
+  <script src="js/get.js"></script>
+</body>
+</html>

@@ -1,0 +1,39 @@
+{
+  "tasks": [
+    {
+      "task": "nada",
+      "priori": "Alta",
+      "fecha": "2025-04-12",
+      "valor": 2,
+      "id": "e958"
+    },
+    {
+      "id": "7d24",
+      "task": "hola",
+      "priori": "Alta",
+      "fecha": "2025-04-18",
+      "valor": 2
+    },
+    {
+      "id": "b4e0",
+      "task": "hola",
+      "priori": "Alta",
+      "fecha": "2025-04-18",
+      "valor": 5
+    },
+    {
+      "id": "752a",
+      "task": "hola",
+      "priori": "Alta",
+      "fecha": "2025-05-03",
+      "valor": 5
+    },
+    {
+      "id": "5b75",
+      "task": "nada",
+      "priori": "Alta",
+      "fecha": "2025-04-23",
+      "valor": 3
+    }
+  ]
+}
