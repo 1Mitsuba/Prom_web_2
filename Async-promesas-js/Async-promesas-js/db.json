@@ -3,7 +3,12 @@
     {
       "nombre": "fulanito",
       "email": "fulanito@gmail.com",
-      "id": 1
+      "id": "1"
+    },
+    {
+      "id": "e20bdd8b-cafb-4993-b9fb-342266bbbab7",
+      "nombre": "wendy",
+      "email": "admin@example.com"
     }
   ]
 }
