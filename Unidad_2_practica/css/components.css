@@ -1,0 +1,193 @@
+/* Estilos de componentes específicos */
+
+/* Cards de proyectos */
+.proyecto-card {
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+}
+
+.proyecto-card .card-body {
+  flex-grow: 1;
+}
+
+.proyecto-card .proyecto-descripcion {
+  height: 60px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  display: -webkit-box;
+  -webkit-line-clamp: 3;
+  -webkit-box-orient: vertical;
+}
+
+.proyecto-equipo {
+  font-weight: 500;
+  color: var(--text-muted);
+}
+
+.proyecto-fechas {
+  display: flex;
+  justify-content: space-between;
+  font-size: 0.85rem;
+  color: var(--text-muted);
+}
+
+/* Tarjetas de tareas */
+.tarea-card {
+  border-radius: var(--border-radius);
+  padding: var(--spacing-sm);
+  margin-bottom: var(--spacing-sm);
+  background-color: white;
+  border-left: 3px solid transparent;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+  transition: transform 0.2s ease;
+}
+
+.tarea-card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.tarea-card.prioridad-alta {
+  border-left-color: var(--danger-color);
+}
+
+.tarea-card.prioridad-media {
+  border-left-color: var(--warning-color);
+}
+
+.tarea-card.prioridad-baja {
+  border-left-color: var(--info-color);
+}
+
+.tarea-titulo {
+  font-weight: 500;
+  margin-bottom: var(--spacing-xs);
+}
+
+.tarea-datos {
+  display: flex;
+  justify-content: space-between;
+  font-size: 0.8rem;
+  color: var(--text-muted);
+}
+
+.tarea-asignado {
+  display: flex;
+  align-items: center;
+}
+
+.avatar-mini {
+  width: 24px;
+  height: 24px;
+  border-radius: 50%;
+  margin-right: 5px;
+}
+
+/* Listado de miembros de equipo */
+.miembros-lista {
+  margin: 0;
+  padding: 0;
+  list-style-type: none;
+}
+
+.miembro-item {
+  display: flex;
+  align-items: center;
+  padding: var(--spacing-xs) 0;
+}
+
+.miembro-avatar {
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  margin-right: var(--spacing-sm);
+}
+
+.miembro-info {
+  flex-grow: 1;
+}
+
+.miembro-nombre {
+  font-weight: 500;
+  margin: 0;
+}
+
+.miembro-rol {
+  font-size: 0.8rem;
+  color: var(--text-muted);
+}
+
+/* Estadísticas y gráficos */
+.stats-container {
+  background-color: white;
+  border-radius: var(--border-radius-lg);
+  padding: var(--spacing-lg);
+  box-shadow: var(--card-shadow);
+  margin-bottom: var(--spacing-lg);
+}
+
+.stats-title {
+  margin-bottom: var(--spacing-md);
+  color: var(--text-dark);
+  font-weight: 600;
+}
+
+.stats-number {
+  font-size: 2rem;
+  font-weight: 700;
+  color: var(--primary-color);
+  margin-bottom: var(--spacing-xs);
+}
+
+.stats-label {
+  color: var(--text-muted);
+  font-size: 0.9rem;
+}
+
+/* Timeline */
+.timeline {
+  position: relative;
+  padding-left: 30px;
+  margin-left: 10px;
+}
+
+.timeline:before {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: 0;
+  height: 100%;
+  width: 2px;
+  background-color: var(--light-color);
+}
+
+.timeline-item {
+  position: relative;
+  margin-bottom: var(--spacing-md);
+}
+
+.timeline-item:before {
+  content: '';
+  position: absolute;
+  left: -36px;
+  top: 0;
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  background-color: var(--secondary-color);
+  border: 2px solid white;
+}
+
+.timeline-date {
+  font-size: 0.8rem;
+  color: var(--text-muted);
+  margin-bottom: var(--spacing-xs);
+}
+
+.timeline-content {
+  padding: var(--spacing-sm);
+  background-color: white;
+  border-radius: var(--border-radius);
+  box-shadow: var(--card-shadow);
+}

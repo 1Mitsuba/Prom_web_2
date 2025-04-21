@@ -1,0 +1,98 @@
+/* Estilos de layout y estructura */
+
+/* Dashboard Grid */
+.dashboard-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: var(--spacing-md);
+  margin-bottom: var(--spacing-xl);
+}
+
+/* Panel lateral */
+.side-panel {
+  position: sticky;
+  top: 20px;
+  height: calc(100vh - 100px);
+  overflow-y: auto;
+}
+
+/* Main content */
+.main-content {
+  padding: var(--spacing-md);
+}
+
+/* Adecuación para pantallas pequeñas */
+@media (max-width: 768px) {
+  .dashboard-grid {
+    grid-template-columns: 1fr;
+  }
+  
+  .side-panel {
+    position: relative;
+    height: auto;
+    margin-bottom: var(--spacing-md);
+  }
+}
+
+/* Divisiones de página */
+.page-section {
+  margin-bottom: var(--spacing-xl);
+}
+
+.section-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: var(--spacing-md);
+}
+
+/* Kanban board */
+.kanban-container {
+  display: flex;
+  overflow-x: auto;
+  padding-bottom: var(--spacing-md);
+}
+
+.kanban-column {
+  min-width: 300px;
+  width: 300px;
+  margin-right: var(--spacing-md);
+  border-radius: var(--border-radius);
+  background-color: rgba(0, 0, 0, 0.03);
+}
+
+.kanban-column:last-child {
+  margin-right: 0;
+}
+
+.kanban-column-header {
+  padding: var(--spacing-sm);
+  border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+  font-weight: 500;
+  text-align: center;
+}
+
+.kanban-items {
+  padding: var(--spacing-sm);
+  min-height: 200px;
+  max-height: 600px;
+  overflow-y: auto;
+}
+
+/* Formularios */
+.form-section {
+  margin-bottom: var(--spacing-lg);
+}
+
+.form-section-title {
+  margin-bottom: var(--spacing-md);
+  padding-bottom: var(--spacing-xs);
+  border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+}
+
+.form-buttons {
+  display: flex;
+  justify-content: flex-end;
+  gap: var(--spacing-sm);
+  margin-top: var(--spacing-lg);
+}

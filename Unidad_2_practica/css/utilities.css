@@ -1,0 +1,90 @@
+/* Clases utilitarias adicionales */
+
+/* Espaciado */
+.mb-6 { margin-bottom: 4rem !important; }
+.mt-6 { margin-top: 4rem !important; }
+.py-6 { padding-top: 4rem !important; padding-bottom: 4rem !important; }
+
+/* Bordes */
+.border-dashed {
+  border-style: dashed !important;
+}
+
+.border-left-primary {
+  border-left: 4px solid var(--primary-color) !important;
+}
+
+.border-left-success {
+  border-left: 4px solid var(--success-color) !important;
+}
+
+.border-left-info {
+  border-left: 4px solid var(--info-color) !important;
+}
+
+.border-left-warning {
+  border-left: 4px solid var(--warning-color) !important;
+}
+
+.border-left-danger {
+  border-left: 4px solid var(--danger-color) !important;
+}
+
+/* Texto */
+.text-small {
+  font-size: 0.85rem !important;
+}
+
+.text-xs {
+  font-size: 0.75rem !important;
+}
+
+.text-uppercase {
+  text-transform: uppercase !important;
+}
+
+.font-weight-medium {
+  font-weight: 500 !important;
+}
+
+/* Fondos con opacidad */
+.bg-primary-soft {
+  background-color: rgba(44, 62, 80, 0.1) !important;
+}
+
+.bg-success-soft {
+  background-color: rgba(46, 204, 113, 0.1) !important;
+}
+
+.bg-info-soft {
+  background-color: rgba(26, 188, 156, 0.1) !important;
+}
+
+.bg-warning-soft {
+  background-color: rgba(243, 156, 18, 0.1) !important;
+}
+
+.bg-danger-soft {
+  background-color: rgba(231, 76, 60, 0.1) !important;
+}
+
+/* Utilidades diversas */
+.cursor-pointer {
+  cursor: pointer !important;
+}
+
+.overflow-hidden {
+  overflow: hidden !important;
+}
+
+.flex-center {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.flex-between {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
