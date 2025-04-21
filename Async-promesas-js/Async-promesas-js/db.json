@@ -1,14 +1,37 @@
 {
   "perfil": [
     {
-      "nombre": "fulanito",
-      "email": "fulanito@gmail.com",
+      "id": "32cc9126-e3e0-4b30-baa0-1f3970145f45",
+      "nombre": "wendy",
+      "email": "wr58131@gmail.com"
+    },
+    {
+      "nombre": "hola",
+      "email": "wr58131@gmail.com",
+      "id": "d61abf73-7068-4f89-b876-47df2ae67d07"
+    }
+  ],
+  "productos": [
+    {
+      "nombre": "producto 1",
+      "precio": "100",
+      "descripcion": "producto 1",
       "id": "1"
     },
     {
-      "id": "e20bdd8b-cafb-4993-b9fb-342266bbbab7",
-      "nombre": "wendy",
-      "email": "admin@example.com"
+      "id": "bd521f85-cf78-4a59-81bd-5719d73f24fa",
+      "nombre": "nad",
+      "precio": "14",
+      "descripcion": "hola"
+    }
+  ],
+  "pets": [
+    {
+      "nombre": "perro",
+      "raza": "labrador",
+      "edad": 5,
+      "propietario": "no definido",
+      "id": "1"
     }
   ]
 }

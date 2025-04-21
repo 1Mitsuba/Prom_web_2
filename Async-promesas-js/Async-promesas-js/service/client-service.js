@@ -1,101 +1,75 @@
-/* const crear_nueva_fila = (nombre,email) =>{
-    const fila = document.createElement('tr'); //creo una nueva fila en la tabla 
-    //guardo el contenido de la fila en una variable llamando a las variables nombre y email 
-    const contenido =`
-            <td class="td" data-td>${nombre}</td>
-            <td>${email}</td>
-            <td>
-              <ul class="table__button-control">
-                <li>
-                  <a
-                    href="../screens/editar_cliente.html"
-                    class="simple-button simple-button--edit"
-                    >Editar</a
-                  >
-                </li>
-                <li>
-                  <button
-                    class="simple-button simple-button--delete"
-                    type="button"
-                  >
-                    Eliminar
-                  </button>
-                </li>
-              </ul>
-            </td>`;
-            fila.innerHTML = contenido; //agrego el contenido a la fila
-            return fila;
+/**
+ * Servicio para gestionar clientes en la plataforma
+ * Contiene todas las operaciones CRUD para clientes
+ */
 
-}; */
+// Función para listar todos los clientes registrados
+const listaClientes = () => {
+  // Realizamos una petición GET a la API de perfiles
+  return fetch("http://localhost:3000/perfil")
+    // Convertimos la respuesta a formato JSON
+    .then(respuesta => respuesta.json())
+    // Capturamos cualquier error que pueda ocurrir
+    .catch(error => console.log(error));
+};
 
-/*
-const tabla = document.querySelector('[data-table]'); // antiguo
-const lista_clientes = () =>{
-    const promise = new Promise((resolve,reject)=>{
-        const http = new XMLHttpRequest(); //creo una nueva peticion http
-        http.open('GET','http://localhost:3000/perfil'); //abro la peticion http
-        http.send(); //envio la peticion http
-        http.onload = () => {
-            const response = JSON.parse(http.response); //convierto que mi respuesta http a json
-            if(http.status >= 400){ 
-                reject(response); 
-            }else{
-                resolve(response); 
-            }
-        };
-        
-    });
-    return promise;
-};*/
-
-const listaClientes = () => fetch("http://localhost:3000/perfil").then(respuesta => respuesta.json());
-
-/*
-lista_clientes()
-    .then(data => {
-        data.forEach(perfil => {
-            const nuevaFila = crear_nueva_fila(perfil.nombre,perfil.email); //creo una nueva fila con los datos del cliente
-            tabla.appendChild(nuevaFila); //agrego la nueva fila a la tabla
-        });
-    })
-    .catch(err => alert('Ocurrio un error')) //si hay un error muestro un mensaje de error
-*/
+// Función para crear un nuevo cliente en la base de datos
 const crearCliente = (nombre, email) => {
+  // Realizamos una petición POST a la API con los datos del nuevo cliente
   return fetch("http://localhost:3000/perfil", {
+    // Especificamos el método HTTP para crear recursos
     method: "POST",
+    // Definimos las cabeceras para indicar que enviamos JSON
     headers: {
       "Content-Type": "application/json"
     },
+    // Convertimos el objeto JavaScript a una cadena JSON
+    // Incluimos un ID único generado con uuid
     body: JSON.stringify({ nombre, email, id: uuid.v4() })
   });
 };
 
-const eliminarCliente=(id)=>{
-  return fetch(`http://localhost:3000/perfil/${id}`,{
-    method:"DELETE"
+// Función para eliminar un cliente por su ID
+const eliminarCliente = (id) => {
+  // Realizamos una petición DELETE a la API con el ID del cliente a eliminar
+  return fetch(`http://localhost:3000/perfil/${id}`, {
+    // Especificamos el método HTTP para eliminar recursos
+    method: "DELETE"
   });
-}
+};
 
-const clientes=(id)=>{
-  return fetch(`http://localhost:3000/perfil/${id}`).then((respuesta)=>respuesta.json);
-}
+// Función para obtener un cliente específico por su ID
+const clientes = (id) => {
+  // Realizamos una petición GET a la API con el ID específico
+  return fetch(`http://localhost:3000/perfil/${id}`)
+    // Convertimos la respuesta a formato JSON
+    .then(respuesta => respuesta.json());
+};
 
-const actualizarClientes=(nombre,email,id)=>{
-  return fetch(`http://localhost:3000/perfil/${id}`, 
-  {
-    method: "POST",
+// Función para actualizar un cliente existente
+const actualizarClientes = (nombre, email, id) => {
+  // Realizamos una petición PUT a la API con los datos actualizados
+  return fetch(`http://localhost:3000/perfil/${id}`, {
+    // Usamos PUT para actualizar recursos existentes
+    method: "PUT",
+    // Definimos las cabeceras para indicar que enviamos JSON
     headers: {
       "Content-Type": "application/json"
     },
-    body: JSON.stringify({ nombre, email})
-  }).then(respuesta=>console.log(respuesta)).catch((err)=>console.log(err));
-}
-  
+    // Convertimos el objeto con los datos actualizados a una cadena JSON
+    body: JSON.stringify({ nombre, email })
+  })
+  // Convertimos la respuesta a formato JSON
+  .then(respuesta => respuesta.json())
+  // Capturamos cualquier error que pueda ocurrir
+  .catch(error => console.log(error));
+};
 
+// Exportamos todas las funciones como un objeto para usarlas en otros archivos
 export const clientService = {
   listaClientes,
-  crearCliente, // no cerarCliente
+  crearCliente,
   eliminarCliente,
-  actualizarClientes,
-  clientes
+  clientes,
+  actualizarClientes
 };

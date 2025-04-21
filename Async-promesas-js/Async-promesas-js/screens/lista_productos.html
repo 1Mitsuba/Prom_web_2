@@ -3,7 +3,7 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Doguito Petshop | Actualizar cliente</title>
+    <title>Doguito Petshop | Productos</title>
     <link rel="icon" href="../assets/img/doguitoadm.svg" type="image/x-icon" />
     <link
       href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400&display=swap"
@@ -16,16 +16,17 @@
     <link rel="stylesheet" href="../assets/css/base/base.css" />
     <link rel="stylesheet" href="../assets/css/componentes/header.css" />
     <link rel="stylesheet" href="../assets/css/componentes/card.css" />
-    <link rel="stylesheet" href="../assets/css/register_client.css" />
+    <link rel="stylesheet" href="../assets/css/lista_cliente.css" />
     <link rel="stylesheet" href="../assets/css/componentes/inputs.css" />
     <link rel="stylesheet" href="../assets/css/componentes/button.css" />
+    <link rel="stylesheet" href="../assets/css/componentes/table.css" />
     <link rel="stylesheet" href="../assets/css/componentes/footer.css" />
   </head>
   <body>
     <header class="header container">
       <img
         src="../assets/img/doguitoadm.svg"
-        alt="Logo Doguito"
+        alt="Logotipo Doguito"
         class="header__logo"
       />
       <nav>
@@ -37,39 +38,26 @@
         </ul>
       </nav>
     </header>
-    <main class="container flex flex--center flex--column">
-      <section class="card cadastro">
-        <h1 class="card__title">Editar cliente</h1>
-        <form class="flex flex--column" data-form>
-          <div class="input-container">
-            <input
-              name="nombre"
-              id="nombre"
-              class="input"
-              type="text"
-              placeholder="nombre"
-              required
-              data-nombre
-            />
-            <label class="input-label" for="nombre">Nombre</label>
-            <span class="input-menssage-error">Este campo es requerido</span>
-          </div>
-          <div class="input-container">
-            <input
-              name="email"
-              id="email"
-              class="input"
-              type="text"
-              placeholder="email"
-              required
-              data-email
-            />
-            <label class="input-label" for="email">Email</label>
-            <span class="input-menssage-error">Este campo es requerido</span>
-          </div>
-          <button type="submit" class="button">Actualizar cliente</button>
-        </form>
-      </section>
+    <main class="clientes-container">
+      <table class="table">
+        <thead>
+          <tr>
+            <th class="table__column--p">Nombre</th>
+            <th class="table__column--g">Precio</th>
+            <th class="table__column--m">Descripción</th>
+            <th class="table__column--m">
+              <a
+                href="registrar_producto.html"
+                class="simple-button simple-button--add"
+                >Nuevo Producto</a
+              >
+            </th>
+          </tr>
+        </thead>
+        <tbody data-table>
+          <!-- Aquí se cargarán dinámicamente los productos -->
+        </tbody>
+      </table>
     </main>
     <footer class="footer">
       <div class="container">
@@ -105,7 +93,7 @@
         </div>
       </div>
     </footer>
-    <!-- Agregar el script del controlador -->
-    <script type="module" src="../controladores/actualizar-cliente-controler.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/uuid/8.3.2/uuid.min.js" integrity="sha512-UNM1njAgOFUa74Z0bADwAq8gbTcqZC8Ej4xPSzpnh0l6KMevwvkBvbldF9uR++qKeJ+MOZHRjV1HZjoRvjDfNQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <script type="module" src="../controladores/producto-lista-controler.js"></script>
   </body>
-  </html>
+</html>
