@@ -7,6 +7,14 @@
       "puesto": "Desarrollador",
       "departamento": "TI",
       "avatar": "miguel.jpg"
+    },
+    {
+      "id": "u1745504538785",
+      "nombre": "Daniel Santiago Zambrana Gonzales",
+      "email": "santyzambrana0@gmail.com",
+      "puesto": "Programador",
+      "departamento": "TI",
+      "avatar": "default-avatar.jpg"
     }
   ],
   "equipos": [
@@ -24,6 +32,14 @@
       "descripcion": "desarrollo de escritorio",
       "lider": "u001",
       "fechaCreacion": "2025-04-25",
+      "estado": "activo"
+    },
+    {
+      "id": "eq1745504603795",
+      "nombre": "GrupoFrontEnd",
+      "descripcion": "fwjeoifjw",
+      "lider": "u1745504538785",
+      "fechaCreacion": "2025-04-15",
       "estado": "activo"
     }
   ],
@@ -72,6 +88,15 @@
       "proyectoId": "p001",
       "descripcion": "nada",
       "asignadoA": "u001",
+      "prioridad": "media",
+      "estado": "en progreso"
+    },
+    {
+      "id": "t1745504757381",
+      "titulo": "Wendy",
+      "proyectoId": "p001",
+      "descripcion": "hhuih",
+      "asignadoA": "u1745504538785",
       "prioridad": "media",
       "estado": "en progreso"
     }
