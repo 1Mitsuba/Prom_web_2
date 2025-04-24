@@ -1,90 +1,241 @@
-/* Clases utilitarias adicionales */
-
-/* Espaciado */
-.mb-6 { margin-bottom: 4rem !important; }
-.mt-6 { margin-top: 4rem !important; }
-.py-6 { padding-top: 4rem !important; padding-bottom: 4rem !important; }
-
-/* Bordes */
-.border-dashed {
-  border-style: dashed !important;
-}
-
-.border-left-primary {
-  border-left: 4px solid var(--primary-color) !important;
-}
-
-.border-left-success {
-  border-left: 4px solid var(--success-color) !important;
-}
-
-.border-left-info {
-  border-left: 4px solid var(--info-color) !important;
-}
-
-.border-left-warning {
-  border-left: 4px solid var(--warning-color) !important;
-}
-
-.border-left-danger {
-  border-left: 4px solid var(--danger-color) !important;
-}
-
-/* Texto */
-.text-small {
-  font-size: 0.85rem !important;
-}
-
-.text-xs {
-  font-size: 0.75rem !important;
-}
-
-.text-uppercase {
-  text-transform: uppercase !important;
-}
-
-.font-weight-medium {
-  font-weight: 500 !important;
-}
+/* Utilidades para mejorar la estética general */
 
 /* Fondos con opacidad */
 .bg-primary-soft {
-  background-color: rgba(44, 62, 80, 0.1) !important;
+  background-color: rgba(126, 131, 194, 0.1) !important; /* Azul Lavanda */
 }
 
-.bg-success-soft {
-  background-color: rgba(46, 204, 113, 0.1) !important;
+.bg-secondary-soft {
+  background-color: rgba(163, 116, 204, 0.1) !important; /* Lavanda */
 }
 
-.bg-info-soft {
-  background-color: rgba(26, 188, 156, 0.1) !important;
+.bg-tertiary-soft {
+  background-color: rgba(206, 199, 253, 0.1) !important; /* Lavanda Claro */
 }
 
-.bg-warning-soft {
-  background-color: rgba(243, 156, 18, 0.1) !important;
+.bg-quaternary-soft {
+  background-color: rgba(230, 187, 255, 0.1) !important; /* Lavanda Suave */
 }
 
-.bg-danger-soft {
-  background-color: rgba(231, 76, 60, 0.1) !important;
+.bg-quinary-soft {
+  background-color: rgba(235, 201, 255, 0.1) !important; /* Lavanda Pastel */
 }
 
-/* Utilidades diversas */
-.cursor-pointer {
-  cursor: pointer !important;
+/* Degradados modernos */
+.bg-gradient-primary {
+  background: linear-gradient(135deg, var(--primary-color), var(--secondary-color)) !important;
+  color: white !important;
 }
 
-.overflow-hidden {
-  overflow: hidden !important;
+.bg-gradient-secondary {
+  background: linear-gradient(135deg, var(--secondary-color), var(--tertiary-color)) !important;
+  color: var(--dark-color) !important;
 }
 
-.flex-center {
-  display: flex;
+.bg-gradient-tertiary {
+  background: linear-gradient(135deg, var(--tertiary-color), var(--quaternary-color)) !important;
+  color: var(--dark-color) !important;
+}
+
+.bg-gradient-light {
+  background: linear-gradient(135deg, var(--quaternary-color), var(--quinary-color)) !important;
+  color: var(--dark-color) !important;
+}
+
+/* Bordes decorativos */
+.border-gradient-top {
+  position: relative;
+}
+
+.border-gradient-top::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 3px;
+  background: var(--bg-gradient-1);
+  border-radius: 3px 3px 0 0;
+}
+
+.border-gradient-left {
+  border-left: 3px solid;
+  border-image: linear-gradient(to bottom, var(--primary-color), var(--secondary-color)) 1;
+}
+
+.border-dashed {
+  border: 1px dashed rgba(163, 116, 204, 0.3) !important;
+}
+
+/* Sombras con la paleta de colores */
+.shadow-primary {
+  box-shadow: 0 5px 15px rgba(126, 131, 194, 0.2) !important;
+}
+
+.shadow-secondary {
+  box-shadow: 0 5px 15px rgba(163, 116, 204, 0.2) !important;
+}
+
+.shadow-hover {
+  transition: box-shadow var(--transition-normal), transform var(--transition-normal);
+}
+
+.shadow-hover:hover {
+  box-shadow: var(--hover-shadow) !important;
+  transform: translateY(-3px);
+}
+
+/* Brillos para efectos de foco */
+.glow-primary:focus {
+  box-shadow: 0 0 0 3px rgba(126, 131, 194, 0.25) !important;
+}
+
+.glow-secondary:focus {
+  box-shadow: 0 0 0 3px rgba(163, 116, 204, 0.25) !important;
+}
+
+/* Utilidades de bordes redondeados */
+.rounded-xl {
+  border-radius: 1rem !important;
+}
+
+.rounded-xxl {
+  border-radius: 1.5rem !important;
+}
+
+.rounded-top-lg {
+  border-top-left-radius: var(--border-radius-lg) !important;
+  border-top-right-radius: var(--border-radius-lg) !important;
+}
+
+/* Texto truncado (versión simple) */
+.text-truncate {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  max-width: 100%;
+}
+
+.text-truncate-2 {
+  overflow: hidden;
+  position: relative;
+  max-height: 2.6em;
+  line-height: 1.3em;
+}
+
+.text-truncate-3 {
+  overflow: hidden;
+  position: relative;
+  max-height: 3.9em;
+  line-height: 1.3em;
+}
+
+/* Efectos de transición */
+.transition-all {
+  transition: all var(--transition-normal);
+}
+
+.transition-transform {
+  transition: transform var(--transition-normal);
+}
+
+.transition-shadow {
+  transition: box-shadow var(--transition-normal);
+}
+
+/* Efectos hover */
+.hover-scale:hover {
+  transform: scale(1.03);
+}
+
+.hover-translate:hover {
+  transform: translateY(-5px);
+}
+
+.hover-shadow:hover {
+  box-shadow: var(--hover-shadow);
+}
+
+/* Decoraciones de texto */
+.text-gradient {
+  background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  color: transparent;
+}
+
+.text-decorated {
+  position: relative;
+  padding-bottom: 5px;
+  display: inline-block;
+}
+
+.text-decorated::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  height: 2px;
+  background: linear-gradient(90deg, var(--primary-color), var(--secondary-color));
+  border-radius: 2px;
+}
+
+/* Fondos con patrones sutiles */
+.bg-pattern-dots {
+  background-color: var(--bg-soft);
+  background-image: radial-gradient(var(--tertiary-color) 1px, transparent 1px);
+  background-size: 20px 20px;
+}
+
+.bg-pattern-lines {
+  background-color: var(--bg-soft);
+  background-image: linear-gradient(rgba(126, 131, 194, 0.1) 1px, transparent 1px);
+  background-size: 100% 20px;
+}
+
+/* Iconos decorativos */
+.icon-circle {
+  width: 40px;
+  height: 40px;
+  display: inline-flex;
+  align-items: center;
   justify-content: center;
-  align-items: center;
+  border-radius: 50%;
+  color: var(--primary-color);
+  background-color: rgba(126, 131, 194, 0.1);
+  transition: all var(--transition-normal);
 }
 
-.flex-between {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
+.icon-circle:hover {
+  background-color: var(--primary-color);
+  color: white;
+  transform: scale(1.1);
 }
+
+/* Badges con estilo mejorado */
+.badge-outline-primary {
+  background-color: transparent;
+  border: 1px solid var(--primary-color);
+  color: var(--primary-color);
+}
+
+.badge-outline-secondary {
+  background-color: transparent;
+  border: 1px solid var(--secondary-color);
+  color: var(--secondary-color);
+}
+
+/* Espaciado adicional */
+.mt-6 { margin-top: 4rem !important; }
+.mb-6 { margin-bottom: 4rem !important; }
+.my-6 { margin-top: 4rem !important; margin-bottom: 4rem !important; }
+.py-6 { padding-top: 4rem !important; padding-bottom: 4rem !important; }
+
+/* Anchos personalizados */
+.w-30 { width: 30% !important; }
+.w-40 { width: 40% !important; }
+.w-60 { width: 60% !important; }
+.w-70 { width: 70% !important; }
+.w-90 { width: 90% !important; }

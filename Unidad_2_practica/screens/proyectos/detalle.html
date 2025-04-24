@@ -3,9 +3,12 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Gestión de Tareas | Detalles del Proyecto</title>
+    <title>Gestión de Tareas | Detalle de Proyecto</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="../../css/styles.css">
+    <link rel="stylesheet" href="../../css/components.css">
+    <link rel="stylesheet" href="../../css/layout.css">
+    <link rel="stylesheet" href="../../css/utilities.css">
 </head>
 <body>
     <header>
@@ -42,111 +45,45 @@
         <nav aria-label="breadcrumb">
             <ol class="breadcrumb">
                 <li class="breadcrumb-item"><a href="lista.html">Proyectos</a></li>
-                <li class="breadcrumb-item active">Detalles del Proyecto</li>
+                <li class="breadcrumb-item active">Detalle del Proyecto</li>
             </ol>
         </nav>
         
-        <div id="proyecto-detalle" class="mb-4">
-            <!-- Información del proyecto se cargará aquí -->
-            <div class="card">
-                <div class="card-header d-flex justify-content-between align-items-center">
-                    <h2 id="proyecto-nombre">Cargando proyecto...</h2>
-                    <div>
-                        <a href="#" id="btn-editar" class="btn btn-primary me-2">Editar</a>
-                        <span id="proyecto-estado" class="badge bg-info">Estado</span>
-                    </div>
+        <div id="proyecto-detalle">
+            <!-- Aquí se cargará dinámicamente el detalle del proyecto -->
+            <div class="text-center my-5">
+                <div class="spinner-border text-primary" role="status">
+                    <span class="visually-hidden">Cargando...</span>
                 </div>
-                <div class="card-body">
-                    <div class="row">
-                        <div class="col-md-8">
-                            <h5>Descripción</h5>
-                            <p id="proyecto-descripcion">Cargando...</p>
-                        </div>
-                        <div class="col-md-4">
-                            <div class="card bg-light">
-                                <div class="card-body">
-                                    <p><strong>Equipo:</strong> <span id="proyecto-equipo">Cargando...</span></p>
-                                    <p><strong>Fecha inicio:</strong> <span id="proyecto-fecha-inicio">Cargando...</span></p>
-                                    <p><strong>Fecha límite:</strong> <span id="proyecto-fecha-limite">Cargando...</span></p>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
+                <p>Cargando detalles del proyecto...</p>
             </div>
         </div>
-        
-        <div class="card mb-4">
+
+        <div class="card mt-4">
             <div class="card-header d-flex justify-content-between align-items-center">
-                <h3>Tareas del Proyecto</h3>
-                <button id="btn-nueva-tarea" class="btn btn-sm btn-primary">Nueva Tarea</button>
+                <h3>Tareas asociadas</h3>
+                <a href="../tareas/registro.html" class="btn btn-sm btn-primary" id="btn-nueva-tarea">Nueva tarea</a>
             </div>
             <div class="card-body">
-                <div class="tareas-container">
-                    <!-- Contenedores para las tareas por estado -->
-                    <div class="row">
-                        <div class="col-md-4">
-                            <div class="card mb-3">
-                                <div class="card-header bg-secondary text-white">
-                                    Pendientes
-                                </div>
-                                <div class="card-body">
-                                    <div id="tareas-pendientes" class="tareas-lista">
-                                        <!-- Tareas pendientes se cargarán aquí -->
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-md-4">
-                            <div class="card mb-3">
-                                <div class="card-header bg-primary text-white">
-                                    En Progreso
-                                </div>
-                                <div class="card-body">
-                                    <div id="tareas-progreso" class="tareas-lista">
-                                        <!-- Tareas en progreso se cargarán aquí -->
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-md-4">
-                            <div class="card mb-3">
-                                <div class="card-header bg-success text-white">
-                                    Completadas
-                                </div>
-                                <div class="card-body">
-                                    <div id="tareas-completadas" class="tareas-lista">
-                                        <!-- Tareas completadas se cargarán aquí -->
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
+                <div class="table-responsive">
+                    <table class="table table-hover">
+                        <thead class="table-light">
+                            <tr>
+                                <th>Título</th>
+                                <th>Descripción</th>
+                                <th>Asignado a</th>
+                                <th>Prioridad</th>
+                                <th>Estado</th>
+                                <th>Acciones</th>
+                            </tr>
+                        </thead>
+                        <tbody id="tareas-proyecto">
+                            <!-- Aquí se cargarán dinámicamente las tareas del proyecto -->
+                        </tbody>
+                    </table>
                 </div>
-            </div>
-        </div>
-        
-        <div class="card">
-            <div class="card-header">
-                <h3>Comentarios del Proyecto</h3>
-            </div>
-            <div class="card-body">
-                <div id="comentarios-lista" class="mb-4">
-                    <!-- Los comentarios se cargarán aquí -->
-                </div>
-                
-                <div class="card bg-light">
-                    <div class="card-body">
-                        <h5>Añadir comentario</h5>
-                        <form id="form-comentario">
-                            <div class="mb-3">
-                                <textarea class="form-control" id="comentario-texto" rows="3" placeholder="Escribe tu comentario aquí..."></textarea>
-                            </div>
-                            <div class="text-end">
-                                <button type="submit" class="btn btn-primary">Enviar</button>
-                            </div>
-                        </form>
-                    </div>
+                <div id="no-tareas" class="text-center py-3 d-none">
+                    <p>No hay tareas asociadas a este proyecto</p>
                 </div>
             </div>
         </div>
@@ -157,49 +94,6 @@
             <p>&copy; 2023 Gestión de Tareas</p>
         </div>
     </footer>
-
-    <!-- Modal para nueva tarea -->
-    <div class="modal fade" id="modal-nueva-tarea" tabindex="-1" aria-hidden="true">
-        <div class="modal-dialog">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title">Nueva Tarea</h5>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                </div>
-                <div class="modal-body">
-                    <form id="form-nueva-tarea">
-                        <div class="mb-3">
-                            <label for="tarea-titulo" class="form-label">Título</label>
-                            <input type="text" class="form-control" id="tarea-titulo" required>
-                        </div>
-                        <div class="mb-3">
-                            <label for="tarea-descripcion" class="form-label">Descripción</label>
-                            <textarea class="form-control" id="tarea-descripcion" rows="3"></textarea>
-                        </div>
-                        <div class="mb-3">
-                            <label for="tarea-asignado" class="form-label">Asignar a</label>
-                            <select class="form-select" id="tarea-asignado">
-                                <option value="">No asignada</option>
-                                <!-- Opciones de usuarios se cargarán dinámicamente -->
-                            </select>
-                        </div>
-                        <div class="mb-3">
-                            <label for="tarea-prioridad" class="form-label">Prioridad</label>
-                            <select class="form-select" id="tarea-prioridad">
-                                <option value="baja">Baja</option>
-                                <option value="media" selected>Media</option>
-                                <option value="alta">Alta</option>
-                            </select>
-                        </div>
-                    </form>
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
-                    <button type="button" class="btn btn-primary" id="btn-guardar-tarea">Guardar</button>
-                </div>
-            </div>
-        </div>
-    </div>
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
     <script type="module" src="../../controlers/proyecto-detalle-controller.js"></script>

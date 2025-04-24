@@ -1,64 +1,102 @@
 {
-    "usuarios": [
-      {
-        "id": "u001",
-        "nombre": "Miguel Ángel",
-        "email": "miguel@ejemplo.com",
-        "puesto": "Desarrollador",
-        "departamento": "TI",
-        "avatar": "miguel.jpg"
-      }
-    ],
-    "equipos": [
-      {
-        "id": "eq001",
-        "nombre": "Equipo Frontend",
-        "descripcion": "Responsables del desarrollo de interfaces de usuario",
-        "lider": "u001",
-        "fechaCreacion": "2023-01-15",
-        "estado": "activo"
-      }
-    ],
-    "proyectos": [
-      {
-        "id": "p001",
-        "nombre": "Rediseño del sitio web",
-        "descripcion": "Actualizar el sitio con nuevo diseño responsivo",
-        "fechaInicio": "2023-09-01",
-        "fechaLimite": "2023-12-15",
-        "estado": "en progreso",
-        "equipoId": "eq001"
-      }
-    ],
-    "tareas": [
-      {
-        "id": "t001",
-        "proyectoId": "p001",
-        "titulo": "Diseñar wireframes",
-        "descripcion": "Crear wireframes para todas las páginas principales",
-        "asignadoA": "u001",
-        "prioridad": "alta",
-        "estado": "completada"
-      }
-    ],
-    "comentarios": [
-      {
-        "id": "c001",
-        "tareaId": "t001",
-        "usuarioId": "u001",
-        "texto": "He finalizado todos los wireframes, están disponibles en Drive",
-        "fecha": "2023-09-15",
-        "archivosAdjuntos": ["wireframe-home.png", "wireframe-contact.png"]
-      }
-    ],
-    "miembrosEquipo": [
-      {
-        "id": "me001",
-        "equipoId": "eq001",
-        "usuarioId": "u001",
-        "rol": "desarrollador senior",
-        "fechaUnion": "2023-01-15",
-        "estado": "activo"
-      }
-    ]
+  "usuarios": [
+    {
+      "id": "u001",
+      "nombre": "Miguel Ángel",
+      "email": "miguel@ejemplo.com",
+      "puesto": "Desarrollador",
+      "departamento": "TI",
+      "avatar": "miguel.jpg"
+    }
+  ],
+  "equipos": [
+    {
+      "id": "eq001",
+      "nombre": "Equipo Frontend",
+      "descripcion": "Responsables del desarrollo de interfaces de usuario",
+      "lider": "u001",
+      "fechaCreacion": "2023-01-15",
+      "estado": "activo"
+    },
+    {
+      "id": "eq1745462207247",
+      "nombre": "proyecto 1",
+      "descripcion": "desarrollo de escritorio",
+      "lider": "u001",
+      "fechaCreacion": "2025-04-25",
+      "estado": "activo"
+    }
+  ],
+  "proyectos": [
+    {
+      "id": "p001",
+      "nombre": "Rediseño del sitio web",
+      "descripcion": "Actualizar el sitio con nuevo diseño responsivo",
+      "fechaInicio": "2023-09-01",
+      "fechaLimite": "2023-12-15",
+      "estado": "en progreso",
+      "equipoId": "eq001"
+    },
+    {
+      "id": "p1745462257600",
+      "nombre": "coca",
+      "descripcion": "producto ",
+      "equipoId": "eq1745462207247",
+      "fechaInicio": "2025-04-24",
+      "fechaLimite": "2025-04-26",
+      "estado": "en progreso"
+    }
+  ],
+  "tareas": [
+    {
+      "id": "t001",
+      "proyectoId": "p001",
+      "titulo": "Diseñar wireframes",
+      "descripcion": "Crear wireframes para todas las páginas principales",
+      "asignadoA": "u001",
+      "prioridad": "alta",
+      "estado": "completada"
+    },
+    {
+      "id": "t1745462314196",
+      "titulo": "hola",
+      "proyectoId": "p1745462257600",
+      "descripcion": "nada",
+      "asignadoA": "u001",
+      "prioridad": "media",
+      "estado": "en progreso"
+    },
+    {
+      "id": "t1745463768111",
+      "titulo": "hola",
+      "proyectoId": "p001",
+      "descripcion": "nada",
+      "asignadoA": "u001",
+      "prioridad": "media",
+      "estado": "en progreso"
+    }
+  ],
+  "comentarios": [
+    {
+      "id": "c001",
+      "tareaId": "t001",
+      "usuarioId": "u001",
+      "texto": "He finalizado todos los wireframes, están disponibles en Drive",
+      "fecha": "2023-09-15",
+      "archivosAdjuntos": [
+        "wireframe-home.png",
+        "wireframe-contact.png"
+      ]
+    }
+  ],
+  "miembrosEquipo": [
+    {
+      "id": "me001",
+      "equipoId": "eq001",
+      "usuarioId": "u001",
+      "rol": "desarrollador senior",
+      "fechaUnion": "2023-01-15",
+      "estado": "activo"
+    }
+  ]
 }

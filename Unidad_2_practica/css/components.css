@@ -1,28 +1,78 @@
-/* Estilos de componentes específicos */
+/* Componentes con diseño mejorado */
 
-/* Cards de proyectos */
+/* Cards de proyectos con estilo elegante */
 .proyecto-card {
   height: 100%;
   display: flex;
   flex-direction: column;
+  background-color: var(--bg-light);
+  border-radius: var(--border-radius-lg);
+  border: var(--card-border);
+  overflow: hidden;
+  transition: transform var(--transition-normal), box-shadow var(--transition-normal);
+  position: relative;
+}
+
+.proyecto-card:hover {
+  transform: translateY(-5px);
+  box-shadow: var(--hover-shadow);
+}
+
+/* Barra decorativa superior en tarjetas */
+.proyecto-card::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 4px;
+  background: var(--bg-gradient-1);
 }
 
 .proyecto-card .card-body {
   flex-grow: 1;
+  padding: 1.5rem;
+}
+
+.proyecto-card .card-title {
+  color: var(--primary-color);
+  font-weight: 600;
+  margin-bottom: 1rem;
 }
 
 .proyecto-card .proyecto-descripcion {
   height: 60px;
   overflow: hidden;
-  text-overflow: ellipsis;
-  display: -webkit-box;
-  -webkit-line-clamp: 3;
-  -webkit-box-orient: vertical;
+  position: relative;
+  line-height: 20px;
+  margin-bottom: 1rem;
+  color: var(--text-dark);
+}
+
+/* Efecto degradado para texto truncado */
+.proyecto-card .proyecto-descripcion:after {
+  content: "";
+  position: absolute;
+  bottom: 0;
+  right: 0;
+  width: 60%;
+  height: 20px;
+  background: linear-gradient(to right, rgba(255,255,255,0), var(--bg-light) 80%);
 }
 
 .proyecto-equipo {
   font-weight: 500;
-  color: var(--text-muted);
+  color: var(--secondary-color);
+  display: flex;
+  align-items: center;
+  margin-bottom: 0.75rem;
+}
+
+/* Icono decorativo */
+.proyecto-equipo::before {
+  content: '👥';
+  margin-right: 0.5rem;
+  font-size: 1.1em;
 }
 
 .proyecto-fechas {
@@ -30,39 +80,65 @@
   justify-content: space-between;
   font-size: 0.85rem;
   color: var(--text-muted);
+  padding-top: 0.75rem;
+  border-top: 1px dashed rgba(163, 116, 204, 0.2);
 }
 
-/* Tarjetas de tareas */
+/* Tarjetas de tareas mejoradas */
 .tarea-card {
   border-radius: var(--border-radius);
-  padding: var(--spacing-sm);
-  margin-bottom: var(--spacing-sm);
-  background-color: white;
-  border-left: 3px solid transparent;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
-  transition: transform 0.2s ease;
+  padding: var(--spacing-md);
+  margin-bottom: var(--spacing-md);
+  background-color: var(--bg-light);
+  border-left: 4px solid transparent;
+  box-shadow: 0 3px 8px rgba(0, 0, 0, 0.05);
+  transition: all var(--transition-normal);
+  position: relative;
+  overflow: hidden;
 }
 
 .tarea-card:hover {
-  transform: translateY(-2px);
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  transform: translateY(-3px) scale(1.01);
+  box-shadow: var(--hover-shadow);
 }
 
+/* Efecto de fondo para prioridades */
+.tarea-card::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  right: 0;
+  width: 100px;
+  height: 100px;
+  border-radius: 50%;
+  background-color: currentColor;
+  opacity: 0.03;
+  transform: translate(30%, -30%);
+  z-index: 0;
+}
+
+/* Tarjetas de tareas - actualización de bordes de prioridad */
 .tarea-card.prioridad-alta {
   border-left-color: var(--danger-color);
+  color: var(--danger-color);
 }
 
 .tarea-card.prioridad-media {
-  border-left-color: var(--warning-color);
+  border-left-color: var(--secondary-color);
+  color: var(--secondary-color);
 }
 
 .tarea-card.prioridad-baja {
-  border-left-color: var(--info-color);
+  border-left-color: var(--tertiary-color);
+  color: var(--tertiary-color);
 }
 
 .tarea-titulo {
-  font-weight: 500;
+  font-weight: 600;
   margin-bottom: var(--spacing-xs);
+  color: var(--primary-color);
+  position: relative;
+  z-index: 1;
 }
 
 .tarea-datos {
@@ -70,6 +146,8 @@
   justify-content: space-between;
   font-size: 0.8rem;
   color: var(--text-muted);
+  position: relative;
+  z-index: 1;
 }
 
 .tarea-asignado {
@@ -78,10 +156,12 @@
 }
 
 .avatar-mini {
-  width: 24px;
-  height: 24px;
+  width: 28px;
+  height: 28px;
   border-radius: 50%;
   margin-right: 5px;
+  border: 2px solid var(--accent-light);
+  box-shadow: 0 0 0 2px rgba(255, 255, 255, 0.8);
 }
 
 /* Listado de miembros de equipo */
@@ -94,14 +174,34 @@
 .miembro-item {
   display: flex;
   align-items: center;
-  padding: var(--spacing-xs) 0;
+  padding: var(--spacing-sm) var(--spacing-md);
+  border-radius: var(--border-radius);
+  margin-bottom: var(--spacing-xs);
+  transition: background-color var(--transition-fast);
+  border-left: 3px solid transparent;
+}
+
+.miembro-item:hover {
+  background-color: var(--bg-soft);
+  border-left-color: var(--primary-color);
+}
+
+.miembro-item:last-child {
+  margin-bottom: 0;
 }
 
 .miembro-avatar {
-  width: 36px;
-  height: 36px;
+  width: 42px;
+  height: 42px;
   border-radius: 50%;
   margin-right: var(--spacing-sm);
+  border: 3px solid var(--accent-light);
+  box-shadow: 0 0 0 2px rgba(255, 255, 255, 0.8);
+  transition: transform var(--transition-fast);
+}
+
+.miembro-item:hover .miembro-avatar {
+  transform: scale(1.05);
 }
 
 .miembro-info {
@@ -109,43 +209,90 @@
 }
 
 .miembro-nombre {
-  font-weight: 500;
-  margin: 0;
+  font-weight: 600;
+  margin: 0 0 2px 0;
+  color: var(--primary-color);
 }
 
 .miembro-rol {
   font-size: 0.8rem;
-  color: var(--text-muted);
+  color: var(--secondary-color);
+  background-color: rgba(163, 116, 204, 0.1);
+  display: inline-block;
+  padding: 2px 8px;
+  border-radius: 12px;
 }
 
 /* Estadísticas y gráficos */
 .stats-container {
-  background-color: white;
+  background-color: var(--bg-light);
   border-radius: var(--border-radius-lg);
   padding: var(--spacing-lg);
   box-shadow: var(--card-shadow);
   margin-bottom: var(--spacing-lg);
+  position: relative;
+  overflow: hidden;
+}
+
+/* Estilo decorativo para contenedores de estadísticas */
+.stats-container::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 4px;
+  background: var(--bg-gradient-2);
+}
+
+.stats-container::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  right: 0;
+  width: 150px;
+  height: 150px;
+  background: var(--tertiary-color);
+  opacity: 0.05;
+  border-radius: 50%;
+  transform: translate(30%, -30%);
 }
 
 .stats-title {
+  position: relative;
   margin-bottom: var(--spacing-md);
-  color: var(--text-dark);
-  font-weight: 600;
+  color: var(--primary-color);
+  font-weight: 700;
+  display: inline-block;
+}
+
+.stats-title::after {
+  content: '';
+  position: absolute;
+  left: 0;
+  bottom: -5px;
+  width: 40px;
+  height: 3px;
+  background: var(--secondary-color);
+  border-radius: 3px;
 }
 
 .stats-number {
-  font-size: 2rem;
+  font-size: 2.5rem;
   font-weight: 700;
   color: var(--primary-color);
   margin-bottom: var(--spacing-xs);
+  text-shadow: 2px 2px 4px rgba(0,0,0,0.05);
 }
 
 .stats-label {
-  color: var(--text-muted);
+  color: var(--secondary-color);
   font-size: 0.9rem;
+  text-transform: uppercase;
+  letter-spacing: 1px;
 }
 
-/* Timeline */
+/* Timeline con estilo mejorado */
 .timeline {
   position: relative;
   padding-left: 30px;
@@ -158,13 +305,14 @@
   left: 0;
   top: 0;
   height: 100%;
-  width: 2px;
-  background-color: var(--light-color);
+  width: 3px;
+  background: linear-gradient(to bottom, var(--primary-color), var(--quaternary-color));
+  border-radius: 3px;
 }
 
 .timeline-item {
   position: relative;
-  margin-bottom: var(--spacing-md);
+  margin-bottom: var(--spacing-lg);
 }
 
 .timeline-item:before {
@@ -172,22 +320,248 @@
   position: absolute;
   left: -36px;
   top: 0;
-  width: 12px;
-  height: 12px;
+  width: 16px;
+  height: 16px;
   border-radius: 50%;
-  background-color: var(--secondary-color);
-  border: 2px solid white;
+  background: var(--bg-gradient-1);
+  border: 2px solid var(--bg-light);
+  box-shadow: 0 0 0 4px rgba(126, 131, 194, 0.2);
+  z-index: 1;
+}
+
+.timeline-item.active:before {
+  background: var(--bg-gradient-2);
+  box-shadow: 0 0 0 4px rgba(163, 116, 204, 0.3);
 }
 
 .timeline-date {
   font-size: 0.8rem;
-  color: var(--text-muted);
+  color: var(--secondary-color);
   margin-bottom: var(--spacing-xs);
+  font-weight: 500;
+  display: inline-block;
+  padding: 3px 10px;
+  background-color: rgba(163, 116, 204, 0.1);
+  border-radius: 12px;
 }
 
 .timeline-content {
-  padding: var(--spacing-sm);
-  background-color: white;
+  padding: var(--spacing-md);
+  background-color: var(--bg-light);
   border-radius: var(--border-radius);
   box-shadow: var(--card-shadow);
+  border-left: 3px solid var(--accent-light);
+  transition: transform var(--transition-normal);
+}
+
+.timeline-content:hover {
+  transform: translateX(5px);
+}
+
+/* Dashboard cards con estilo vibrante */
+.dashboard-card {
+  transition: all var(--transition-normal);
+  margin-bottom: var(--spacing-md);
+  border-radius: var(--border-radius-lg);
+  overflow: hidden;
+  border: none;
+  position: relative;
+}
+
+.dashboard-card:hover {
+  transform: translateY(-8px) scale(1.02);
+  box-shadow: 0 20px 30px rgba(126, 131, 194, 0.25);
+}
+
+/* Efecto de onda para las tarjetas */
+.dashboard-card::after {
+  content: '';
+  position: absolute;
+  top: -50%;
+  right: -50%;
+  width: 200px;
+  height: 200px;
+  border-radius: 40%;
+  background-color: rgba(255, 255, 255, 0.1);
+  z-index: 0;
+}
+
+.dashboard-card .card-body {
+  padding: var(--spacing-xl);
+  position: relative;
+  z-index: 1;
+}
+
+.dashboard-card .card-title {
+  font-weight: 700;
+  letter-spacing: 0.5px;
+  text-transform: uppercase;
+  font-size: 0.9rem;
+  margin-bottom: var(--spacing-md);
+}
+
+.dashboard-card .display-4 {
+  font-weight: 700;
+  margin-bottom: var(--spacing-md);
+  font-size: 2.5rem;
+}
+
+.dashboard-card .btn-light {
+  background-color: rgba(255, 255, 255, 0.2);
+  color: inherit;
+  border: none;
+  transition: all var(--transition-fast);
+  border-radius: 50px;
+  padding: 8px 20px;
+}
+
+.dashboard-card .btn-light:hover {
+  background-color: rgba(255, 255, 255, 0.3);
+  transform: translateY(-2px);
+  box-shadow: 0 5px 10px rgba(0, 0, 0, 0.1);
+}
+
+/* Personalización de colores para dashboard cards */
+.dashboard-card.bg-primary {
+  background: linear-gradient(135deg, var(--primary-color), #6a70b0) !important;
+}
+
+.dashboard-card.bg-secondary {
+  background: linear-gradient(135deg, var(--secondary-color), #8c61b9) !important;
+}
+
+.dashboard-card.bg-success {
+  background: linear-gradient(135deg, var(--success-color), #6db16f) !important;
+}
+
+.dashboard-card.bg-info {
+  background: linear-gradient(135deg, var(--tertiary-color), #b1abf1) !important;
+}
+
+.dashboard-card.bg-warning {
+  background: linear-gradient(135deg, var(--quaternary-color), #d19dff) !important;
+}
+
+/* Mejoras en las badges de estado */
+.badge {
+  padding: 0.4em 0.8em;
+  font-weight: 600;
+  border-radius: 50px;
+  letter-spacing: 0.3px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.badge-pendiente {
+  background-color: var(--state-pending);
+  color: #5e5b65;
+}
+
+.badge-progreso {
+  background-color: var(--state-progress);
+  color: white;
+}
+
+.badge-completado {
+  background-color: var(--state-completed);
+  color: #2e5e30;
+}
+
+.badge-cancelado {
+  background-color: var(--state-canceled);
+  color: white;
+}
+
+/* Componente de tarjeta con icono */
+.feature-card {
+  padding: var(--spacing-lg);
+  border-radius: var(--border-radius);
+  background-color: var(--bg-light);
+  box-shadow: var(--card-shadow);
+  transition: all var(--transition-normal);
+  border-bottom: 3px solid var(--primary-color);
+  text-align: center;
+}
+
+.feature-card:hover {
+  transform: translateY(-5px);
+  box-shadow: var(--hover-shadow);
+}
+
+.feature-icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 60px;
+  height: 60px;
+  background-color: rgba(126, 131, 194, 0.1);
+  border-radius: 50%;
+  margin-bottom: var(--spacing-md);
+  color: var(--primary-color);
+  font-size: 1.5rem;
+}
+
+/* Botones con estilo mejorado */
+.btn {
+  border-radius: 50px;
+  padding: 10px 24px;
+  font-weight: 500;
+  transition: all var(--transition-normal);
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  position: relative;
+  overflow: hidden;
+}
+
+.btn::after {
+  content: '';
+  position: absolute;
+  top: -50%;
+  left: -50%;
+  width: 200%;
+  height: 200%;
+  background-color: rgba(255, 255, 255, 0.1);
+  transform: rotate(45deg);
+  z-index: 0;
+  transition: all 0.5s;
+  opacity: 0;
+}
+
+.btn:hover::after {
+  opacity: 1;
+}
+
+.btn:active {
+  transform: translateY(2px);
+  box-shadow: 0 2px 3px rgba(0, 0, 0, 0.1);
+}
+
+/* Estilos para los botones de acción */
+
+/* Grupo de botones con bordes mejorados */
+.btn-group-action {
+  border-radius: var(--border-radius);
+  overflow: hidden;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+}
+
+.btn-group-action .btn {
+  border-width: 1px;
+  transition: all var(--transition-normal);
+  padding: 0.3rem 0.6rem;
+}
+
+/* Asegurar que no haya espacios entre botones */
+.btn-group .btn {
+  margin: 0;
+  border-right-width: 0;
+}
+
+.btn-group .btn:last-child {
+  border-right-width: 1px;
+}
+
+/* Efecto hover elegante */
+.btn-group .btn:hover {
+  z-index: 2;
+  transform: translateY(-1px);
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
 }

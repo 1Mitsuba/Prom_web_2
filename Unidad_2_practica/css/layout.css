@@ -1,98 +1,330 @@
-/* Estilos de layout y estructura */
+/* Estilos para la estructura del layout con mejoras visuales */
 
-/* Dashboard Grid */
-.dashboard-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-  gap: var(--spacing-md);
-  margin-bottom: var(--spacing-xl);
+/* Header navbar con gradiente */
+.navbar {
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.07);
+  padding: 0.8rem 1rem;
 }
 
-/* Panel lateral */
-.side-panel {
-  position: sticky;
-  top: 20px;
-  height: calc(100vh - 100px);
-  overflow-y: auto;
+.navbar-dark {
+  background: linear-gradient(90deg, var(--primary-color), var(--secondary-color)) !important;
+}
+
+.navbar-brand {
+  position: relative;
+  padding-left: 15px;
+}
+
+/* Barra decorativa en el logo */
+.navbar-brand::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 4px;
+  height: 24px;
+  background: linear-gradient(to bottom, var(--quaternary-color), var(--tertiary-color));
+  border-radius: 2px;
+}
+
+/* Animación para elementos de navegación */
+.nav-item {
+  position: relative;
+  transition: all var(--transition-fast);
+}
+
+.nav-item::after {
+  content: '';
+  position: absolute;
+  bottom: -2px;
+  left: 50%;
+  width: 0;
+  height: 2px;
+  background: var(--quaternary-color);
+  transition: all var(--transition-normal);
+  transform: translateX(-50%);
+  border-radius: 2px;
+}
+
+.nav-item:hover::after {
+  width: 70%;
+}
+
+.nav-item.active::after {
+  width: 90%;
+  background: white;
 }
 
 /* Main content */
 .main-content {
+  min-height: calc(100vh - 160px);
+  background-color: var(--bg-soft);
+  padding-top: var(--spacing-lg);
+  padding-bottom: var(--spacing-xl);
+}
+
+/* Contenedor con patrón de fondo */
+.patterned-container {
+  position: relative;
+  background-color: var(--bg-soft);
+  padding: var(--spacing-xl) 0;
+  overflow: hidden;
+}
+
+.patterned-container::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-image: radial-gradient(var(--tertiary-color) 1px, transparent 1px);
+  background-size: 20px 20px;
+  opacity: 0.3;
+  z-index: 0;
+}
+
+.patterned-container > * {
+  position: relative;
+  z-index: 1;
+}
+
+/* Sidebar con estilo mejorado */
+.sidebar {
+  position: sticky;
+  top: 2rem;
+  height: calc(100vh - 2rem);
   padding: var(--spacing-md);
-}
-
-/* Adecuación para pantallas pequeñas */
-@media (max-width: 768px) {
-  .dashboard-grid {
-    grid-template-columns: 1fr;
-  }
-  
-  .side-panel {
-    position: relative;
-    height: auto;
-    margin-bottom: var(--spacing-md);
-  }
-}
-
-/* Divisiones de página */
-.page-section {
-  margin-bottom: var(--spacing-xl);
-}
-
-.section-header {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  margin-bottom: var(--spacing-md);
-}
-
-/* Kanban board */
-.kanban-container {
-  display: flex;
-  overflow-x: auto;
-  padding-bottom: var(--spacing-md);
-}
-
-.kanban-column {
-  min-width: 300px;
-  width: 300px;
-  margin-right: var(--spacing-md);
+  padding-right: var(--spacing-lg);
+  background-color: var(--bg-light);
   border-radius: var(--border-radius);
-  background-color: rgba(0, 0, 0, 0.03);
+  box-shadow: var(--card-shadow);
 }
 
-.kanban-column:last-child {
-  margin-right: 0;
+.sidebar-link {
+  display: flex;
+  align-items: center;
+  padding: var(--spacing-sm) var(--spacing-md);
+  color: var(--text-dark);
+  border-radius: var(--border-radius);
+  margin-bottom: var(--spacing-xs);
+  transition: all var(--transition-fast);
+  text-decoration: none;
 }
 
-.kanban-column-header {
-  padding: var(--spacing-sm);
-  border-bottom: 1px solid rgba(0, 0, 0, 0.05);
-  font-weight: 500;
+.sidebar-link:hover {
+  background-color: var(--bg-soft);
+  color: var(--primary-color);
+  transform: translateX(3px);
+}
+
+.sidebar-link.active {
+  background-color: var(--bg-gradient-primary);
+  color: white;
+}
+
+.sidebar-icon {
+  margin-right: var(--spacing-sm);
+  opacity: 0.7;
+}
+
+/* Página de autenticación */
+.auth-container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 100vh;
+  background: linear-gradient(135deg, var(--bg-light), var(--tertiary-color));
+  position: relative;
+  overflow: hidden;
+}
+
+/* Elementos decorativos para la página de login */
+.auth-container::before,
+.auth-container::after {
+  content: '';
+  position: absolute;
+  width: 300px;
+  height: 300px;
+  border-radius: 50%;
+  z-index: 0;
+}
+
+.auth-container::before {
+  background: radial-gradient(circle, var(--quaternary-color), transparent 70%);
+  top: -100px;
+  right: -100px;
+  opacity: 0.4;
+}
+
+.auth-container::after {
+  background: radial-gradient(circle, var(--primary-color), transparent 70%);
+  bottom: -100px;
+  left: -100px;
+  opacity: 0.3;
+}
+
+.auth-card {
+  width: 100%;
+  max-width: 450px;
+  margin: 2rem;
+  background-color: var(--bg-light);
+  border-radius: var(--border-radius-lg);
+  box-shadow: 0 15px 30px rgba(0, 0, 0, 0.1);
+  overflow: hidden;
+  position: relative;
+  z-index: 1;
+}
+
+.auth-header {
+  background: var(--bg-gradient-1);
+  color: white;
+  padding: var(--spacing-lg);
   text-align: center;
 }
 
-.kanban-items {
-  padding: var(--spacing-sm);
-  min-height: 200px;
-  max-height: 600px;
-  overflow-y: auto;
+/* Layout de dashboard */
+.dashboard-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  gap: var(--spacing-lg);
 }
 
-/* Formularios */
-.form-section {
+/* Breadcrumbs personalizados */
+.breadcrumb {
+  background-color: transparent;
+  border-radius: 0;
+  padding: var(--spacing-sm) 0;
   margin-bottom: var(--spacing-lg);
 }
 
-.form-section-title {
-  margin-bottom: var(--spacing-md);
-  padding-bottom: var(--spacing-xs);
-  border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+.breadcrumb-item + .breadcrumb-item::before {
+  color: var(--text-muted);
+  content: '›';
+  font-size: 1.2rem;
+  line-height: 1;
+  vertical-align: middle;
+  padding: 0 8px;
 }
 
-.form-buttons {
-  display: flex;
-  justify-content: flex-end;
-  gap: var(--spacing-sm);
-  margin-top: var(--spacing-lg);
+.breadcrumb-item a {
+  color: var(--primary-color);
+  text-decoration: none;
+  transition: color var(--transition-fast);
+}
+
+.breadcrumb-item a:hover {
+  color: var(--secondary-color);
+}
+
+.breadcrumb-item.active {
+  color: var(--text-dark);
+  font-weight: 500;
+}
+
+/* Contenedor de detalle */
+.detail-container {
+  background-color: var(--bg-light);
+  border-radius: var(--border-radius-lg);
+  padding: var(--spacing-lg);
+  box-shadow: var(--card-shadow);
+  margin-bottom: var(--spacing-xl);
+  position: relative;
+  overflow: hidden;
+}
+
+/* Barra decorativa en contenedores de detalle */
+.detail-container::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 5px;
+  background: var(--bg-gradient-1);
+}
+
+/* Footer con gradiente */
+footer {
+  background: linear-gradient(90deg, var(--dark-color) 20%, #4a425b);
+  color: var(--text-light);
+  padding-top: var(--spacing-lg);
+  padding-bottom: var(--spacing-lg);
+  position: relative;
+  overflow: hidden;
+}
+
+/* Efecto decorativo para el footer */
+footer::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 2px;
+  background: linear-gradient(90deg, transparent, var(--tertiary-color), transparent);
+}
+
+/* Efecto de onda en el footer */
+footer::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 20px;
+  background-image: 
+    radial-gradient(circle at 50% 100%, transparent 20px, var(--dark-color) 21px),
+    radial-gradient(circle at 50% 100%, transparent 28px, rgba(126, 131, 194, 0.1) 29px);
+  background-size: 40px 20px;
+  background-repeat: repeat-x;
+}
+
+footer a {
+  color: var(--quaternary-color);
+  transition: all var(--transition-fast);
+}
+
+footer a:hover {
+  color: var(--quinary-color);
+  text-decoration: none;
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+  .dashboard-grid {
+    grid-template-columns: 1fr;
+    gap: var(--spacing-md);
+  }
+  
+  .sidebar {
+    position: static;
+    height: auto;
+    margin-bottom: var(--spacing-lg);
+  }
+
+  .detail-container {
+    padding: var(--spacing-md);
+  }
+  
+  .stats-number {
+    font-size: 2rem;
+  }
+}
+
+/* Para pantallas muy pequeñas */
+@media (max-width: 576px) {
+  .container {
+    padding-left: var(--spacing-sm);
+    padding-right: var(--spacing-sm);
+  }
+  
+  .card-body {
+    padding: var(--spacing-md);
+  }
+  
+  .navbar-brand::before {
+    height: 16px;
+  }
 }

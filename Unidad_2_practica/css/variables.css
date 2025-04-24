@@ -1,0 +1,75 @@
+/* Variables CSS para un sistema visualmente atractivo */
+
+:root {
+    /* Paleta de colores lavanda */
+    --primary-color: #7E83C2; /* Azul Lavanda */
+    --secondary-color: #A374CC; /* Lavanda */
+    --tertiary-color: #CEC7FD; /* Lavanda Claro */
+    --quaternary-color: #E6BBFF; /* Lavanda Suave */
+    --quinary-color: #EBC9FF; /* Lavanda Pastel */
+    
+    /* Colores utilitarios */
+    --success-color: #88d18a; /* Verde armonioso con la paleta lavanda */
+    --danger-color: #FF6B6B; /* Rojo */
+    --light-color: #FFFFFF; /* Blanco */
+    --dark-color: #333333; /* Gris oscuro */
+    
+    /* Colores de estado específicos */
+    --state-pending: var(--quaternary-color); /* Lavanda Suave */
+    --state-progress: var(--primary-color); /* Azul Lavanda */
+    --state-completed: var(--success-color); /* Verde */
+    --state-canceled: var(--danger-color); /* Rojo */
+    
+    /* Colores de fondo elegantes */
+    --bg-light: var(--light-color); /* Blanco */
+    --bg-soft: #F8F5FF; /* Blanco ligeramente lavanda */
+    --bg-gradient-1: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+    --bg-gradient-2: linear-gradient(135deg, var(--secondary-color), var(--tertiary-color));
+    --bg-gradient-3: linear-gradient(135deg, var(--tertiary-color), var(--quaternary-color));
+    
+    /* Colores para acentos */
+    --accent-light: var(--quinary-color); /* Lavanda Pastel */
+    --accent-primary: var(--primary-color); /* Azul Lavanda */
+    --accent-secondary: var(--secondary-color); /* Lavanda */
+    
+    /* Colores de texto */
+    --text-dark: #333333; /* Gris oscuro */
+    --text-muted: #9D8EB8; /* Gris lavanda */
+    --text-light: #FFFFFF; /* Blanco */
+    
+    /* Variables de espaciado */
+    --spacing-xs: 0.25rem;
+    --spacing-sm: 0.5rem;
+    --spacing-md: 1rem;
+    --spacing-lg: 1.5rem;
+    --spacing-xl: 3rem;
+    
+    /* Efectos visuales modernos */
+    --border-radius: 0.5rem; /* Más redondeado */
+    --border-radius-lg: 1rem; /* Muy redondeado */
+    --card-shadow: 0 10px 20px rgba(126, 131, 194, 0.15); /* Sombra elegante */
+    --hover-shadow: 0 15px 30px rgba(163, 116, 204, 0.25); /* Sombra marcada en hover */
+    --focus-glow: 0 0 0 0.25rem rgba(163, 116, 204, 0.4); /* Brillo vibrante */
+    --card-border: 1px solid rgba(206, 199, 253, 0.3); /* Borde sutil */
+    
+    /* Efectos de transición */
+    --transition-fast: 0.2s ease;
+    --transition-normal: 0.3s ease;
+    --transition-slow: 0.5s ease;
+    
+    /* Fuentes */
+    --font-family-base: 'Poppins', sans-serif;
+    --font-family-headings: 'Montserrat', sans-serif;
+}
+  
+/* Bootstrap override variables */
+:root {
+    --bs-primary: var(--primary-color);
+    --bs-secondary: var(--secondary-color);
+    --bs-success: var(--success-color);
+    --bs-info: var(--tertiary-color);
+    --bs-warning: var(--quaternary-color);
+    --bs-danger: var(--danger-color);
+    --bs-light: var(--light-color);
+    --bs-dark: var(--dark-color);
+}

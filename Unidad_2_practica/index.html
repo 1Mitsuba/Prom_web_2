@@ -5,10 +5,10 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Gestión de Tareas | Dashboard</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
-<link rel="stylesheet" href="css/styles.css">
-<link rel="stylesheet" href="css/components.css">
-<link rel="stylesheet" href="css/layout.css">
-<link rel="stylesheet" href="css/utilities.css">
+    <link rel="stylesheet" href="css/styles.css">
+    <link rel="stylesheet" href="css/components.css">
+    <link rel="stylesheet" href="css/layout.css">
+    <link rel="stylesheet" href="css/utilities.css">
 </head>
 <body>
     <header>
@@ -44,9 +44,10 @@
     <main class="container mt-4">
         <h1 class="mb-4">Panel de Control</h1>
         
+        <!-- Tarjetas de contadores -->
         <div class="row mb-4">
-            <div class="col-md-3">
-                <div class="card bg-primary text-white">
+            <div class="col-md-3 mb-3">
+                <div class="card bg-primary text-white h-100 dashboard-card">
                     <div class="card-body">
                         <h5 class="card-title">Usuarios</h5>
                         <p class="card-text display-4" id="contador-usuarios">0</p>
@@ -54,8 +55,8 @@
                     </div>
                 </div>
             </div>
-            <div class="col-md-3">
-                <div class="card bg-success text-white">
+            <div class="col-md-3 mb-3">
+                <div class="card bg-secondary text-white h-100 dashboard-card">
                     <div class="card-body">
                         <h5 class="card-title">Equipos</h5>
                         <p class="card-text display-4" id="contador-equipos">0</p>
@@ -63,8 +64,8 @@
                     </div>
                 </div>
             </div>
-            <div class="col-md-3">
-                <div class="card bg-info text-white">
+            <div class="col-md-3 mb-3">
+                <div class="card bg-info text-dark h-100 dashboard-card">
                     <div class="card-body">
                         <h5 class="card-title">Proyectos</h5>
                         <p class="card-text display-4" id="contador-proyectos">0</p>
@@ -72,58 +73,82 @@
                     </div>
                 </div>
             </div>
-            <div class="col-md-3">
-                <div class="card bg-warning text-dark">
+            <div class="col-md-3 mb-3">
+                <div class="card bg-warning text-dark h-100 dashboard-card">
                     <div class="card-body">
                         <h5 class="card-title">Tareas</h5>
                         <p class="card-text display-4" id="contador-tareas">0</p>
-                        <a href="screens/tareas/lista.html" class="btn btn-dark btn-sm">Ver todas</a>
+                        <a href="screens/tareas/lista.html" class="btn btn-light btn-sm">Ver todas</a>
                     </div>
                 </div>
             </div>
         </div>
-
+        
+        <!-- Proyectos recientes y Tareas pendientes -->
         <div class="row">
-            <div class="col-md-6">
-                <div class="card mb-4">
-                    <div class="card-header">
-                        <h5>Proyectos Recientes</h5>
+            <!-- Proyectos recientes -->
+            <div class="col-md-6 mb-4">
+                <div class="card h-100">
+                    <div class="card-header d-flex justify-content-between align-items-center">
+                        <h5 class="mb-0">Proyectos recientes</h5>
+                        <a href="screens/proyectos/lista.html" class="btn btn-sm btn-outline-primary">Ver todos</a>
                     </div>
                     <div class="card-body">
-                        <table class="table table-hover">
-                            <thead>
-                                <tr>
-                                    <th>Nombre</th>
-                                    <th>Estado</th>
-                                    <th>Fecha Límite</th>
-                                </tr>
-                            </thead>
-                            <tbody id="tabla-proyectos">
-                                <!-- Aquí se cargarán los proyectos dinámicamente -->
-                            </tbody>
-                        </table>
+                        <div class="table-responsive">
+                            <table class="table table-hover">
+                                <thead class="table-light">
+                                    <tr>
+                                        <th>Proyecto</th>
+                                        <th>Estado</th>
+                                        <th>Fecha límite</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="tabla-proyectos-recientes">
+                                    <!-- Aquí se cargarán los proyectos dinámicamente -->
+                                    <tr>
+                                        <td colspan="3" class="text-center">
+                                            <div class="spinner-border text-primary" role="status">
+                                                <span class="visually-hidden">Cargando...</span>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
                     </div>
                 </div>
             </div>
-
-            <div class="col-md-6">
-                <div class="card">
-                    <div class="card-header">
-                        <h5>Tareas Pendientes</h5>
+            
+            <!-- Tareas pendientes -->
+            <div class="col-md-6 mb-4">
+                <div class="card h-100">
+                    <div class="card-header d-flex justify-content-between align-items-center">
+                        <h5 class="mb-0">Tareas pendientes</h5>
+                        <a href="screens/tareas/lista.html" class="btn btn-sm btn-outline-primary">Ver todas</a>
                     </div>
                     <div class="card-body">
-                        <table class="table table-hover">
-                            <thead>
-                                <tr>
-                                    <th>Título</th>
-                                    <th>Proyecto</th>
-                                    <th>Prioridad</th>
-                                </tr>
-                            </thead>
-                            <tbody id="tabla-tareas">
-                                <!-- Aquí se cargarán las tareas dinámicamente -->
-                            </tbody>
-                        </table>
+                        <div class="table-responsive">
+                            <table class="table table-hover">
+                                <thead class="table-light">
+                                    <tr>
+                                        <th>Tarea</th>
+                                        <th>Proyecto</th>
+                                        <th>Prioridad</th>
+                                        <th>Asignada a</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="tabla-tareas-pendientes">
+                                    <!-- Aquí se cargarán las tareas dinámicamente -->
+                                    <tr>
+                                        <td colspan="4" class="text-center">
+                                            <div class="spinner-border text-primary" role="status">
+                                                <span class="visually-hidden">Cargando...</span>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -132,11 +157,11 @@
 
     <footer class="bg-dark text-white mt-5 py-3">
         <div class="container text-center">
-            <p>&copy; 2023 TaskMaster - Sistema de Gestión de Tareas</p>
+            <p>&copy; 2023 Gestión de Tareas</p>
         </div>
     </footer>
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
-    <script type="module" src="assets/js/dashboard.js"></script>
+    <script type="module" src="controlers/dashboard-controller.js"></script>
 </body>
 </html>
