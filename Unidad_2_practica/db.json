@@ -15,6 +15,14 @@
       "puesto": "Programador",
       "departamento": "TI",
       "avatar": "default-avatar.jpg"
+    },
+    {
+      "id": "u1745548241116",
+      "nombre": "Isa Maita",
+      "email": "is@gmail.com",
+      "puesto": "Desarrollador",
+      "departamento": "TI",
+      "avatar": "default-avatar.jpg"
     }
   ],
   "equipos": [
@@ -99,6 +107,15 @@
       "asignadoA": "u1745504538785",
       "prioridad": "media",
       "estado": "en progreso"
+    },
+    {
+      "id": "t1745548301835",
+      "titulo": "hola",
+      "proyectoId": "p001",
+      "descripcion": "nada",
+      "asignadoA": "u1745548241116",
+      "prioridad": "baja",
+      "estado": "completada"
     }
   ],
   "comentarios": [
