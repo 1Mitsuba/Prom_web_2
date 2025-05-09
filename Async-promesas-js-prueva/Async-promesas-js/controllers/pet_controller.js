@@ -12,15 +12,13 @@ const crearNuevaLinea = (id_pet, nombre, raza, edad, dueno_nombre = "Sin dueño"
     <td>
       <ul class="table__button-control">
         <li>
-          <a href="./editar_pet.html?id=${id_pet}" class="simple-button simple-button--edit">Editar</a>
+          <a href="../screens/editar_cliente.html?id=${id_pet}" class="action-button edit">
+              <span>✏️</span>
+          </a>
         </li>
         <li>
-          <button 
-            class="simple-button simple-button--delete" 
-            type="button" 
-            id="${id_pet}"
-          >
-            Eliminar
+          <button class="action-button delete" type="button" id="${id_pet}">
+              <span>🗑️</span>
           </button>
         </li>
       </ul>

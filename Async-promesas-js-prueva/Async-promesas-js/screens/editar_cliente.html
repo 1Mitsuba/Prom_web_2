@@ -1,75 +1,67 @@
 <!DOCTYPE html>
 <html lang="es">
-  <head>
+<head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Doguito Petshop | Actualizar cliente</title>
+    <title>Editar Cliente | Doguito Pet Store</title>
     <link rel="icon" href="../assets/img/doguitoadm.svg" type="image/x-icon" />
     <link
-      href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400&display=swap"
+      href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700&display=swap"
       rel="stylesheet"
     />
     <link
       href="https://fonts.googleapis.com/css2?family=Pacifico&display=swap"
       rel="stylesheet"
     />
-    <link rel="stylesheet" href="../assets/css/base/base.css" />
-    <link rel="stylesheet" href="../assets/css/componentes/header.css" />
-    <link rel="stylesheet" href="../assets/css/componentes/card.css" />
-    <link rel="stylesheet" href="../assets/css/register_client.css" />
-    <link rel="stylesheet" href="../assets/css/componentes/inputs.css" />
-    <link rel="stylesheet" href="../assets/css/componentes/button.css" />
-  </head>
-  <body>
-    <header class="header container">
-      <img
-        src="../assets/img/doguitoadm.svg"
-        alt="Logo Doguito"
-        class="header__logo"
-      />
-      <nav>
-        <ul class="header__list-nav">
-          <li class="header__link"><a href="./dashboard.html">Dashboard</a></li>
-          <li class="header__link"><a href="./lista_productos.html">Productos</a></li>
-          <li class="header__link"><a href="./lista_cliente.html">Clientes</a></li>
-          <li class="header__link"><a href="./lista_pets.html">Pets</a></li>
-        </ul>
-      </nav>
+    <link rel="stylesheet" href="../assets/css/unified-style.css" />
+</head>
+<body>
+    <header class="header">
+      <div class="container flex flex--between">
+        <div class="flex flex--center">
+          <img
+            src="../assets/img/doguitoadm.svg"
+            alt="Logotipo Doguito"
+            class="header__logo"
+          />
+          <h1 class="ml-2" style="font-family: var(--font-accent); font-size: var(--text-xl); margin-left: 10px;">Doguito Petshop</h1>
+        </div>
+        <nav>
+          <ul class="header__list-nav">
+            <li class="header__link"><a href="./dashboard.html">Dashboard</a></li>
+            <li class="header__link"><a href="./lista_productos.html">Productos</a></li>
+            <li class="header__link"><a href="./lista_cliente.html">Clientes</a></li>
+            <li class="header__link"><a href="./lista_pets.html">Mascotas</a></li>
+          </ul>
+        </nav>
+      </div>
     </header>
-    <main class="container flex flex--center flex--column">
-      <section class="card cadastro">
-        <h1 class="card__title">Editar</h1>
-        <form action="#" class="flex flex--column" data-form>
-          <div class="input-container">
-            <input
-              name="nombre"
-              id="nombre"
-              class="input"
-              type="text"
-              placeholder="nombre"
-              required
-              data-nombre
-            />
-            <label class="input-label" for="nombre">Nombre</label>
-            <span class="input-menssage-error">Este campo es requerido</span>
-          </div>
-          <div class="input-container">
-            <input
-              name="email"
-              id="email"
-              class="input"
-              type="text"
-              placeholder="email"
-              required
-              data-email
-            />
-            <label class="input-label" for="email">Email</label>
-            <span class="input-menssage-error">Este campo es requerido</span>
-          </div>
-          <button type="submit" class="button">Editar cliente</button>
-        </form>
-      </section>
+
+    <main class="container">
+        <div class="card">
+            <h2 class="card__title">Editar Cliente</h2>
+            
+            <div class="alert" id="result" style="display: none;"></div>
+            
+            <form id="clientForm" class="form" data-form>
+                <div class="form-group">
+                    <label class="form-label" for="nombre">Nombre <span class="text-danger">*</span></label>
+                    <input type="text" id="nombre" class="form-control" required data-nombre>
+                </div>
+                
+                <div class="form-group">
+                    <label class="form-label" for="email">Email <span class="text-danger">*</span></label>
+                    <input type="email" id="email" class="form-control" required data-email>
+                </div>
+                
+                <div class="form-group text-center mt-3">
+                    <button type="submit" class="button">Guardar Cambios</button>
+                    <a href="./lista_cliente.html" class="simple-button ml-2">Cancelar</a>
+                </div>
+            </form>
+        </div>
     </main>
+    
     <script type="module" src="../controllers/actualizar_controller.js"></script>
-  </body>
+</body>
 </html>

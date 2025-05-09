@@ -148,18 +148,29 @@ const listaclientes = () => {
 };
 
 const crearCliente = (nombre, email) => {
+    console.log("Creando cliente:", { nombre, email });
+    
+    // Generar ID único 
+    const id = 'cl_' + Math.random().toString(36).substring(2, 15);
+    
     return fetch(API_BASE_URL, {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json',
         },
         body: JSON.stringify({
-            nombre,
-            email,
-            id: uuid.v4()
+            id: id,
+            nombre: nombre,
+            email: email
         })
-    }).then(response => {
-        if (!response.ok) throw new Error('Error al crear cliente');
+    })
+    .then(response => {
+        console.log("Respuesta del servidor:", response.status);
+        if(!response.ok) {
+            return response.text().then(text => {
+                throw new Error(`Error ${response.status}: ${text}`);
+            });
+        }
         return response.json();
     });
 };

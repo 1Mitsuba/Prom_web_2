@@ -7,20 +7,18 @@ const crearNuevaLinea = (nombre, precio, descripcion, id) => {
   
   // Contenido de la fila
   const contenido = `
-    <td class="td" data-td>${nombre}</td>
+    <td>${nombre}</td>
     <td>${precio}</td>
     <td>${descripcion || ""}</td>
-    <td>
-      <ul class="table__button-control">
-        <li>
-          <a href="../screens/editar_producto.html?id=${id}" class="simple-button simple-button--edit">Editar</a>
-        </li>
-        <li>
-          <button class="simple-button simple-button--delete" type="button" id="${id}">
-            Eliminar
-          </button>
-        </li>
-      </ul>
+    <td class="text-right">
+      <div class="table-actions">
+        <a href="../screens/editar_producto.html?id=${id}" class="action-button edit">
+          <span>✏️</span>
+        </a>
+        <button class="action-button delete" type="button" id="${id}">
+          <span>🗑️</span>
+        </button>
+      </div>
     </td>
   `;
   
@@ -29,41 +27,49 @@ const crearNuevaLinea = (nombre, precio, descripcion, id) => {
   // Agregar evento al botón de eliminar
   const btn = linea.querySelector("button");
   btn.addEventListener("click", () => {
-    // Obtener el id del botón
     const id = btn.id;
-    
-    // Mostrar modal de confirmación
     const modal = document.querySelector(".modal-container");
     modal.classList.remove("modal--close");
     
-    // Agregar evento al botón de confirmar eliminación
-    const btnConfirm = document.querySelector(".modal__button--confirm");
-    btnConfirm.addEventListener("click", async () => {
-      try {
-        // Eliminar producto
-        await productoService.eliminarProducto(id);
-        modal.classList.add("modal--close");
-        linea.remove();
-      } catch (error) {
-        console.log(error);
-        alert("Error al eliminar producto");
-      }
-    });
-    
-    // Manejar botón cancelar
-    const btnCancel = document.querySelector(".modal__button:not(.modal__button--confirm)");
-    btnCancel.addEventListener("click", () => {
-      modal.classList.add("modal--close");
-    });
-    
-    // Manejar botón cerrar (X)
-    const btnClose = document.querySelector(".modal__close");
-    btnClose.addEventListener("click", () => {
-      modal.classList.add("modal--close");
-    });
+    // Almacena la fila para usarla en el evento de confirmación
+    modal.dataset.targetRow = id;
   });
   
   return linea;
+};
+
+// Configurar los botones del modal una sola vez fuera del evento click
+const setupModalButtons = () => {
+  const modal = document.querySelector(".modal-container");
+  const btnConfirm = document.querySelector(".modal__button--confirm");
+  const btnCancel = document.querySelector(".button--secondary");
+  const btnClose = document.querySelector(".modal__close");
+  
+  btnConfirm.addEventListener("click", async () => {
+    const id = modal.dataset.targetRow;
+    if (id) {
+      try {
+        await productoService.eliminarProducto(id);
+        modal.classList.add("modal--close");
+        // Buscar y eliminar la fila correspondiente
+        const fila = document.querySelector(`button[id="${id}"]`).closest("tr");
+        if (fila) fila.remove();
+        // Redirigir con parámetro para mostrar mensaje
+        window.location.href = "./lista_productos.html?deleted=true";
+      } catch (error) {
+        console.error("Error al eliminar producto:", error);
+        alert("Error al eliminar el producto");
+      }
+    }
+  });
+  
+  btnCancel.addEventListener("click", () => {
+    modal.classList.add("modal--close");
+  });
+  
+  btnClose.addEventListener("click", () => {
+    modal.classList.add("modal--close");
+  });
 };
 
 // Obtener referencia a la tabla
@@ -85,4 +91,5 @@ const cargarProductos = async () => {
   }
 };
 
-cargarProductos();
+// Llamar a setupModalButtons después de cargar productos
+cargarProductos().then(setupModalButtons);

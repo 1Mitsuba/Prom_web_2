@@ -1,82 +1,83 @@
 <!DOCTYPE html>
-<html>
+<html lang="es">
 <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Doguito Petshop | Registrar Pets</title>
+    <title>Registrar Mascota | Doguito Pet Store</title>
     <link rel="icon" href="../assets/img/doguitoadm.svg" type="image/x-icon" />
     <link
-      href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400&display=swap"
+      href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700&display=swap"
       rel="stylesheet"
     />
     <link
       href="https://fonts.googleapis.com/css2?family=Pacifico&display=swap"
       rel="stylesheet"
     />
-    <link rel="stylesheet" href="../assets/css/base/base.css" />
-    <link rel="stylesheet" href="../assets/css/componentes/header.css" />
-    <link rel="stylesheet" href="../assets/css/componentes/card.css" />
-    <link rel="stylesheet" href="../assets/css/componentes/button.css" />
-    <link rel="stylesheet" href="../assets/css/registro_pet.css" /> <!-- Nuevo archivo CSS -->
+    <link rel="stylesheet" href="../assets/css/unified-style.css" />
 </head>
 <body>
-    <header class="header container">
-        <img
-          src="../assets/img/doguitoadm.svg"
-          alt="Logotipo Doguito"
-          class="header__logo"
-        />
+    <header class="header">
+      <div class="container flex flex--between">
+        <div class="flex flex--center">
+          <img
+            src="../assets/img/doguitoadm.svg"
+            alt="Logotipo Doguito"
+            class="header__logo"
+          />
+          <h1 class="ml-2" style="font-family: var(--font-accent); font-size: var(--text-xl); margin-left: 10px;">Doguito Petshop</h1>
+        </div>
         <nav>
           <ul class="header__list-nav">
             <li class="header__link"><a href="./dashboard.html">Dashboard</a></li>
             <li class="header__link"><a href="./lista_productos.html">Productos</a></li>
             <li class="header__link"><a href="./lista_cliente.html">Clientes</a></li>
-            <li class="header__link"><a href="./lista_pets.html">Pets</a></li>
+            <li class="header__link"><a href="./lista_pets.html">Mascotas</a></li>
           </ul>
         </nav>
+      </div>
     </header>
-    
-    <main class="container flex flex--center flex--column">
-        <section class="card card--register">
-            <h1 class="form-title">Registro de Mascota</h1>
+
+    <main class="container">
+        <div class="card">
+            <h2 class="card__title">Registrar Mascota</h2>
             
-            <div id="result" class="result-message" style="display:none;"></div>
+            <div class="alert" id="result" style="display: none;"></div>
             
-            <div class="pet-form-container">
-                <form id="petForm">
-                    <div class="pet-form-group">
-                        <label for="nombre" class="required-field">Nombre</label>
-                        <input type="text" id="nombre" required placeholder="Nombre de la mascota">
+            <form id="petForm" class="form">
+                <div class="grid-2-cols">
+                    <div class="form-group">
+                        <label class="form-label" for="nombre">Nombre <span class="text-danger">*</span></label>
+                        <input type="text" id="nombre" class="form-control" required>
                     </div>
                     
-                    <div class="pet-form-group">
-                        <label for="raza">Raza</label>
-                        <input type="text" id="raza" placeholder="Raza de la mascota">
+                    <div class="form-group">
+                        <label class="form-label" for="raza">Raza</label>
+                        <input type="text" id="raza" class="form-control">
+                    </div>
+                </div>
+                
+                <div class="grid-2-cols">
+                    <div class="form-group">
+                        <label class="form-label" for="edad">Edad (años)</label>
+                        <input type="number" id="edad" class="form-control" min="0" max="30">
                     </div>
                     
-                    <div class="pet-form-group">
-                        <label for="edad">Edad</label>
-                        <input type="number" id="edad" min="0" placeholder="Edad en años">
-                    </div>
-                    
-                    <div class="pet-form-group">
-                        <label for="dueno" class="required-field">Dueño</label>
-                        <select id="dueno" required>
+                    <div class="form-group">
+                        <label class="form-label" for="dueno">Dueño <span class="text-danger">*</span></label>
+                        <select id="dueno" class="form-control" required>
                             <option value="">Seleccionar dueño</option>
-                            <!-- Los clientes se cargarán dinámicamente -->
+                            <!-- Opciones se cargarán dinámicamente -->
                         </select>
                     </div>
-                    
-                    <button type="submit" class="pet-form-button">Registrar Mascota</button>
-                </form>
-            </div>
-            
-            <div class="pet-form-nav">
-                <a href="./lista_pets.html" class="pet-form-link">← Volver a lista de mascotas</a>
-            </div>
-        </section>
+                </div>
+                
+                <div class="form-group text-center mt-3">
+                    <button type="submit" class="button">Registrar Mascota</button>
+                </div>
+            </form>
+        </div>
     </main>
-  
+    
     <script>
         // Cargar clientes
         fetch('http://localhost/api/conexciion1.php')
@@ -99,13 +100,13 @@
             const resultElement = document.getElementById('result');
             resultElement.textContent = mensaje;
             resultElement.className = esError ? 
-                'result-message error-message' : 
-                'result-message success-message';
+                'alert alert--danger' : 
+                'alert alert--success';
             resultElement.style.display = 'block';
             
             if (!esError) {
                 setTimeout(() => {
-                    window.location.href = './lista_pets.html';
+                    window.location.href = './lista_pets.html?created=true';
                 }, 1500);
             }
         }
@@ -115,7 +116,7 @@
           e.preventDefault();
           
           const data = {
-            id_pet: Math.random().toString(36).substring(2, 15),
+            id_pet: 'pet_' + Math.random().toString(36).substring(2, 15),
             nombre: document.getElementById('nombre').value,
             raza: document.getElementById('raza').value,
             edad: document.getElementById('edad').value || null,
@@ -129,14 +130,40 @@
             },
             body: JSON.stringify(data)
           })
-          .then(res => res.json())
+          .then(res => {
+            console.log("Respuesta del servidor:", res.status, res.statusText);
+            return res.text().then(text => {
+              try {
+                return JSON.parse(text);
+              } catch (e) {
+                console.error("Error al parsear respuesta:", text);
+                throw new Error("Respuesta del servidor no válida: " + text);
+              }
+            });
+          })
           .then(result => {
-            mostrarMensaje('Mascota registrada: ' + JSON.stringify(result));
+            console.log("Procesado con éxito:", result);
+            mostrarMensaje('Mascota registrada con éxito');
           })
           .catch(err => {
+            console.error("Error completo:", err);
             mostrarMensaje('Error: ' + err.message, true);
           });
         });
     </script>
+    
+    <style>
+        .grid-2-cols {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: var(--spacing-md);
+        }
+        
+        @media (max-width: 768px) {
+            .grid-2-cols {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
 </body>
 </html>

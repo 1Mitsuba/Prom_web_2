@@ -3,75 +3,201 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Doguito Petshop | Mascotas</title>
+    <title>Mascotas | Doguito Pet Store</title>
     <link rel="icon" href="../assets/img/doguitoadm.svg" type="image/x-icon" />
     <link
-      href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400&display=swap"
+      href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700&display=swap"
       rel="stylesheet"
     />
     <link
       href="https://fonts.googleapis.com/css2?family=Pacifico&display=swap"
       rel="stylesheet"
     />
+    <!-- Carga primero los estilos base -->
     <link rel="stylesheet" href="../assets/css/base/base.css" />
-    <link rel="stylesheet" href="../assets/css/componentes/header.css" />
-    <link rel="stylesheet" href="../assets/css/lista_cliente.css" />
-    <link rel="stylesheet" href="../assets/css/componentes/table.css" />
-    <link rel="stylesheet" href="../assets/css/componentes/button.css" />
-    <link rel="stylesheet" href="../assets/css/componentes/modal.css" />
+    <!-- Luego carga el nuevo estilo unificado -->
+    <link rel="stylesheet" href="../assets/css/unified-style.css" />
   </head>
   <body>
-    <header class="header container">
-      <img
-        src="../assets/img/doguitoadm.svg"
-        alt="Logotipo Doguito"
-        class="header__logo"
-      />
-      <nav>
-        <ul class="header__list-nav">
-          <li class="header__link"><a href="./dashboard.html">Dashboard</a></li>
-          <li class="header__link"><a href="./lista_productos.html">Productos</a></li>
-          <li class="header__link"><a href="./lista_cliente.html">Clientes</a></li>
-          <li class="header__link"><a href="./lista_pets.html">Pets</a></li>
-        </ul>
-      </nav>
+    <header class="header">
+      <div class="container flex flex--between">
+        <div class="flex flex--center">
+          <img
+            src="../assets/img/doguitoadm.svg"
+            alt="Logotipo Doguito"
+            class="header__logo"
+          />
+          <h1 class="ml-2" style="font-family: var(--font-accent); font-size: var(--text-xl); margin-left: 10px;">Doguito Petshop</h1>
+        </div>
+        <nav>
+          <ul class="header__list-nav">
+            <li class="header__link"><a href="./dashboard.html">Dashboard</a></li>
+            <li class="header__link"><a href="./lista_productos.html">Productos</a></li>
+            <li class="header__link"><a href="./lista_cliente.html">Clientes</a></li>
+            <li class="header__link"><a href="./lista_pets.html" class="active">Mascotas</a></li>
+          </ul>
+        </nav>
+      </div>
     </header>
 
-    <main class="clientes-container">
-      <table class="table">
-        <thead>
-          <tr>
-            <th class="table__column--p">Nombre</th>
-            <th class="table__column--p">Raza</th>
-            <th class="table__column--p">Edad</th>
-            <th class="table__column--g">Dueño</th>
-            <th class="table__column--m table__align--right">
-              <a
-                href="./test_pet.html"
-                class="simple-button simple-button--add"
-                >Nueva Mascota</a
-              >
-            </th>
-          </tr>
-        </thead>
-        <tbody data-table>
-          <!-- Las mascotas se insertarán aquí dinámicamente -->
-        </tbody>
-      </table>
-      <div class="modal-container modal--close">
-        <article class="modal">
-          <h2 class="modal__title">Eliminar</h2>
-          <button class="modal__close">X</button>
-          <p class="modal__text">¿Deseas continuar?</p>
-          <div class="modal__button-container">
-            <button class="modal__button modal__button--confirm">
-              Eliminar
-            </button>
-            <button class="modal__button">No eliminar</button>
-          </div>
-        </article>
+    <main class="container">
+      <div class="flex flex--between mb-3">
+        <h2>Lista de Mascotas</h2>
+        <a href="./test_pet.html" class="button">+ Nueva Mascota</a>
       </div>
+      
+      <!-- Alerta de acción completada -->
+      <div class="alert alert--success" id="actionAlert" style="display: none;">
+        Acción completada con éxito
+      </div>
+      
+      <div class="card p-0">
+        <table class="table">
+          <thead>
+            <tr>
+              <th>Nombre</th>
+              <th>Raza</th>
+              <th>Edad</th>
+              <th>Dueño</th>
+              <th class="text-right">Acciones</th>
+            </tr>
+          </thead>
+          <tbody data-table>
+            <!-- Las mascotas se insertarán aquí dinámicamente -->
+            <tr>
+              <td colspan="5" class="text-center">Cargando mascotas...</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+      
+      <!-- Modal de confirmación para eliminar -->
+      <!-- Para lista_cliente.html, añadir antes del cierre de </main> -->
+<div class="modal-container modal--close">
+  <div class="modal">
+    <h3 class="modal__title">Confirmar eliminación</h3>
+    <button class="modal__close">&times;</button>
+    <p class="modal__text">¿Estás seguro de que deseas eliminar este cliente?</p>
+    <div class="flex flex--center">
+      <button class="button button--danger modal__button--confirm mr-2">
+        Eliminar
+      </button>
+      <button class="button button--secondary">
+        Cancelar
+      </button>
+    </div>
+  </div>
+</div>
     </main>
+    
+    <script>
+      // Verificar si hay un parámetro de acción exitosa en la URL
+      document.addEventListener('DOMContentLoaded', function() {
+        // Verificar si hay parámetros en la URL
+        const urlParams = new URLSearchParams(window.location.search);
+        if (urlParams.has('updated') || urlParams.has('created') || urlParams.has('deleted')) {
+          // Mostrar alerta
+          const alertElement = document.getElementById('actionAlert');
+          
+          if (urlParams.has('updated')) {
+            alertElement.textContent = 'Mascota actualizada con éxito';
+          } else if (urlParams.has('created')) {
+            alertElement.textContent = 'Mascota creada con éxito';
+          } else if (urlParams.has('deleted')) {
+            alertElement.textContent = 'Mascota eliminada con éxito';
+          }
+          
+          alertElement.style.display = 'block';
+          
+          // Ocultar después de 3 segundos
+          setTimeout(() => {
+            alertElement.style.display = 'none';
+          }, 3000);
+        }
+      });
+    </script>
+    
+    <script type="module" src="../controllers/pet_controller.js"></script>
+    
+    <style>
+      /* Estilos específicos para esta página */
+      .mr-2 {
+        margin-right: var(--spacing-sm);
+      }
+      
+      /* Estilos para el modal */
+      .modal-container {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background-color: rgba(0, 0, 0, 0.5);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        z-index: 1000;
+        opacity: 1;
+        transition: opacity 0.3s ease;
+      }
+      
+      .modal--close {
+        opacity: 0;
+        pointer-events: none;
+      }
+      
+      .modal {
+        background-color: var(--white);
+        border-radius: var(--radius-md);
+        padding: var(--spacing-md);
+        width: 90%;
+        max-width: 500px;
+        box-shadow: var(--shadow-lg);
+        position: relative;
+      }
+      
+      .modal__title {
+        margin-top: 0;
+        margin-bottom: var(--spacing-md);
+      }
+      
+      .modal__close {
+        position: absolute;
+        top: var(--spacing-sm);
+        right: var(--spacing-sm);
+        background: none;
+        border: none;
+        font-size: var(--text-xl);
+        cursor: pointer;
+        color: var(--gray);
+      }
+      
+      .modal__text {
+        margin-bottom: var(--spacing-md);
+      }
+      
+      /* Acción de botones */
+      .action-button {
+        background: none;
+        border: none;
+        cursor: pointer;
+        font-size: var(--text-md);
+        padding: var(--spacing-xs);
+        margin: 0 var(--spacing-xs);
+        transition: transform 0.2s;
+      }
+      
+      .action-button:hover {
+        transform: scale(1.2);
+      }
+      
+      .edit-button {
+        color: var(--primary);
+      }
+      
+      .delete-button {
+        color: var(--danger);
+      }
+    </style>
   </body>
-  <script type="module" src="../controllers/pet_controller.js"></script>
 </html>
