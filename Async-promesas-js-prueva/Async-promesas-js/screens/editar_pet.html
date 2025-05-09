@@ -1,0 +1,225 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Doguito Petshop | Editar Mascota</title>
+    <link rel="icon" href="../assets/img/doguitoadm.svg" type="image/x-icon" />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400&display=swap"
+      rel="stylesheet"
+    />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Pacifico&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="../assets/css/base/base.css" />
+    <link rel="stylesheet" href="../assets/css/componentes/header.css" />
+    <link rel="stylesheet" href="../assets/css/componentes/card.css" />
+    <link rel="stylesheet" href="../assets/css/componentes/button.css" />
+    <link rel="stylesheet" href="../assets/css/registro_pet.css" />
+</head>
+<body>
+    <header class="header container">
+        <img
+          src="../assets/img/doguitoadm.svg"
+          alt="Logotipo Doguito"
+          class="header__logo"
+        />
+        <nav>
+          <ul class="header__list-nav">
+            <li class="header__link"><a href="./dashboard.html">Dashboard</a></li>
+            <li class="header__link"><a href="./lista_productos.html">Productos</a></li>
+            <li class="header__link"><a href="./lista_cliente.html">Clientes</a></li>
+            <li class="header__link"><a href="./lista_pets.html">Pets</a></li>
+          </ul>
+        </nav>
+    </header>
+    
+    <main class="container flex flex--center flex--column">
+        <section class="card card--register">
+            <h1 class="form-title">Editar Mascota</h1>
+            
+            <div id="result" class="result-message" style="display:none;"></div>
+            
+            <div class="pet-form-container">
+                <form id="petForm">
+                    <input type="hidden" id="id_pet" name="id_pet">
+                    
+                    <div class="pet-form-group">
+                        <label for="nombre" class="required-field">Nombre</label>
+                        <input type="text" id="nombre" name="nombre" required placeholder="Nombre de la mascota">
+                    </div>
+                    
+                    <div class="pet-form-group">
+                        <label for="raza">Raza</label>
+                        <input type="text" id="raza" name="raza" placeholder="Raza de la mascota">
+                    </div>
+                    
+                    <div class="pet-form-group">
+                        <label for="edad">Edad</label>
+                        <input type="number" id="edad" name="edad" min="0" placeholder="Edad en años">
+                    </div>
+                    
+                    <div class="pet-form-group">
+                        <label for="dueno" class="required-field">Dueño</label>
+                        <select id="dueno" name="dueno" required>
+                            <option value="">Seleccionar dueño</option>
+                            <!-- Los clientes se cargarán dinámicamente -->
+                        </select>
+                    </div>
+                    
+                    <button type="submit" class="pet-form-button">Guardar Cambios</button>
+                </form>
+            </div>
+            
+            <div class="pet-form-nav">
+                <a href="./lista_pets.html" class="pet-form-link">← Volver a lista de mascotas</a>
+            </div>
+        </section>
+    </main>
+  
+    <script>
+        // Variables para referenciar elementos del DOM
+        const formulario = document.getElementById('petForm');
+        const inputId = document.getElementById('id_pet');
+        const inputNombre = document.getElementById('nombre');
+        const inputRaza = document.getElementById('raza');
+        const inputEdad = document.getElementById('edad');
+        const selectDueno = document.getElementById('dueno');
+        const resultElement = document.getElementById('result');
+        
+        // Función para mostrar mensajes (sólo los de éxito)
+        function mostrarMensaje(mensaje, esError = false) {
+            // Si es un error, sólo lo mostramos en consola
+            if (esError) {
+                console.error("Error:", mensaje);
+                return;
+            }
+            
+            // Si es un mensaje de éxito, lo mostramos en el div
+            resultElement.textContent = mensaje;
+            resultElement.className = 'result-message success-message';
+            resultElement.style.display = 'block';
+            
+            // Redireccionar después de un mensaje exitoso
+            setTimeout(() => {
+                window.location.href = './lista_pets.html';
+            }, 1500);
+        }
+        
+        // Verificar si hay error en la URL (redirigido desde actualizar_mascota.php)
+        const url = new URL(window.location);
+        const errorMsg = url.searchParams.get('error');
+        if (errorMsg) {
+            console.error("Error:", 'Error: ' + errorMsg);
+        }
+        
+        // Cargar clientes en el selector
+        function cargarClientes() {
+            return fetch('http://localhost/api/conexciion1.php')
+                .then(res => res.json())
+                .then(clientes => {
+                    clientes.forEach(c => {
+                        const option = document.createElement('option');
+                        option.value = c.id;
+                        option.textContent = c.nombre;
+                        selectDueno.appendChild(option);
+                    });
+                })
+                .catch(err => {
+                    console.error("Error:", 'Error cargando clientes: ' + err.message);
+                });
+        }
+        
+        // Cargar datos de la mascota a editar
+        function cargarMascota(id) {
+            return fetch(`http://localhost/api/mascotas.php?id_pet=${id}`)
+                .then(res => {
+                    if (!res.ok) throw new Error(`Error ${res.status}`);
+                    return res.json();
+                })
+                .then(mascota => {
+                    console.log('Datos de la mascota:', mascota);
+                    
+                    // Llenar el formulario con los datos
+                    inputId.value = mascota.id_pet || '';
+                    inputNombre.value = mascota.nombre || '';
+                    inputRaza.value = mascota.raza || '';
+                    inputEdad.value = mascota.edad || '';
+                    
+                    if (mascota.id) {
+                        selectDueno.value = mascota.id;
+                    }
+                    
+                    return mascota;
+                })
+                .catch(err => {
+                    console.error("Error:", 'Error cargando mascota: ' + err.message);
+                    throw err;
+                });
+        }
+        
+        // Inicialización - Cuando la página se carga
+        document.addEventListener('DOMContentLoaded', async () => {
+            try {
+                // 1. Obtener ID de la URL
+                const id = url.searchParams.get('id');
+                
+                if (!id) {
+                    throw new Error('No se proporcionó ID de mascota en la URL');
+                }
+                
+                // 2. Primero cargar clientes
+                await cargarClientes();
+                
+                // 3. Luego cargar datos de la mascota
+                await cargarMascota(id);
+            } catch (error) {
+                console.error('Error inicializando:', error);
+            }
+        });
+
+        // Manejar el envío del formulario con AJAX
+        document.getElementById('petForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            // Mostrar mensaje de procesamiento
+            mostrarMensaje('Actualizando...');
+            
+            // Crear objeto FormData con los datos del formulario
+            const formData = new FormData();
+            formData.append('id_pet', document.getElementById('id_pet').value);
+            formData.append('nombre', document.getElementById('nombre').value);
+            formData.append('raza', document.getElementById('raza').value);
+            formData.append('edad', document.getElementById('edad').value);
+            formData.append('dueno', document.getElementById('dueno').value);
+            
+            // Enviar petición
+            fetch('http://localhost/api/actualizar_mascota.php', {
+                method: 'POST',
+                body: formData
+            })
+            .then(response => {
+                // Mostrar éxito y redireccionar directamente, sin esperar respuesta JSON
+                mostrarMensaje('¡Mascota actualizada con éxito!');
+                
+                // Opcional: Intentar procesar la respuesta pero sin que afecte al flujo principal
+                response.text().then(text => {
+                    try {
+                        console.log("Respuesta del servidor:", JSON.parse(text));
+                    } catch (e) {
+                        console.log("Respuesta del servidor (no es JSON):", text);
+                    }
+                }).catch(err => {
+                    console.warn("No se pudo leer la respuesta", err);
+                });
+            })
+            .catch(error => {
+                console.error('Error de red:', error);
+                mostrarMensaje('Error de conexión: ' + error.message, true);
+            });
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,300 @@
+<!DOCTYPE html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Dashboard | Doguito Pet Store</title>
+    <link rel="icon" href="../assets/img/doguitoadm.svg" type="image/x-icon" />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="../assets/css/base/base.css" />
+    <link rel="stylesheet" href="../assets/css/componentes/header.css" />
+    <link rel="stylesheet" href="../assets/css/dashboard.css" />
+    <link rel="stylesheet" href="../assets/css/componentes/card.css" />
+    <!-- ELIMINAMOS LA REFERENCIA A CHART.JS -->
+  </head>
+  <body>
+    <header class="header container">
+      <img
+        src="../assets/img/doguitoadm.svg"
+        alt="Logotipo Doguito"
+        class="header__logo"
+      />
+      <nav>
+        <ul class="header__list-nav">
+          <li class="header__link"><a href="#" class="active">Dashboard</a></li>
+          <li class="header__link"><a href="./lista_productos.html">Productos</a></li>
+          <li class="header__link"><a href="./lista_cliente.html">Clientes</a></li>
+          <li class="header__link"><a href="./lista_pets.html">Mascotas</a></li>
+        </ul>
+      </nav>
+    </header>
+
+    <main class="dashboard-container">
+      <h1 class="dashboard-title">Panel de Control</h1>
+      
+      <!-- Tarjetas de estadísticas -->
+      <section class="stats-section">
+        <div class="stat-card" data-cliente-count>
+          <div class="stat-icon">👥</div>
+          <div class="stat-info">
+            <h3>Clientes</h3>
+            <p class="stat-number">0</p>
+          </div>
+        </div>
+
+        <div class="stat-card" data-producto-count>
+          <div class="stat-icon">🛒</div>
+          <div class="stat-info">
+            <h3>Productos</h3>
+            <p class="stat-number">0</p>
+          </div>
+        </div>
+
+        <div class="stat-card" data-pet-count>
+          <div class="stat-icon">🐾</div>
+          <div class="stat-info">
+            <h3>Mascotas</h3>
+            <p class="stat-number">0</p>
+          </div>
+        </div>
+      </section>
+      
+      <!-- SECCIÓN REEMPLAZADA: Ahora usamos listas en lugar de gráficos -->
+      <section class="data-lists-section">
+        <div class="dashboard-section">
+          <div class="section-header">
+            <h2>Clientes Recientes</h2>
+          </div>
+          <div class="section-body">
+            <ul class="data-list" id="clientesList">
+              <li class="data-list-item">Cargando clientes...</li>
+            </ul>
+          </div>
+        </div>
+        
+        <div class="dashboard-section">
+          <div class="section-header">
+            <h2>Mascotas Recientes</h2>
+          </div>
+          <div class="section-body">
+            <ul class="data-list" id="petsList">
+              <li class="data-list-item">Cargando mascotas...</li>
+            </ul>
+          </div>
+        </div>
+      </section>
+      
+      <!-- Actividades Recientes -->
+      <section class="dashboard-section activity-section">
+        <div class="section-header">
+          <h2>Actividades Recientes</h2>
+        </div>
+        <div class="section-body">
+          <div class="activity-list" data-activity-list>
+            <!-- Las actividades se cargarán dinámicamente -->
+            <div class="activity-item">
+              <div class="activity-icon">👤</div>
+              <p class="activity-text">
+                Se registró cliente <strong>Juan Pérez</strong>
+              </p>
+              <span class="activity-time">hace 10 min</span>
+            </div>
+            <div class="activity-item">
+              <div class="activity-icon">🐾</div>
+              <p class="activity-text">
+                Se agregó mascota <strong>Rocky</strong>
+              </p>
+              <span class="activity-time">hace 25 min</span>
+            </div>
+            <div class="activity-item">
+              <div class="activity-icon">🛒</div>
+              <p class="activity-text">
+                Se actualizó producto <strong>Comida Premium</strong>
+              </p>
+              <span class="activity-time">hace 1 hora</span>
+            </div>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <script>
+      // Script simplificado sin gráficos
+      (function() {
+          console.log('🚨 Script de dashboard simplificado iniciado');
+          
+          // Función para actualizar un contador
+          function actualizarContador(url, selector) {
+              console.log(`📊 Consultando ${url} para ${selector}...`);
+              
+              const elemento = document.querySelector(selector);
+              if (!elemento) {
+                  console.error(`❌ No se encontró el elemento: ${selector}`);
+                  return;
+              }
+              
+              fetch(url)
+                  .then(response => {
+                      if (!response.ok) {
+                          console.error(`❌ Error HTTP: ${response.status}`);
+                          return [];
+                      }
+                      return response.json();
+                  })
+                  .then(data => {
+                      if (Array.isArray(data)) {
+                          elemento.textContent = data.length;
+                          console.log(`✅ Contador actualizado: ${data.length}`);
+                          
+                          // Si la URL corresponde a clientes o mascotas, también actualizamos las listas
+                          if (url.includes('conexciion1.php')) {
+                              actualizarListaClientes(data);
+                          } else if (url.includes('mascotas.php')) {
+                              actualizarListaMascotas(data);
+                          }
+                      } else {
+                          console.error('❌ Los datos recibidos no son un array');
+                          elemento.textContent = '?';
+                      }
+                  })
+                  .catch(error => {
+                      console.error(`❌ Error:`, error);
+                      elemento.textContent = 'Error';
+                  });
+          }
+          
+          // Función para actualizar la lista de clientes
+          function actualizarListaClientes(clientes) {
+              const listaClientes = document.getElementById('clientesList');
+              if (!listaClientes) return;
+              
+              // Si no hay clientes
+              if (!clientes.length) {
+                  listaClientes.innerHTML = '<li class="data-list-item empty">No hay clientes registrados</li>';
+                  return;
+              }
+              
+              // Mostrar hasta 5 clientes recientes
+              const clientesRecientes = clientes.slice(0, 5);
+              
+              listaClientes.innerHTML = clientesRecientes.map(cliente => 
+                  `<li class="data-list-item">
+                      <span class="list-item-icon">👥</span>
+                      <span class="list-item-name">${cliente.nombre || 'Sin nombre'}</span>
+                      <span class="list-item-detail">${cliente.email || ''}</span>
+                  </li>`
+              ).join('');
+          }
+          
+          // Función para actualizar la lista de mascotas
+          function actualizarListaMascotas(mascotas) {
+              const listaMascotas = document.getElementById('petsList');
+              if (!listaMascotas) return;
+              
+              // Si no hay mascotas
+              if (!mascotas.length) {
+                  listaMascotas.innerHTML = '<li class="data-list-item empty">No hay mascotas registradas</li>';
+                  return;
+              }
+              
+              // Mostrar hasta 5 mascotas recientes
+              const mascotasRecientes = mascotas.slice(0, 5);
+              
+              listaMascotas.innerHTML = mascotasRecientes.map(mascota => 
+                  `<li class="data-list-item">
+                      <span class="list-item-icon">🐾</span>
+                      <span class="list-item-name">${mascota.nombre || 'Sin nombre'}</span>
+                      <span class="list-item-detail">${mascota.raza || 'Sin raza'}</span>
+                  </li>`
+              ).join('');
+          }
+          
+          // Iniciar cuando el DOM esté listo
+          document.addEventListener('DOMContentLoaded', function() {
+              console.log('🔄 DOM cargado - Iniciando carga de datos');
+              
+              // Cargar contadores y listas
+              actualizarContador('http://localhost/api/conexciion1.php', 
+                                '[data-cliente-count] .stat-number');
+              
+              actualizarContador('http://localhost/api/productos.php', 
+                                '[data-producto-count] .stat-number');
+              
+              actualizarContador('http://localhost/api/mascotas.php', 
+                                '[data-pet-count] .stat-number');
+          });
+      })();
+    </script>
+    
+    <style>
+      /* Estilos para las listas de datos */
+      .data-lists-section {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
+        gap: 1.5rem;
+        margin-bottom: 2.5rem;
+      }
+      
+      @media (max-width: 900px) {
+        .data-lists-section {
+          grid-template-columns: 1fr;
+        }
+      }
+      
+      .data-list {
+        list-style: none;
+        padding: 0;
+        margin: 0;
+      }
+      
+      .data-list-item {
+        display: flex;
+        align-items: center;
+        padding: 1rem;
+        border-bottom: 1px solid #f0f0f0;
+      }
+      
+      .data-list-item:last-child {
+        border-bottom: none;
+      }
+      
+      .data-list-item:hover {
+        background-color: #f8f9fc;
+      }
+      
+      .data-list-item.empty {
+        color: #858796;
+        font-style: italic;
+        justify-content: center;
+        padding: 2rem;
+      }
+      
+      .list-item-icon {
+        font-size: 1.25rem;
+        margin-right: 1rem;
+      }
+      
+      .list-item-name {
+        font-weight: 600;
+        color: #4e73df;
+        flex: 1;
+      }
+      
+      .list-item-detail {
+        color: #858796;
+        font-size: 0.9rem;
+      }
+      
+      /* Estilizar el título del dashboard */
+      .dashboard-title {
+        margin: 0 0 1.5rem 0;
+        color: #5a5c69;
+        font-size: 1.75rem;
+        font-weight: 500;
+      }
+    </style>
+  </body>
+</html>
