@@ -44,53 +44,56 @@
             <div class="alert" id="result" style="display: none;"></div>
             
             <form id="petForm" class="form">
-                <input type="hidden" id="id_pet" name="id_pet">
+                <input type="hidden" id="id_pet">
                 
-                <div class="grid-2-cols">
-                    <div class="form-group">
-                        <label class="form-label" for="nombre">Nombre <span class="text-danger">*</span></label>
-                        <input type="text" id="nombre" class="form-control" required>
-                    </div>
-                    
-                    <div class="form-group">
-                        <label class="form-label" for="raza">Raza</label>
-                        <input type="text" id="raza" class="form-control">
-                    </div>
+                <div class="form-group">
+                    <label class="form-label" for="nombre">Nombre <span class="text-danger">*</span></label>
+                    <input type="text" id="nombre" class="form-control" required>
                 </div>
                 
-                <div class="grid-2-cols">
-                    <div class="form-group">
-                        <label class="form-label" for="edad">Edad (años)</label>
-                        <input type="number" id="edad" class="form-control" min="0" max="30">
-                    </div>
-                    
-                    <div class="form-group">
-                        <label class="form-label" for="dueno">Dueño <span class="text-danger">*</span></label>
-                        <select id="dueno" class="form-control" required>
-                            <option value="">Seleccionar dueño</option>
-                            <!-- Opciones se cargarán dinámicamente -->
-                        </select>
-                    </div>
+                <div class="form-group">
+                    <label class="form-label" for="raza">Raza</label>
+                    <input type="text" id="raza" class="form-control">
+                </div>
+                
+                <div class="form-group">
+                    <label class="form-label" for="edad">Edad</label>
+                    <input type="number" id="edad" class="form-control" min="0">
+                </div>
+                
+                <div class="form-group">
+                    <label class="form-label" for="dueno">Dueño <span class="text-danger">*</span></label>
+                    <select id="dueno" class="form-control" required>
+                        <option value="">Seleccionar dueño</option>
+                        <!-- Opciones se cargarán dinámicamente -->
+                    </select>
                 </div>
                 
                 <div class="form-group text-center mt-3">
-                    <button type="submit" class="button">Guardar Cambios</button>
-                    <a href="./lista_pets.html" class="simple-button ml-2">Cancelar</a>
+                    <button type="submit" class="button">Actualizar Mascota</button>
                 </div>
             </form>
         </div>
     </main>
-
+    
     <script>
-        // Obtener ID de la URL
-        const url = new URL(window.location);
-        const petId = url.searchParams.get('id');
+        const SUPABASE_URL = 'https://fqxjajxbjlnyrdvdofrq.supabase.co';
+        const SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImZxeGphanhiamxueXJkdmRvZnJxIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NDcwNDg1OTUsImV4cCI6MjA2MjYyNDU5NX0.tmC35WfvvFGwfYaOvBDLLmKVmGtq9cU-ojk2H4EHyV8';
+        const HEADER = {
+            apikey: SUPABASE_KEY,
+            Authorization: `Bearer ${SUPABASE_KEY}`,
+            'Content-Type': 'application/json'
+        };
+        
+        // Obtener ID de mascota de la URL
+        const urlParams = new URLSearchParams(window.location.search);
+        const petId = urlParams.get('id');
         
         if (!petId) {
-            window.location.href = './lista_pets.html';
+            mostrarMensaje('ID de mascota no proporcionado en la URL', true);
         }
         
-        // Referencias a elementos del formulario
+        // Elementos del formulario
         const formElement = document.getElementById('petForm');
         const idElement = document.getElementById('id_pet');
         const nombreElement = document.getElementById('nombre');
@@ -115,90 +118,170 @@
         }
         
         // Cargar clientes
-        function cargarClientes() {
-            return fetch('http://localhost/api/conexciion1.php')
-                .then(res => res.json())
-                .then(clientes => {
-                    clientes.forEach(c => {
-                        const option = document.createElement('option');
-                        option.value = c.id;
-                        option.textContent = c.nombre;
-                        duenoElement.appendChild(option);
-                    });
-                })
-                .catch(err => {
-                    mostrarMensaje('Error cargando clientes: ' + err.message, true);
+        async function cargarClientes() {
+            try {
+                console.log("Cargando clientes...");
+                const response = await fetch(`${SUPABASE_URL}/rest/v1/cliente?select=id,nombre`, {
+                    headers: HEADER
                 });
+                
+                if (!response.ok) {
+                    throw new Error(`Error HTTP: ${response.status}`);
+                }
+                
+                const clientes = await response.json();
+                console.log("Clientes recibidos:", clientes);
+                
+                clientes.forEach(cliente => {
+                    const option = document.createElement('option');
+                    option.value = cliente.id;
+                    option.textContent = cliente.nombre;
+                    duenoElement.appendChild(option);
+                });
+                
+                return clientes;
+            } catch (error) {
+                console.error('Error cargando clientes:', error);
+                mostrarMensaje('Error cargando clientes: ' + error.message, true);
+                throw error;
+            }
         }
         
         // Cargar datos de mascota
-        function cargarDatosMascota(id) {
-            return fetch(`http://localhost/api/mascotas.php?id_pet=${id}`)
-                .then(res => {
-                    if (!res.ok) throw new Error(`Error ${res.status}`);
-                    return res.json();
-                })
-                .then(mascota => {
-                    console.log('Datos de la mascota:', mascota);
-                    
-                    // Llenar el formulario con los datos
-                    idElement.value = mascota.id_pet || '';
-                    nombreElement.value = mascota.nombre || '';
-                    razaElement.value = mascota.raza || '';
-                    edadElement.value = mascota.edad || '';
-                    
-                    if (mascota.id) {
-                        duenoElement.value = mascota.id;
-                    }
-                    
-                    return mascota;
-                })
-                .catch(err => {
-                    mostrarMensaje('Error cargando mascota: ' + err.message, true);
-                    throw err;
+        async function cargarDatosMascota(id) {
+            try {
+                console.log("Cargando datos de mascota:", id);
+                const response = await fetch(`${SUPABASE_URL}/rest/v1/pet?id_pet=eq.${id}&select=*`, {
+                    headers: HEADER
                 });
+                
+                if (!response.ok) {
+                    throw new Error(`Error HTTP: ${response.status}`);
+                }
+                
+                const mascotasData = await response.json();
+                
+                if (mascotasData.length === 0) {
+                    throw new Error("No se encontró la mascota");
+                }
+                
+                const mascota = mascotasData[0];
+                console.log('Datos de la mascota:', mascota);
+                
+                // Llenar el formulario con los datos
+                idElement.value = mascota.id_pet || '';
+                nombreElement.value = mascota.nombre || '';
+                razaElement.value = mascota.raza || '';
+                edadElement.value = mascota.edad || '';
+                
+                if (mascota.id) {
+                    // Asegurar que la opción exista antes de seleccionarla
+                    const opcionExistente = Array.from(duenoElement.options).some(option => option.value == mascota.id);
+                    if (!opcionExistente) {
+                        console.warn(`Advertencia: El dueño con ID ${mascota.id} no está en la lista de opciones`);
+                    }
+                    duenoElement.value = mascota.id;
+                }
+                
+                return mascota;
+            } catch (error) {
+                console.error('Error cargando mascota:', error);
+                mostrarMensaje('Error cargando mascota: ' + error.message, true);
+                throw error;
+            }
         }
         
         // Inicializar página
         document.addEventListener('DOMContentLoaded', async () => {
             try {
+                mostrarMensaje("Cargando datos...");
+                
                 // Primero cargar clientes
                 await cargarClientes();
                 
                 // Luego cargar datos de la mascota
                 await cargarDatosMascota(petId);
+                
+                // Ocultar mensaje de carga
+                resultElement.style.display = 'none';
             } catch (error) {
                 console.error('Error inicializando página:', error);
             }
         });
         
         // Manejar envío del formulario
-        formElement.addEventListener('submit', (e) => {
+        formElement.addEventListener('submit', async (e) => {
             e.preventDefault();
             
-            // Mostrar mensaje de procesamiento
-            mostrarMensaje('Actualizando...');
-            
-            // Crear objeto FormData con los datos del formulario
-            const formData = new FormData();
-            formData.append('id_pet', idElement.value);
-            formData.append('nombre', nombreElement.value);
-            formData.append('raza', razaElement.value);
-            formData.append('edad', edadElement.value);
-            formData.append('dueno', duenoElement.value);
-            
-            // Enviar petición
-            fetch('http://localhost/api/actualizar_mascota.php', {
-                method: 'POST',
-                body: formData
-            })
-            .then(response => {
+            try {
+                // Mostrar mensaje de procesamiento
+                mostrarMensaje('Actualizando...');
+                
+                // Validar datos
+                if (!nombreElement.value.trim()) {
+                    throw new Error("El nombre de la mascota es obligatorio");
+                }
+                
+                if (!duenoElement.value) {
+                    throw new Error("Debe seleccionar un dueño");
+                }
+                
+                const mascotaActualizada = {
+                    nombre: nombreElement.value,
+                    raza: razaElement.value,
+                    edad: parseInt(edadElement.value) || 0,
+                    id: duenoElement.value
+                };
+                
+                console.log("Datos actualizados:", mascotaActualizada);
+                
+                // Enviar actualización a Supabase
+                const response = await fetch(`${SUPABASE_URL}/rest/v1/pet?id_pet=eq.${petId}`, {
+                    method: 'PATCH',
+                    headers: HEADER,
+                    body: JSON.stringify(mascotaActualizada)
+                });
+                
+                if (!response.ok) {
+                    const errorText = await response.text();
+                    throw new Error(`Error ${response.status}: ${errorText}`);
+                }
+                
                 mostrarMensaje('¡Mascota actualizada con éxito!');
-            })
-            .catch(error => {
-                mostrarMensaje('Error al actualizar: ' + error.message, true);
-            });
+            } catch (error) {
+                console.error('Error al actualizar:', error);
+                mostrarMensaje('Error: ' + error.message, true);
+            }
         });
     </script>
+    
+    <style>
+        .form-group {
+            margin-bottom: 1rem;
+        }
+        
+        .form-label {
+            display: block;
+            margin-bottom: 0.5rem;
+            font-weight: 500;
+        }
+        
+        .form-control {
+            display: block;
+            width: 100%;
+            padding: 0.5rem;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            font-size: 1rem;
+        }
+        
+        .text-danger {
+            color: red;
+        }
+        
+        .mt-3 {
+            margin-top: 1.5rem;
+        }
+    </style>
 </body>
 </html>

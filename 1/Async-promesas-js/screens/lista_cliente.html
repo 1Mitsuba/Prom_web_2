@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Clientes | Doguito Pet Store</title>
+    <link rel="icon" href="../assets/img/doguitoadm.svg" type="image/x-icon" />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700&display=swap"
+      rel="stylesheet"
+    />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Pacifico&display=swap"
+      rel="stylesheet"
+    />
+    <!-- Carga primero los estilos base -->
+    <link rel="stylesheet" href="../assets/css/base/base.css" />
+    <!-- Luego carga el nuevo estilo unificado -->
+    <link rel="stylesheet" href="../assets/css/unified-style.css" />
+</head>
+<body>
+    <header class="header">
+      <div class="container flex flex--between">
+        <div class="flex flex--center">
+          <img
+            src="../assets/img/doguitoadm.svg"
+            alt="Logotipo Doguito"
+            class="header__logo"
+          />
+          <h1 class="ml-2" style="font-family: var(--font-accent); font-size: var(--text-xl); margin-left: 10px;">Doguito Petshop</h1>
+        </div>
+        <nav>
+          <ul class="header__list-nav">
+            <li class="header__link"><a href="./dashboard.html">Dashboard</a></li>
+            <li class="header__link"><a href="./lista_productos.html">Productos</a></li>
+            <li class="header__link"><a href="./lista_cliente.html" class="active">Clientes</a></li>
+            <li class="header__link"><a href="./lista_pets.html">Mascotas</a></li>
+          </ul>
+        </nav>
+      </div>
+    </header>
+
+    <main class="container">
+        <div class="flex flex--between mb-3">
+            <h2>Lista de Clientes</h2>
+            <a href="./registrar_cliente.html" class="button">+ Nuevo Cliente</a>
+        </div>
+        
+        <!-- Alerta de acción completada -->
+        <div class="alert alert--success" id="actionAlert" style="display: none;">
+            Acción completada con éxito
+        </div>
+      
+        <div class="card p-0">
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th>Nombre</th>
+                        <th>Email</th>
+                        <th class="text-right">Acciones</th>
+                    </tr>
+                </thead>
+                <tbody data-table>
+                    <!-- Los clientes se insertarán aquí dinámicamente -->
+                    <tr>
+                        <td colspan="3" class="text-center">Cargando clientes...</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        <!-- Para lista_cliente.html, añadir antes del cierre de </main> -->
+<div class="modal-container modal--close">
+  <div class="modal">
+    <h3 class="modal__title">Confirmar eliminación</h3>
+    <button class="modal__close">&times;</button>
+    <p class="modal__text">¿Estás seguro de que deseas eliminar este cliente?</p>
+    <div class="flex flex--center">
+      <button class="button button--danger modal__button--confirm mr-2">
+        Eliminar
+      </button>
+      <button class="button button--secondary">
+        Cancelar
+      </button>
+    </div>
+  </div>
+</div>
+    </main>
+    
+    <script type="module" src="../controllers/client_controller.js"></script>
+    <script>
+        // Verificar si hay un parámetro de acción exitosa en la URL
+        document.addEventListener('DOMContentLoaded', function() {
+            // Verificar si hay parámetros en la URL
+            const urlParams = new URLSearchParams(window.location.search);
+            if (urlParams.has('updated') || urlParams.has('created') || urlParams.has('deleted')) {
+                // Mostrar alerta
+                const alertElement = document.getElementById('actionAlert');
+                
+                if (urlParams.has('updated')) {
+                    alertElement.textContent = 'Cliente actualizado con éxito';
+                } else if (urlParams.has('created')) {
+                    alertElement.textContent = 'Cliente creado con éxito';
+                } else if (urlParams.has('deleted')) {
+                    alertElement.textContent = 'Cliente eliminado con éxito';
+                }
+                
+                alertElement.style.display = 'block';
+                
+                // Ocultar después de 3 segundos
+                setTimeout(() => {
+                    alertElement.style.display = 'none';
+                }, 3000);
+            }
+        });
+    </script>
+</body>
+</html>

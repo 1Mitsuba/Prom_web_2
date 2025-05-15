@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Doguito Petshop | Registrar Mascota</title>
+  <link rel="icon" href="../assets/img/doguitoadm.svg" type="image/x-icon" />
+  <link rel="stylesheet" href="../assets/css/base/base.css" />
+  <link rel="stylesheet" href="../assets/css/componentes/header.css" />
+  <link rel="stylesheet" href="../assets/css/componentes/card.css" />
+  <link rel="stylesheet" href="../assets/css/register_client.css" />
+  <link rel="stylesheet" href="../assets/css/componentes/inputs.css" />
+  <link rel="stylesheet" href="../assets/css/componentes/button.css" />
+</head>
+<body>
+  <header class="header container">
+    <div class="menu-hamburguesa">
+      <span class="menu-hamburguesa__icon"></span>
+    </div>
+    <div class="header-logo">
+      <img class="header-logo-image" src="../assets/img/doguitoadm.svg" alt="Logo Doguito" />
+      <h1 class="header-logo-title">Petshop</h1>
+    </div>
+    <nav class="header-navegacion">
+      <ul>
+        <li class="header-navegacion-item"><a href="#">Dashboard</a></li>
+        <li class="header-navegacion-item"><a href="lista_cliente.html">Clientes</a></li>
+        <li class="header-navegacion-item"><a href="lista_pets.html">Mascotas</a></li>
+      </ul>
+    </nav>
+    <div class="header-usuario">
+      <a href="#">Cerrar Sesión</a>
+    </div>
+  </header>
+  <main class="container flex flex--center flex--column">
+    <section class="card card--register">
+      <h2 class="card__title card__title--register">Registrar Mascota</h2>
+      <form class="flex flex--column" data-form>
+        <!-- CAMPO NOMBRE - FALTANTE EN TU CÓDIGO -->
+        <div class="input-container">
+          <input
+            name="nombre"
+            id="nombre"
+            class="input"
+            type="text"
+            placeholder="Nombre de la mascota"
+            required
+            data-nombre
+          />
+          <label class="input-label" for="nombre">Nombre</label>
+        </div>
+        
+        <!-- CAMPO RAZA - FALTANTE EN TU CÓDIGO -->
+        <div class="input-container">
+          <input
+            name="raza"
+            id="raza"
+            class="input"
+            type="text"
+            placeholder="Raza"
+            data-raza
+          />
+          <label class="input-label" for="raza">Raza</label>
+        </div>
+        
+        <!-- CAMPO EDAD - YA EXISTENTE PERO INCOMPLETO -->
+        <div class="input-container">
+          <input
+            name="edad"
+            id="edad"
+            class="input"
+            type="number"
+            min="0"
+            placeholder="Edad"
+            data-edad
+          />
+          <label class="input-label" for="edad">Edad</label>
+        </div>
+        
+        <!-- CAMPO DUEÑO - YA EXISTENTE -->
+        <div class="input-container">
+          <select id="cliente" name="cliente" class="input" data-cliente>
+            <option value="">Seleccionar dueño</option>
+            <!-- Los clientes se cargarán dinámicamente -->
+          </select>
+          <label class="input-label" for="cliente">Dueño</label>
+        </div>
+        
+        <button type="submit" class="button">Registrar mascota</button>
+      </form>
+    </section>
+  </main>
+  <script type="module" src="../controllers/registrar_pet_controller.js"></script>
+</body>
+</html>

@@ -1,4 +1,4 @@
-import { clientService } from "../service/client-service.js";
+import {clientService} from "../service/client-service.js"
 const crear_nueva_fila = (nombre, email, id) => {
     const fila = document.createElement('tr');
     const contenido = `
@@ -73,30 +73,13 @@ const table = document.querySelector("[data-table]");
 // Cargar clientes al iniciar
 const cargarClientes = async () => {
     try {
-        console.log("Iniciando carga de clientes...");
         const data = await clientService.listaclientes();
-        console.log("Datos recibidos:", data);
         
-        if (!data || data.length === 0) {
-            table.innerHTML = '<tr><td colspan="3" class="text-center">No hay clientes registrados</td></tr>';
-            return [];
-        }
-        
-        // Analizar estructura del primer cliente
-        console.log("Estructura del primer cliente:", JSON.stringify(data[0]));
-        
-        // Borrar contenido de la tabla
+        // Borrar el contenido de "cargando..." de la tabla
         table.innerHTML = '';
         
-        // Crear filas para cada cliente, adaptando los campos si es necesario
-        data.forEach((cliente) => {
-            // Extraer los campos con nombres posibles alternativos
-            const nombre = cliente.nombre || cliente.name || "";
-            const email = cliente.email || cliente.correo || cliente.mail || "";
-            const id = cliente.id;
-            
-            console.log("Procesando cliente:", { nombre, email, id });
-            
+        // Crear fila para cada cliente
+        data.forEach(({ nombre, email, id }) => {
             const nuevaLinea = crear_nueva_fila(nombre, email, id);
             table.appendChild(nuevaLinea);
         });
@@ -104,8 +87,7 @@ const cargarClientes = async () => {
         return data;
     } catch (error) {
         console.error("Error al cargar clientes:", error);
-        table.innerHTML = '<tr><td colspan="3" class="text-center">Error al cargar clientes: ' + error.message + '</td></tr>';
-        return [];
+        alert("Ocurrió un error al cargar los clientes");
     }
 };
 

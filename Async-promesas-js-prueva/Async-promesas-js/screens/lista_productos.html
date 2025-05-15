@@ -14,6 +14,24 @@
       rel="stylesheet"
     />
     <link rel="stylesheet" href="../assets/css/unified-style.css" />
+    <style>
+        .search-container {
+            margin-bottom: 20px;
+        }
+        
+        .search-input {
+            padding: 8px;
+            width: 300px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            margin-right: 10px;
+        }
+        
+        .price {
+            font-weight: bold;
+            color: #2a7ae4;
+        }
+    </style>
 </head>
 <body>
     <header class="header">
@@ -48,6 +66,12 @@
         Acción completada con éxito
       </div>
       
+      <!-- Barra de búsqueda -->
+        <div class="search-container">
+            <input type="text" id="searchInput" class="search-input" placeholder="Buscar productos...">
+            <button id="searchButton" class="button">Buscar</button>
+        </div>
+
       <div class="card p-0">
         <table class="table">
           <thead>
@@ -85,30 +109,114 @@
 </div>
     </main>
     
-    <script>
-      // Verificar si hay un parámetro de acción exitosa en la URL
-      document.addEventListener('DOMContentLoaded', function() {
-        const urlParams = new URLSearchParams(window.location.search);
-        if (urlParams.has('updated') || urlParams.has('created') || urlParams.has('deleted')) {
-          const alertElement = document.getElementById('actionAlert');
-          
-          if (urlParams.has('updated')) {
-            alertElement.textContent = 'Producto actualizado con éxito';
-          } else if (urlParams.has('created')) {
-            alertElement.textContent = 'Producto creado con éxito';
-          } else if (urlParams.has('deleted')) {
-            alertElement.textContent = 'Producto eliminado con éxito';
-          }
-          
-          alertElement.style.display = 'block';
-          
-          setTimeout(() => {
-            alertElement.style.display = 'none';
-          }, 3000);
-        }
-      });
+    <script type="module">
+    import { productoService } from "../service/producto-service.js";
+    
+    document.addEventListener('DOMContentLoaded', async function() {
+        const tbody = document.querySelector('[data-table]');
+        const searchInput = document.getElementById('searchInput');
+        const searchButton = document.getElementById('searchButton');
+        
+        // Función para cargar productos
+        const cargarProductos = async (terminoBusqueda = '') => {
+            try {
+                console.log('Cargando productos...');
+                const productos = await productoService.listarProductos(terminoBusqueda);
+                console.log('Productos cargados:', productos);
+                
+                tbody.innerHTML = '';
+                
+                if (productos.length === 0) {
+                    tbody.innerHTML = '<tr><td colspan="4" class="text-center">No hay productos registrados</td></tr>';
+                    return;
+                }
+                
+                productos.forEach(producto => {
+                    const row = document.createElement('tr');
+                    row.innerHTML = `
+                        <td>${producto.nombre || 'Sin nombre'}</td>
+                        <td class="price">$${producto.precio?.toFixed(2) || '0.00'}</td>
+                        <td>${producto.descripcion || 'Sin descripción'}</td>
+                        <td class="text-center">
+                            <div class="table-actions">
+                                <a href="../screens/editar_producto.html?id=${producto.id_pro}" class="action-button edit">
+                                    <span>✏️</span>
+                                </a>
+                                <button class="action-button delete" type="button" data-id="${producto.id_pro}">
+                                    <span>🗑️</span>
+                                </button>
+                            </div>
+                        </td>
+                    `;
+                    tbody.appendChild(row);
+                });
+                
+                // Configurar botones de eliminar
+                document.querySelectorAll('.delete').forEach(btn => {
+                    btn.addEventListener('click', function() {
+                        const id = this.getAttribute('data-id');
+                        const modal = document.querySelector(".modal-container");
+                        modal.classList.remove("modal--close");
+                        modal.dataset.targetId = id;
+                    });
+                });
+            } catch (error) {
+                console.error('Error cargando productos:', error);
+                tbody.innerHTML = '<tr><td colspan="4" class="text-center">Error al cargar productos: ' + error.message + '</td></tr>';
+            }
+        };
+        
+        // Cargar productos inicialmente
+        await cargarProductos();
+        
+        // Configurar búsqueda
+        searchButton.addEventListener('click', () => {
+            cargarProductos(searchInput.value);
+        });
+        
+        searchInput.addEventListener('keypress', (e) => {
+            if (e.key === 'Enter') {
+                cargarProductos(searchInput.value);
+            }
+        });
+        
+        // Configurar botón de confirmar eliminación
+        document.querySelector('.modal__button--confirm').addEventListener('click', async function() {
+            const id = document.querySelector('.modal-container').dataset.targetId;
+            if (!id) return;
+            
+            try {
+                await productoService.eliminarProducto(id);
+                
+                // Cerrar modal
+                document.querySelector('.modal-container').classList.add('modal--close');
+                
+                // Mostrar notificación
+                const alertElement = document.getElementById('actionAlert');
+                alertElement.textContent = 'Producto eliminado con éxito';
+                alertElement.style.display = 'block';
+                
+                // Recargar productos después de 1.5 segundos
+                setTimeout(() => {
+                    cargarProductos();
+                    alertElement.style.display = 'none';
+                }, 1500);
+            } catch (error) {
+                console.error('Error al eliminar:', error);
+                alert('Error al eliminar producto: ' + error.message);
+            }
+        });
+        
+        // Configurar botones para cerrar modal
+        document.querySelector('.modal__close').addEventListener('click', function() {
+            document.querySelector('.modal-container').classList.add('modal--close');
+        });
+        
+        document.querySelector('.button--secondary').addEventListener('click', function() {
+            document.querySelector('.modal-container').classList.add('modal--close');
+        });
+    });
     </script>
     
-    <script type="module" src="../controllers/producto_controller.js"></script>
-</body>
+  </body>
 </html>

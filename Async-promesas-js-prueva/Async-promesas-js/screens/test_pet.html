@@ -44,31 +44,27 @@
             <div class="alert" id="result" style="display: none;"></div>
             
             <form id="petForm" class="form">
-                <div class="grid-2-cols">
-                    <div class="form-group">
-                        <label class="form-label" for="nombre">Nombre <span class="text-danger">*</span></label>
-                        <input type="text" id="nombre" class="form-control" required>
-                    </div>
-                    
-                    <div class="form-group">
-                        <label class="form-label" for="raza">Raza</label>
-                        <input type="text" id="raza" class="form-control">
-                    </div>
+                <div class="form-group">
+                    <label class="form-label" for="nombre">Nombre <span class="text-danger">*</span></label>
+                    <input type="text" id="nombre" class="form-control" required>
                 </div>
                 
-                <div class="grid-2-cols">
-                    <div class="form-group">
-                        <label class="form-label" for="edad">Edad (años)</label>
-                        <input type="number" id="edad" class="form-control" min="0" max="30">
-                    </div>
-                    
-                    <div class="form-group">
-                        <label class="form-label" for="dueno">Dueño <span class="text-danger">*</span></label>
-                        <select id="dueno" class="form-control" required>
-                            <option value="">Seleccionar dueño</option>
-                            <!-- Opciones se cargarán dinámicamente -->
-                        </select>
-                    </div>
+                <div class="form-group">
+                    <label class="form-label" for="raza">Raza</label>
+                    <input type="text" id="raza" class="form-control">
+                </div>
+                
+                <div class="form-group">
+                    <label class="form-label" for="edad">Edad</label>
+                    <input type="number" id="edad" class="form-control" min="0">
+                </div>
+                
+                <div class="form-group">
+                    <label class="form-label" for="dueno">Dueño <span class="text-danger">*</span></label>
+                    <select id="dueno" class="form-control" required>
+                        <option value="">Seleccionar dueño</option>
+                        <!-- Opciones se cargarán dinámicamente -->
+                    </select>
                 </div>
                 
                 <div class="form-group text-center mt-3">
@@ -79,22 +75,14 @@
     </main>
     
     <script>
-        // Cargar clientes
-        fetch('http://localhost/api/conexciion1.php')
-          .then(res => res.json())
-          .then(clientes => {
-            const select = document.getElementById('dueno');
-            clientes.forEach(c => {
-              const option = document.createElement('option');
-              option.value = c.id;
-              option.textContent = c.nombre;
-              select.appendChild(option);
-            });
-          })
-          .catch(err => {
-            mostrarMensaje('Error cargando clientes: ' + err.message, true);
-          });
-    
+        const SUPABASE_URL = 'https://fqxjajxbjlnyrdvdofrq.supabase.co';
+        const SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImZxeGphanhiamxueXJkdmRvZnJxIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NDcwNDg1OTUsImV4cCI6MjA2MjYyNDU5NX0.tmC35WfvvFGwfYaOvBDLLmKVmGtq9cU-ojk2H4EHyV8';
+        const HEADER = {
+            apikey: SUPABASE_KEY,
+            Authorization: `Bearer ${SUPABASE_KEY}`,
+            'Content-Type': 'application/json'
+        };
+        
         // Función para mostrar mensajes
         function mostrarMensaje(mensaje, esError = false) {
             const resultElement = document.getElementById('result');
@@ -110,59 +98,119 @@
                 }, 1500);
             }
         }
-    
-        // Manejar envío
-        document.getElementById('petForm').addEventListener('submit', function(e) {
-          e.preventDefault();
-          
-          const data = {
-            id_pet: 'pet_' + Math.random().toString(36).substring(2, 15),
-            nombre: document.getElementById('nombre').value,
-            raza: document.getElementById('raza').value,
-            edad: document.getElementById('edad').value || null,
-            id: document.getElementById('dueno').value
-          };
-          
-          fetch('http://localhost/api/mascotas.php', {
-            method: 'POST',
-            headers: {
-              'Content-Type': 'application/json'
-            },
-            body: JSON.stringify(data)
-          })
-          .then(res => {
-            console.log("Respuesta del servidor:", res.status, res.statusText);
-            return res.text().then(text => {
-              try {
-                return JSON.parse(text);
-              } catch (e) {
-                console.error("Error al parsear respuesta:", text);
-                throw new Error("Respuesta del servidor no válida: " + text);
-              }
-            });
-          })
-          .then(result => {
-            console.log("Procesado con éxito:", result);
-            mostrarMensaje('Mascota registrada con éxito');
-          })
-          .catch(err => {
-            console.error("Error completo:", err);
-            mostrarMensaje('Error: ' + err.message, true);
-          });
+        
+        // Cargar clientes cuando se carga la página
+        document.addEventListener('DOMContentLoaded', async function() {
+            try {
+                // Cargar lista de clientes para el selector
+                const response = await fetch(`${SUPABASE_URL}/rest/v1/cliente?select=id,nombre`, {
+                    headers: HEADER
+                });
+                
+                if (!response.ok) {
+                    throw new Error(`Error HTTP: ${response.status}`);
+                }
+                
+                const clientes = await response.json();
+                console.log("Clientes cargados:", clientes);
+                
+                // Rellenar el selector de dueños
+                const duenoSelect = document.getElementById('dueno');
+                
+                clientes.forEach(cliente => {
+                    const option = document.createElement('option');
+                    option.value = cliente.id;
+                    option.textContent = cliente.nombre;
+                    duenoSelect.appendChild(option);
+                });
+                
+            } catch (error) {
+                console.error("Error cargando clientes:", error);
+                mostrarMensaje("Error cargando lista de clientes: " + error.message, true);
+            }
+        });
+        
+        // Manejar envío del formulario
+        document.getElementById('petForm').addEventListener('submit', async function(e) {
+            e.preventDefault();
+            
+            try {
+                // Generar UUID para id_pet
+                const id_pet = crypto.randomUUID(); // Genera un UUID v4 usando la API nativa
+                
+                // Crear objeto mascota con los datos del formulario
+                const mascota = {
+                    id_pet: id_pet, // Añadimos el id_pet generado
+                    nombre: document.getElementById('nombre').value,
+                    raza: document.getElementById('raza').value || null,
+                    edad: parseInt(document.getElementById('edad').value) || 0,
+                    id: document.getElementById('dueno').value // ID del cliente (dueño)
+                };
+                
+                console.log("Datos de mascota a registrar:", mascota);
+                
+                // Validaciones
+                if (!mascota.nombre) {
+                    throw new Error("El nombre de la mascota es obligatorio");
+                }
+                
+                if (!mascota.id) {
+                    throw new Error("Debe seleccionar un dueño");
+                }
+                
+                // Mostrar mensaje de procesamiento
+                mostrarMensaje("Registrando mascota...");
+                
+                // Enviar a Supabase
+                const response = await fetch(`${SUPABASE_URL}/rest/v1/pet`, {
+                    method: 'POST',
+                    headers: HEADER,
+                    body: JSON.stringify(mascota)
+                });
+                
+                console.log("Respuesta:", response.status, response.statusText);
+                
+                if (!response.ok) {
+                    const errorText = await response.text();
+                    throw new Error(`Error ${response.status}: ${errorText}`);
+                }
+                
+                console.log("Mascota registrada exitosamente");
+                mostrarMensaje("Mascota registrada con éxito");
+                
+            } catch (error) {
+                console.error("Error al registrar mascota:", error);
+                mostrarMensaje("Error: " + error.message, true);
+            }
         });
     </script>
     
     <style>
-        .grid-2-cols {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: var(--spacing-md);
+        .form-group {
+            margin-bottom: 1rem;
         }
         
-        @media (max-width: 768px) {
-            .grid-2-cols {
-                grid-template-columns: 1fr;
-            }
+        .form-label {
+            display: block;
+            margin-bottom: 0.5rem;
+            font-weight: 500;
+        }
+        
+        .form-control {
+            display: block;
+            width: 100%;
+            padding: 0.5rem;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            font-size: 1rem;
+        }
+        
+        .text-danger {
+            color: red;
+        }
+        
+        .mt-3 {
+            margin-top: 1.5rem;
         }
     </style>
 </body>

@@ -9,11 +9,71 @@
       href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700&display=swap"
       rel="stylesheet"
     />
+    <link href="https://fonts.googleapis.com/css2?family=Pacifico&display=swap" rel="stylesheet" />
     <link rel="stylesheet" href="../assets/css/base/base.css" />
-    <link rel="stylesheet" href="../assets/css/componentes/header.css" />
-    <link rel="stylesheet" href="../assets/css/dashboard.css" />
-    <link rel="stylesheet" href="../assets/css/componentes/card.css" />
-    <!-- ELIMINAMOS LA REFERENCIA A CHART.JS -->
+    <link rel="stylesheet" href="../assets/css/unified-style.css" />
+    <style>
+      .stats-container {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+        gap: 20px;
+        margin-bottom: 30px;
+      }
+      
+      .stat-card {
+        background-color: #fff;
+        border-radius: 8px;
+        box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        padding: 20px;
+        text-align: center;
+      }
+      
+      .stat-value {
+        font-size: 2.5rem;
+        font-weight: bold;
+        color: #2a7ae4;
+        margin: 10px 0;
+      }
+      
+      .stat-label {
+        font-size: 1rem;
+        color: #666;
+        margin: 0;
+      }
+      
+      .recent-container {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 20px;
+      }
+      
+      .recent-section {
+        background-color: #fff;
+        border-radius: 8px;
+        box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        padding: 20px;
+      }
+      
+      .recent-list {
+        list-style: none;
+        padding: 0;
+      }
+      
+      .recent-item {
+        border-bottom: 1px solid #eaeaea;
+        padding: 10px 0;
+      }
+      
+      .recent-item:last-child {
+        border-bottom: none;
+      }
+      
+      .error-message {
+        color: red;
+        font-size: 0.85rem;
+        margin-top: 5px;
+      }
+    </style>
   </head>
   <body>
     <header class="header container">
@@ -32,269 +92,249 @@
       </nav>
     </header>
 
-    <main class="dashboard-container">
-      <h1 class="dashboard-title">Panel de Control</h1>
+    <main class="container">
+      <h2 class="mb-3">Dashboard</h2>
       
-      <!-- Tarjetas de estadísticas -->
-      <section class="stats-section">
+      <!-- Sección de estadísticas -->
+      <div class="stats-container">
         <div class="stat-card" data-cliente-count>
-          <div class="stat-icon">👥</div>
-          <div class="stat-info">
-            <h3>Clientes</h3>
-            <p class="stat-number">0</p>
-          </div>
-        </div>
-
-        <div class="stat-card" data-producto-count>
-          <div class="stat-icon">🛒</div>
-          <div class="stat-info">
-            <h3>Productos</h3>
-            <p class="stat-number">0</p>
-          </div>
-        </div>
-
-        <div class="stat-card" data-pet-count>
-          <div class="stat-icon">🐾</div>
-          <div class="stat-info">
-            <h3>Mascotas</h3>
-            <p class="stat-number">0</p>
-          </div>
-        </div>
-      </section>
-      
-      <!-- SECCIÓN REEMPLAZADA: Ahora usamos listas en lugar de gráficos -->
-      <section class="data-lists-section">
-        <div class="dashboard-section">
-          <div class="section-header">
-            <h2>Clientes Recientes</h2>
-          </div>
-          <div class="section-body">
-            <ul class="data-list" id="clientesList">
-              <li class="data-list-item">Cargando clientes...</li>
-            </ul>
-          </div>
+          <p class="stat-label">Total Clientes</p>
+          <p class="stat-value" id="totalClientes">...</p>
+          <div class="error-message" style="display: none"></div>
         </div>
         
-        <div class="dashboard-section">
-          <div class="section-header">
-            <h2>Mascotas Recientes</h2>
-          </div>
-          <div class="section-body">
-            <ul class="data-list" id="petsList">
-              <li class="data-list-item">Cargando mascotas...</li>
-            </ul>
-          </div>
+        <div class="stat-card" data-pet-count>
+          <p class="stat-label">Total Mascotas</p>
+          <p class="stat-value" id="totalMascotas">...</p>
+          <div class="error-message" style="display: none"></div>
         </div>
-      </section>
+        
+        <div class="stat-card" data-producto-count>
+          <p class="stat-label">Total Productos</p>
+          <p class="stat-value" id="totalProductos">...</p>
+          <div class="error-message" style="display: none"></div>
+        </div>
+        
+        <div class="stat-card">
+          <p class="stat-label">Edad Promedio Mascotas</p>
+          <p class="stat-value" id="edadPromedio">...</p>
+          <div class="error-message" style="display: none"></div>
+        </div>
+      </div>
       
-      <!-- Actividades Recientes -->
-      <section class="dashboard-section activity-section">
-        <div class="section-header">
-          <h2>Actividades Recientes</h2>
+      <!-- Secciones de registros recientes -->
+      <div class="recent-container">
+        <div class="recent-section">
+          <h3>Clientes Recientes</h3>
+          <ul class="recent-list" id="clientesRecientes">
+            <li class="recent-item">Cargando...</li>
+          </ul>
         </div>
-        <div class="section-body">
-          <div class="activity-list" data-activity-list>
-            <!-- Las actividades se cargarán dinámicamente -->
-            <div class="activity-item">
-              <div class="activity-icon">👤</div>
-              <p class="activity-text">
-                Se registró cliente <strong>Juan Pérez</strong>
-              </p>
-              <span class="activity-time">hace 10 min</span>
-            </div>
-            <div class="activity-item">
-              <div class="activity-icon">🐾</div>
-              <p class="activity-text">
-                Se agregó mascota <strong>Rocky</strong>
-              </p>
-              <span class="activity-time">hace 25 min</span>
-            </div>
-            <div class="activity-item">
-              <div class="activity-icon">🛒</div>
-              <p class="activity-text">
-                Se actualizó producto <strong>Comida Premium</strong>
-              </p>
-              <span class="activity-time">hace 1 hora</span>
-            </div>
-          </div>
+        
+        <div class="recent-section">
+          <h3>Mascotas Recientes</h3>
+          <ul class="recent-list" id="mascotasRecientes">
+            <li class="recent-item">Cargando...</li>
+          </ul>
         </div>
-      </section>
+      </div>
     </main>
-
-    <script>
-      // Script simplificado sin gráficos
-      (function() {
-          console.log('🚨 Script de dashboard simplificado iniciado');
-          
-          // Función para actualizar un contador
-          function actualizarContador(url, selector) {
-              console.log(`📊 Consultando ${url} para ${selector}...`);
-              
-              const elemento = document.querySelector(selector);
-              if (!elemento) {
-                  console.error(`❌ No se encontró el elemento: ${selector}`);
-                  return;
-              }
-              
-              fetch(url)
-                  .then(response => {
-                      if (!response.ok) {
-                          console.error(`❌ Error HTTP: ${response.status}`);
-                          return [];
-                      }
-                      return response.json();
-                  })
-                  .then(data => {
-                      if (Array.isArray(data)) {
-                          elemento.textContent = data.length;
-                          console.log(`✅ Contador actualizado: ${data.length}`);
-                          
-                          // Si la URL corresponde a clientes o mascotas, también actualizamos las listas
-                          if (url.includes('conexciion1.php')) {
-                              actualizarListaClientes(data);
-                          } else if (url.includes('mascotas.php')) {
-                              actualizarListaMascotas(data);
-                          }
-                      } else {
-                          console.error('❌ Los datos recibidos no son un array');
-                          elemento.textContent = '?';
-                      }
-                  })
-                  .catch(error => {
-                      console.error(`❌ Error:`, error);
-                      elemento.textContent = 'Error';
-                  });
-          }
-          
-          // Función para actualizar la lista de clientes
-          function actualizarListaClientes(clientes) {
-              const listaClientes = document.getElementById('clientesList');
-              if (!listaClientes) return;
-              
-              // Si no hay clientes
-              if (!clientes.length) {
-                  listaClientes.innerHTML = '<li class="data-list-item empty">No hay clientes registrados</li>';
-                  return;
-              }
-              
-              // Mostrar hasta 5 clientes recientes
-              const clientesRecientes = clientes.slice(0, 5);
-              
-              listaClientes.innerHTML = clientesRecientes.map(cliente => 
-                  `<li class="data-list-item">
-                      <span class="list-item-icon">👥</span>
-                      <span class="list-item-name">${cliente.nombre || 'Sin nombre'}</span>
-                      <span class="list-item-detail">${cliente.email || ''}</span>
-                  </li>`
-              ).join('');
-          }
-          
-          // Función para actualizar la lista de mascotas
-          function actualizarListaMascotas(mascotas) {
-              const listaMascotas = document.getElementById('petsList');
-              if (!listaMascotas) return;
-              
-              // Si no hay mascotas
-              if (!mascotas.length) {
-                  listaMascotas.innerHTML = '<li class="data-list-item empty">No hay mascotas registradas</li>';
-                  return;
-              }
-              
-              // Mostrar hasta 5 mascotas recientes
-              const mascotasRecientes = mascotas.slice(0, 5);
-              
-              listaMascotas.innerHTML = mascotasRecientes.map(mascota => 
-                  `<li class="data-list-item">
-                      <span class="list-item-icon">🐾</span>
-                      <span class="list-item-name">${mascota.nombre || 'Sin nombre'}</span>
-                      <span class="list-item-detail">${mascota.raza || 'Sin raza'}</span>
-                  </li>`
-              ).join('');
-          }
-          
-          // Iniciar cuando el DOM esté listo
-          document.addEventListener('DOMContentLoaded', function() {
-              console.log('🔄 DOM cargado - Iniciando carga de datos');
-              
-              // Cargar contadores y listas
-              actualizarContador('http://localhost/api/conexciion1.php', 
-                                '[data-cliente-count] .stat-number');
-              
-              actualizarContador('http://localhost/api/productos.php', 
-                                '[data-producto-count] .stat-number');
-              
-              actualizarContador('http://localhost/api/mascotas.php', 
-                                '[data-pet-count] .stat-number');
-          });
-      })();
-    </script>
     
-    <style>
-      /* Estilos para las listas de datos */
-      .data-lists-section {
-        display: grid;
-        grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
-        gap: 1.5rem;
-        margin-bottom: 2.5rem;
-      }
-      
-      @media (max-width: 900px) {
-        .data-lists-section {
-          grid-template-columns: 1fr;
+    <script>
+    document.addEventListener('DOMContentLoaded', function() {
+        const SUPABASE_URL = 'https://fqxjajxbjlnyrdvdofrq.supabase.co';
+        const SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImZxeGphanhiamxueXJkdmRvZnJxIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NDcwNDg1OTUsImV4cCI6MjA2MjYyNDU5NX0.tmC35WfvvFGwfYaOvBDLLmKVmGtq9cU-ojk2H4EHyV8';
+        const HEADER = {
+            apikey: SUPABASE_KEY,
+            Authorization: `Bearer ${SUPABASE_KEY}`,
+            'Content-Type': 'application/json'
+        };
+        
+        // Iniciar todas las funciones de carga
+        cargarConteoClientes();
+        cargarConteoMascotas();
+        cargarConteoProductos();
+        cargarEdadPromedio();
+        cargarClientesRecientes();
+        cargarMascotasRecientes();
+        
+        // Función para cargar conteo de clientes
+        async function cargarConteoClientes() {
+            try {
+                console.log("Cargando conteo de clientes...");
+                const response = await fetch(`${SUPABASE_URL}/rest/v1/cliente?select=count`, {
+                    headers: HEADER
+                });
+                
+                if (!response.ok) {
+                    throw new Error(`Error: ${response.status}`);
+                }
+                
+                const data = await response.json();
+                const totalClientes = data[0]?.count || 0;
+                
+                document.getElementById('totalClientes').textContent = totalClientes;
+                console.log("Conteo de clientes cargado:", totalClientes);
+            } catch (error) {
+                console.error("Error cargando conteo de clientes:", error);
+                document.getElementById('totalClientes').textContent = "Error";
+            }
         }
-      }
-      
-      .data-list {
-        list-style: none;
-        padding: 0;
-        margin: 0;
-      }
-      
-      .data-list-item {
-        display: flex;
-        align-items: center;
-        padding: 1rem;
-        border-bottom: 1px solid #f0f0f0;
-      }
-      
-      .data-list-item:last-child {
-        border-bottom: none;
-      }
-      
-      .data-list-item:hover {
-        background-color: #f8f9fc;
-      }
-      
-      .data-list-item.empty {
-        color: #858796;
-        font-style: italic;
-        justify-content: center;
-        padding: 2rem;
-      }
-      
-      .list-item-icon {
-        font-size: 1.25rem;
-        margin-right: 1rem;
-      }
-      
-      .list-item-name {
-        font-weight: 600;
-        color: #4e73df;
-        flex: 1;
-      }
-      
-      .list-item-detail {
-        color: #858796;
-        font-size: 0.9rem;
-      }
-      
-      /* Estilizar el título del dashboard */
-      .dashboard-title {
-        margin: 0 0 1.5rem 0;
-        color: #5a5c69;
-        font-size: 1.75rem;
-        font-weight: 500;
-      }
-    </style>
+        
+        // Función para cargar conteo de mascotas
+        async function cargarConteoMascotas() {
+            try {
+                console.log("Cargando conteo de mascotas...");
+                const response = await fetch(`${SUPABASE_URL}/rest/v1/pet?select=count`, {
+                    headers: HEADER
+                });
+                
+                if (!response.ok) {
+                    throw new Error(`Error: ${response.status}`);
+                }
+                
+                const data = await response.json();
+                const totalMascotas = data[0]?.count || 0;
+                
+                document.getElementById('totalMascotas').textContent = totalMascotas;
+                console.log("Conteo de mascotas cargado:", totalMascotas);
+            } catch (error) {
+                console.error("Error cargando conteo de mascotas:", error);
+                document.getElementById('totalMascotas').textContent = "Error";
+            }
+        }
+        
+        // Función para cargar conteo de productos
+        async function cargarConteoProductos() {
+            try {
+                console.log("Cargando conteo de productos...");
+                const response = await fetch(`${SUPABASE_URL}/rest/v1/producto?select=count`, {
+                    headers: HEADER
+                });
+                
+                if (!response.ok) {
+                    throw new Error(`Error: ${response.status}`);
+                }
+                
+                const data = await response.json();
+                const totalProductos = data[0]?.count || 0;
+                
+                document.getElementById('totalProductos').textContent = totalProductos;
+                console.log("Conteo de productos cargado:", totalProductos);
+            } catch (error) {
+                console.error("Error cargando conteo de productos:", error);
+                document.getElementById('totalProductos').textContent = "Error";
+            }
+        }
+        
+        // Función para cargar edad promedio de mascotas
+        async function cargarEdadPromedio() {
+            try {
+                console.log("Calculando edad promedio...");
+                // Primero obtenemos todas las mascotas
+                const response = await fetch(`${SUPABASE_URL}/rest/v1/pet?select=edad`, {
+                    headers: HEADER
+                });
+                
+                if (!response.ok) {
+                    throw new Error(`Error: ${response.status}`);
+                }
+                
+                const mascotas = await response.json();
+                
+                // Calculamos el promedio (excluyendo valores nulos o 0)
+                const edadesValidas = mascotas
+                    .map(m => m.edad)
+                    .filter(edad => edad !== null && edad !== undefined && edad > 0);
+                
+                const promedio = edadesValidas.length > 0 
+                    ? edadesValidas.reduce((sum, edad) => sum + edad, 0) / edadesValidas.length 
+                    : 0;
+                
+                document.getElementById('edadPromedio').textContent = promedio.toFixed(1);
+                console.log("Promedio de edad calculado:", promedio);
+            } catch (error) {
+                console.error("Error calculando edad promedio:", error);
+                document.getElementById('edadPromedio').textContent = "Error";
+            }
+        }
+        
+        // Función para cargar clientes recientes
+        async function cargarClientesRecientes() {
+            try {
+                console.log("Cargando clientes recientes...");
+                const response = await fetch(`${SUPABASE_URL}/rest/v1/cliente?select=*&order=id.desc&limit=5`, {
+                    headers: HEADER
+                });
+                
+                if (!response.ok) {
+                    throw new Error(`Error: ${response.status}`);
+                }
+                
+                const clientes = await response.json();
+                const clientesRecientes = document.getElementById('clientesRecientes');
+                clientesRecientes.innerHTML = '';
+                
+                if (clientes.length === 0) {
+                    clientesRecientes.innerHTML = '<li class="recent-item">No hay clientes registrados</li>';
+                } else {
+                    clientes.forEach(cliente => {
+                        const listItem = document.createElement('li');
+                        listItem.className = 'recent-item';
+                        listItem.innerHTML = `
+                            <strong>${cliente.nombre || 'Sin nombre'}</strong><br>
+                            <small>${cliente.emal || 'Sin email'}</small>
+                        `;
+                        clientesRecientes.appendChild(listItem);
+                    });
+                }
+                
+                console.log("Clientes recientes cargados:", clientes.length);
+            } catch (error) {
+                console.error("Error cargando clientes recientes:", error);
+                document.getElementById('clientesRecientes').innerHTML = '<li class="recent-item">Error cargando clientes</li>';
+            }
+        }
+        
+        // Función para cargar mascotas recientes
+        async function cargarMascotasRecientes() {
+            try {
+                console.log("Cargando mascotas recientes...");
+                const response = await fetch(`${SUPABASE_URL}/rest/v1/pet?select=*,cliente(nombre)&order=id_pet.desc&limit=5`, {
+                    headers: HEADER
+                });
+                
+                if (!response.ok) {
+                    throw new Error(`Error: ${response.status}`);
+                }
+                
+                const mascotas = await response.json();
+                const mascotasRecientes = document.getElementById('mascotasRecientes');
+                mascotasRecientes.innerHTML = '';
+                
+                if (mascotas.length === 0) {
+                    mascotasRecientes.innerHTML = '<li class="recent-item">No hay mascotas registradas</li>';
+                } else {
+                    mascotas.forEach(mascota => {
+                        const nombreDueno = mascota.cliente ? mascota.cliente.nombre : 'Sin dueño';
+                        const listItem = document.createElement('li');
+                        listItem.className = 'recent-item';
+                        listItem.innerHTML = `
+                            <strong>${mascota.nombre || 'Sin nombre'}</strong><br>
+                            <small>Raza: ${mascota.raza || 'No especificada'} - Edad: ${mascota.edad || '?'} años</small><br>
+                            <small>Dueño: ${nombreDueno}</small>
+                        `;
+                        mascotasRecientes.appendChild(listItem);
+                    });
+                }
+                
+                console.log("Mascotas recientes cargadas:", mascotas.length);
+            } catch (error) {
+                console.error("Error cargando mascotas recientes:", error);
+                document.getElementById('mascotasRecientes').innerHTML = '<li class="recent-item">Error cargando mascotas</li>';
+            }
+        }
+    });
+    </script>
   </body>
 </html>

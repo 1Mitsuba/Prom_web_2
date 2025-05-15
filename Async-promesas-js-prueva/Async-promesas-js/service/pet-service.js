@@ -1,151 +1,145 @@
+// Importar dependencias si es necesario
 import { v4 as uuidv4 } from 'https://jspm.dev/uuid';
 
-// Cambia esta URL para usar el nuevo archivo PHP
-const API_BASE_URL = 'http://localhost/api/mascotas.php';
-
-// Listar todas las mascotas
-const listaPets = () => {
-  console.log("Solicitando lista de mascotas");
-  return fetch(API_BASE_URL)
-    .then(respuesta => {
-      console.log("Respuesta de API mascotas:", respuesta.status);
-      if(!respuesta.ok) {
-        throw new Error(`Error al listar mascotas: ${respuesta.status}`);
-      }
-      return respuesta.json();
-    })
-    .then(data => {
-      console.log("Datos de mascotas recibidos:", data.length || 'sin datos');
-      // Asegurar que sea un array
-      return Array.isArray(data) ? data : [];
-    })
-    .catch(error => {
-      console.error("Error en listaPets:", error);
-      // Devolver array vacío para evitar errores en código que consume este servicio
-      return [];
-    });
+// Configuración de Supabase
+const SUPABASE_URL = 'https://fqxjajxbjlnyrdvdofrq.supabase.co';
+const SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImZxeGphanhiamxueXJkdmRvZnJxIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NDcwNDg1OTUsImV4cCI6MjA2MjYyNDU5NX0.tmC35WfvvFGwfYaOvBDLLmKVmGtq9cU-ojk2H4EHyV8';
+const API_URL = `${SUPABASE_URL}/rest/v1/pet`;
+const HEADER = {
+    apikey: SUPABASE_KEY,
+    Authorization: `Bearer ${SUPABASE_KEY}`,
+    'Content-Type': 'application/json'
 };
 
-// Crear nueva mascota - CORREGIDO
-const crearPet = (nombre, raza, edad, cliente_id) => {
-  // Generar ID único para la mascota
-  const id_pet = uuidv4();
-  
-  // Datos a enviar
-  const data = {
-    id_pet: id_pet,
-    nombre: nombre,
-    raza: raza,
-    edad: edad,
-    id: cliente_id // IMPORTANTE: El campo en la BD es 'id'
-  };
-  
-  console.log("Enviando datos:", data);
-  
-  // IMPORTANTE: Esto faltaba - el return de la promesa
-  return fetch(API_BASE_URL, {
-    method: 'POST',
-    headers: {
-      'Content-Type': 'application/json'
-    },
-    body: JSON.stringify(data)
-  })
-  .then(response => {
-    console.log("Respuesta:", response.status);
-    if (!response.ok) {
-      return response.text().then(text => {
-        throw new Error(`Error ${response.status}: ${text}`);
-      });
-    }
-    return response.json();
-  });
-};
-
-// Eliminar mascota
-const eliminarPet = (id) => {
-  return fetch(`${API_BASE_URL}?id_pet=${id}`, {
-    method: 'DELETE'
-  })
-  .then(response => {
-    if (!response.ok) throw new Error('Error al eliminar mascota');
-    return response.json();
-  });
-};
-
-// Obtener detalle de mascota
-const detallePet = (id) => {
-  console.log(`Solicitando detalle de mascota con ID: ${id}`);
-  return fetch(`${API_BASE_URL}?id_pet=${id}`)
-    .then(response => {
-      console.log(`Respuesta del servidor para mascota ${id}:`, response.status);
-      if (!response.ok) {
-        return response.text().then(text => {
-          throw new Error(`Error ${response.status}: ${text}`);
+// Función para listar mascotas
+const listarMascotas = async () => {
+    try {
+        const response = await fetch(`${API_URL}?select=*`, {
+            headers: HEADER
         });
-      }
-      return response.json();
-    })
-    .then(data => {
-      console.log(`Datos recibidos para mascota ${id}:`, data);
-      return data;
-    })
-    .catch(error => {
-      console.error(`Error en detallePet(${id}):`, error);
-      throw error;
-    });
-};
-
-// Obtener mascotas por cliente
-const petsPorCliente = (cliente_id) => {
-  return fetch(`${API_BASE_URL}?id=${cliente_id}`)
-  .then(response => {
-    if (!response.ok) throw new Error('Error al obtener mascotas por cliente');
-    return response.json();
-  });
-};
-
-// Actualizar mascota
-const actualizarPet = (id_pet, nombre, raza, edad, cliente_id) => {
-  console.log("Actualizando mascota:", { id_pet, nombre, raza, edad, cliente_id });
-  
-  // Datos a enviar
-  const data = {
-    id_pet: id_pet,
-    nombre: nombre,
-    raza: raza,
-    edad: edad,
-    id: cliente_id // IMPORTANTE: Es 'id', no 'cliente_id'
-  };
-  
-  // Enviar petición PUT
-  return fetch(API_BASE_URL, {
-    method: 'PUT',
-    headers: {
-      'Content-Type': 'application/json'
-    },
-    body: JSON.stringify(data)
-  })
-  .then(response => {
-    console.log("Respuesta:", response.status);
-    if (!response.ok) {
-      return response.text().then(text => {
-        throw new Error(`Error ${response.status}: ${text}`);
-      });
+        
+        console.log('Respuesta listarMascotas:', response.status);
+        
+        if (!response.ok) {
+            const errorText = await response.text();
+            throw new Error(errorText || `Error ${response.status} al listar mascotas`);
+        }
+        
+        return await response.json();
+    } catch (error) {
+        console.error('Error en listarMascotas:', error);
+        throw error;
     }
-    return response.json();
-  })
-  .catch(error => {
-    console.error("Error en actualizarPet:", error);
-    throw error;
-  });
 };
 
-// Exportar servicios
+// Función para obtener detalle de una mascota
+const detalleMascota = async (id) => {
+    try {
+        const response = await fetch(`${API_URL}?id_pet=eq.${id}&select=*`, {
+            headers: HEADER
+        });
+        
+        if (!response.ok) {
+            const errorText = await response.text();
+            throw new Error(errorText || `Error ${response.status} al obtener detalle de mascota`);
+        }
+        
+        const datos = await response.json();
+        return datos[0]; // Devolver solo el primer registro
+    } catch (error) {
+        console.error('Error en detalleMascota:', error);
+        throw error;
+    }
+};
+
+// Función para crear mascota
+const crearMascota = async (nombre, raza, edad, id_cliente) => {
+    try {
+        // Usar la biblioteca UUID importada
+        const id_pet = uuidv4(); // Usamos la función importada
+        
+        const mascota = {
+            id_pet: id_pet,
+            nombre,
+            raza,
+            edad: parseInt(edad) || 0,
+            id: id_cliente // Relación con el cliente
+        };
+        
+        const response = await fetch(API_URL, {
+            method: 'POST',
+            headers: HEADER,
+            body: JSON.stringify(mascota)
+        });
+        
+        if (!response.ok) {
+            const errorText = await response.text();
+            throw new Error(errorText || `Error ${response.status} al crear mascota`);
+        }
+        
+        return mascota;
+    } catch (error) {
+        console.error('Error en crearMascota:', error);
+        throw error;
+    }
+};
+
+// Función para actualizar mascota
+const actualizarMascota = async (id, nombre, raza, edad, id_cliente) => {
+    try {
+        const mascota = {
+            nombre,
+            raza,
+            edad: parseInt(edad) || 0
+        };
+        
+        // Solo incluir id_cliente si se proporciona
+        if (id_cliente) {
+            mascota.id = id_cliente;
+        }
+        
+        const response = await fetch(`${API_URL}?id_pet=eq.${id}`, {
+            method: 'PATCH',
+            headers: HEADER,
+            body: JSON.stringify(mascota)
+        });
+        
+        if (!response.ok) {
+            const errorText = await response.text();
+            throw new Error(errorText || `Error ${response.status} al actualizar mascota`);
+        }
+        
+        return true;
+    } catch (error) {
+        console.error('Error en actualizarMascota:', error);
+        throw error;
+    }
+};
+
+// Función para eliminar mascota
+const eliminarMascota = async (id) => {
+    try {
+        const response = await fetch(`${API_URL}?id_pet=eq.${id}`, {
+            method: 'DELETE',
+            headers: HEADER
+        });
+        
+        if (!response.ok) {
+            const errorText = await response.text();
+            throw new Error(errorText || `Error ${response.status} al eliminar mascota`);
+        }
+        
+        return true;
+    } catch (error) {
+        console.error('Error en eliminarMascota:', error);
+        throw error;
+    }
+};
+
 export const petService = {
-  listaPets,
-  crearPet,
-  eliminarPet,
-  detallePet,
-  petsPorCliente,
-  actualizarPet
+    listarMascotas,
+    detalleMascota,
+    crearMascota,
+    actualizarMascota,
+    eliminarMascota
 };

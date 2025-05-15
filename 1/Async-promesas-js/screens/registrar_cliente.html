@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Registrar Cliente | Doguito Pet Store</title>
+    <link rel="icon" href="../assets/img/doguitoadm.svg" type="image/x-icon" />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700&display=swap"
+      rel="stylesheet"
+    />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Pacifico&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="../assets/css/unified-style.css" />
+</head>
+<body>
+    <header class="header">
+      <div class="container flex flex--between">
+        <div class="flex flex--center">
+          <img
+            src="../assets/img/doguitoadm.svg"
+            alt="Logotipo Doguito"
+            class="header__logo"
+          />
+          <h1 class="ml-2" style="font-family: var(--font-accent); font-size: var(--text-xl); margin-left: 10px;">Doguito Petshop</h1>
+        </div>
+        <nav>
+          <ul class="header__list-nav">
+            <li class="header__link"><a href="./dashboard.html">Dashboard</a></li>
+            <li class="header__link"><a href="./lista_productos.html">Productos</a></li>
+            <li class="header__link"><a href="./lista_cliente.html">Clientes</a></li>
+            <li class="header__link"><a href="./lista_pets.html">Mascotas</a></li>
+          </ul>
+        </nav>
+      </div>
+    </header>
+
+    <main class="container">
+        <div class="card">
+            <h2 class="card__title">Registrar Cliente</h2>
+            
+            <div class="alert" id="result" style="display: none;"></div>
+            
+            <form id="clienteForm" class="form">
+                <div class="form-group">
+                    <label class="form-label" for="nombre">Nombre <span class="text-danger">*</span></label>
+                    <input type="text" id="nombre" class="form-control" required>
+                </div>
+                
+                <div class="form-group">
+                    <label class="form-label" for="email">Email <span class="text-danger">*</span></label>
+                    <input type="email" id="email" class="form-control" required>
+                </div>
+                
+                <div class="form-group text-center mt-3">
+                    <button type="submit" class="button">Registrar Cliente</button>
+                </div>
+            </form>
+        </div>
+    </main>
+    
+    <script type="module">
+        import { clientService } from "../service/client-service.js";
+        
+        // Función para mostrar mensajes
+        function mostrarMensaje(mensaje, esError = false) {
+            const resultElement = document.getElementById('result');
+            resultElement.textContent = mensaje;
+            resultElement.className = esError ? 
+                'alert alert--danger' : 
+                'alert alert--success';
+            resultElement.style.display = 'block';
+            
+            if (!esError) {
+                setTimeout(() => {
+                    window.location.href = './lista_cliente.html?created=true';
+                }, 1500);
+            }
+        }
+    
+        // Manejar envío
+        document.getElementById('clienteForm').addEventListener('submit', function(e) {
+          e.preventDefault();
+          
+          const nombre = document.getElementById('nombre').value;
+          const email = document.getElementById('email').value;
+          
+          clientService.crearCliente(nombre, email)
+            .then(() => {
+                mostrarMensaje('Cliente registrado con éxito');
+            })
+            .catch(error => {
+                mostrarMensaje('Error al registrar el cliente: ' + error.message, true);
+            });
+        });
+    </script>
+</body>
+</html>

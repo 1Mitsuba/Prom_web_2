@@ -62,39 +62,89 @@
     </main>
     
     <script type="module">
-        import { clientService } from "../service/client-service.js";
-        
-        // Función para mostrar mensajes
-        function mostrarMensaje(mensaje, esError = false) {
-            const resultElement = document.getElementById('result');
-            resultElement.textContent = mensaje;
-            resultElement.className = esError ? 
-                'alert alert--danger' : 
-                'alert alert--success';
-            resultElement.style.display = 'block';
-            
-            if (!esError) {
-                setTimeout(() => {
-                    window.location.href = './lista_cliente.html?created=true';
-                }, 1500);
-            }
-        }
+document.addEventListener('DOMContentLoaded', function() {
+    const SUPABASE_URL = 'https://fqxjajxbjlnyrdvdofrq.supabase.co';
+    const SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImZxeGphanhiamxueXJkdmRvZnJxIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NDcwNDg1OTUsImV4cCI6MjA2MjYyNDU5NX0.tmC35WfvvFGwfYaOvBDLLmKVmGtq9cU-ojk2H4EHyV8';
     
-        // Manejar envío
-        document.getElementById('clienteForm').addEventListener('submit', function(e) {
-          e.preventDefault();
-          
-          const nombre = document.getElementById('nombre').value;
-          const email = document.getElementById('email').value;
-          
-          clientService.crearCliente(nombre, email)
-            .then(() => {
-                mostrarMensaje('Cliente registrado con éxito');
-            })
-            .catch(error => {
-                mostrarMensaje('Error al registrar el cliente: ' + error.message, true);
+    // Función para mostrar mensajes
+    function mostrarMensaje(mensaje, esError = false) {
+        const resultElement = document.getElementById('result');
+        if (!resultElement) {
+            console.error('Elemento result no encontrado');
+            alert(mensaje);
+            return;
+        }
+        
+        resultElement.textContent = mensaje;
+        resultElement.className = esError ? 
+            'alert alert--danger' : 
+            'alert alert--success';
+        resultElement.style.display = 'block';
+        
+        if (!esError) {
+            setTimeout(() => {
+                window.location.href = './lista_cliente.html?created=true';
+            }, 1500);
+        }
+    }
+
+    // Manejador para el formulario
+    const form = document.getElementById('clienteForm');
+    if (!form) {
+        console.error('Formulario no encontrado');
+        return;
+    }
+    
+    form.addEventListener('submit', async function(e) {
+        e.preventDefault();
+        
+        const nombre = document.getElementById('nombre').value;
+        const email = document.getElementById('email').value;
+        
+        console.log("Intentando crear cliente:", { nombre, email });
+        
+        try {
+            // Generar ID único con formato UUID
+            const id = Math.floor(Date.now() + Math.random() * 1000);
+        
+            // Crear objeto cliente
+            const cliente = {
+                id,
+                nombre,
+                emal: email
+            };
+            
+            console.log("Cliente a crear:", cliente);
+            
+            // Enviar a Supabase
+            const response = await fetch(`${SUPABASE_URL}/rest/v1/cliente`, {
+                method: 'POST',
+                headers: {
+                    apikey: SUPABASE_KEY,
+                    Authorization: `Bearer ${SUPABASE_KEY}`,
+                    'Content-Type': 'application/json',
+                    'Prefer': 'return=representation'
+                },
+                body: JSON.stringify(cliente)
             });
-        });
-    </script>
+            
+            console.log("Respuesta:", response.status, response.statusText);
+            
+            if (!response.ok) {
+                const errorText = await response.text();
+                throw new Error(`${response.status}: ${errorText}`);
+            }
+            
+            const data = await response.json();
+            console.log("Cliente creado:", data);
+            
+            mostrarMensaje('Cliente registrado con éxito');
+        } catch (error) {
+            console.error("Error al crear cliente:", error);
+            mostrarMensaje(`Error al registrar cliente: ${error.message}`, true);
+        }
+    });
+});
+</script>
 </body>
 </html>
