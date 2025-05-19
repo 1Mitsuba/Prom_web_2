@@ -1,317 +1,83 @@
 <!DOCTYPE html>
 <html lang="es">
-  <head>
+<head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Mascotas | Doguito Pet Store</title>
+    <title>Lista de Mascotas | Doguito Petshop</title>
     <link rel="icon" href="../assets/img/doguitoadm.svg" type="image/x-icon" />
-    <link
-      href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700&display=swap"
-      rel="stylesheet"
-    />
-    <link
-      href="https://fonts.googleapis.com/css2?family=Pacifico&display=swap"
-      rel="stylesheet"
-    />
-    <!-- Carga primero los estilos base -->
-    <link rel="stylesheet" href="../assets/css/base/base.css" />
-    <!-- Luego carga el nuevo estilo unificado -->
+    <link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;500;600;700&family=Pacifico&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" />
     <link rel="stylesheet" href="../assets/css/unified-style.css" />
-  </head>
-  <body>
-    <header class="header">
-      <div class="container flex flex--between">
-        <div class="flex flex--center">
-          <img
-            src="../assets/img/doguitoadm.svg"
-            alt="Logotipo Doguito"
-            class="header__logo"
-          />
-          <h1 class="ml-2" style="font-family: var(--font-accent); font-size: var(--text-xl); margin-left: 10px;">Doguito Petshop</h1>
-        </div>
-        <nav>
-          <ul class="header__list-nav">
-            <li class="header__link"><a href="./dashboard.html">Dashboard</a></li>
-            <li class="header__link"><a href="./lista_productos.html">Productos</a></li>
-            <li class="header__link"><a href="./lista_cliente.html">Clientes</a></li>
-            <li class="header__link"><a href="./lista_pets.html" class="active">Mascotas</a></li>
-          </ul>
-        </nav>
-      </div>
-    </header>
-
-    <main class="container">
-      <div class="flex flex--between mb-3">
-        <h2>Lista de Mascotas</h2>
-        <a href="./test_pet.html" class="button">+ Nueva Mascota</a>
-      </div>
-      
-      <!-- Alerta de acción completada -->
-      <div class="alert alert--success" id="actionAlert" style="display: none;">
-        Acción completada con éxito
-      </div>
-      
-      <div class="card p-0">
-        <table class="table">
-          <thead>
-            <tr>
-              <th>Nombre</th>
-              <th>Raza</th>
-              <th>Edad</th>
-              <th>Dueño</th>
-              <th style="text-align: center; width: 120px;">Acciones</th>
-            </tr>
-          </thead>
-          <tbody data-table>
-            <!-- Las mascotas se insertarán aquí dinámicamente -->
-            <tr>
-              <td colspan="5" class="text-center">Cargando mascotas...</td>
-            </tr>
-          </tbody>
-        </table>
-      </div>
-      
-      <!-- Modal de confirmación para eliminar -->
-      <div class="modal-container modal--close">
-        <div class="modal">
-          <h3 class="modal__title">Confirmar eliminación</h3>
-          <button class="modal__close">&times;</button>
-          <p class="modal__text">¿Estás seguro de que deseas eliminar esta mascota?</p>
-          <div class="flex flex--center">
-            <button class="button button--danger modal__button--confirm mr-2">
-              Eliminar
-            </button>
-            <button class="button button--secondary">
-              Cancelar
-            </button>
-          </div>
-        </div>
-      </div>
-    </main>
-    
-    <script>
-      // Verificar si hay un parámetro de acción exitosa en la URL
-      document.addEventListener('DOMContentLoaded', function() {
-        // Verificar si hay parámetros en la URL
-        const urlParams = new URLSearchParams(window.location.search);
-        
-        if (urlParams.has('updated') || urlParams.has('created') || urlParams.has('deleted')) {
-          // Mostrar alerta
-          const alertElement = document.getElementById('actionAlert');
-          
-          if (urlParams.has('updated')) {
-            alertElement.textContent = 'Mascota actualizada con éxito';
-          } else if (urlParams.has('created')) {
-            alertElement.textContent = 'Mascota creada con éxito';
-          } else if (urlParams.has('deleted')) {
-            alertElement.textContent = 'Mascota eliminada con éxito';
-          }
-          
-          alertElement.style.display = 'block';
-          
-          // Ocultar después de 3 segundos
-          setTimeout(() => {
-            alertElement.style.display = 'none';
-          }, 3000);
-        }
-        
-        // Cargar las mascotas
-        cargarMascotas();
-      });
-      
-      // Función para cargar mascotas desde Supabase
-      async function cargarMascotas() {
-        const tbody = document.querySelector('[data-table]');
-        const SUPABASE_URL = 'https://fqxjajxbjlnyrdvdofrq.supabase.co';
-        const SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImZxeGphanhiamxueXJkdmRvZnJxIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NDcwNDg1OTUsImV4cCI6MjA2MjYyNDU5NX0.tmC35WfvvFGwfYaOvBDLLmKVmGtq9cU-ojk2H4EHyV8';
-        
-        try {
-          console.log('Intentando cargar mascotas...');
-          const response = await fetch(`${SUPABASE_URL}/rest/v1/pet?select=*,cliente(nombre)`, {
-            headers: {
-              apikey: SUPABASE_KEY,
-              Authorization: `Bearer ${SUPABASE_KEY}`,
-              'Content-Type': 'application/json'
-            }
-          });
-          
-          console.log('Respuesta:', response.status, response.statusText);
-          
-          if (!response.ok) {
-            throw new Error(`Error HTTP: ${response.status}`);
-          }
-          
-          const mascotas = await response.json();
-          console.log('Mascotas cargadas:', mascotas);
-          
-          // Limpiar tabla
-          tbody.innerHTML = '';
-          
-          // Mostrar mascotas
-          if (mascotas.length === 0) {
-            tbody.innerHTML = '<tr><td colspan="5" class="text-center">No hay mascotas registradas</td></tr>';
-          } else {
-            mascotas.forEach(mascota => {
-              const row = document.createElement('tr');
-              
-              // Obtener nombre del dueño si existe
-              const nombreDueno = mascota.cliente ? mascota.cliente.nombre : 'Sin dueño';
-              
-              row.innerHTML = `
-                <td>${mascota.nombre || 'Sin nombre'}</td>
-                <td>${mascota.raza || 'No especificada'}</td>
-                <td>${mascota.edad || '0'}</td>
-                <td>${nombreDueno}</td>
-                <td class="text-center">
-                  <div class="table-actions">
-                    <a href="../screens/editar_pet.html?id=${mascota.id_pet}" class="action-button edit">
-                      <span>✏️</span>
+</head>
+<body style="background: linear-gradient(135deg, #e6f3ff, #e6faff);">
+    <!-- Navbar mejorado -->
+    <nav class="navbar">
+        <div class="container">
+            <a href="./dashboard.html" class="navbar-brand">
+                <img src="../assets/img/doguitoadm.svg" alt="Doguito Petshop Logo">
+                <h1>Doguito Petshop</h1>
+            </a>
+            <ul class="navbar-nav">
+                <li class="nav-item">
+                    <a href="./dashboard.html" class="nav-link">
+                        <i class="fas fa-home"></i> Dashboard
                     </a>
-                    <button class="action-button delete" type="button" data-id="${mascota.id_pet}">
-                      <span>🗑️</span>
-                    </button>
-                  </div>
-                </td>
-              `;
-              tbody.appendChild(row);
-            });
-            
-            // Configurar botones de eliminar
-            document.querySelectorAll('.delete').forEach(btn => {
-              btn.addEventListener('click', function() {
-                const id = this.getAttribute('data-id');
-                const modal = document.querySelector(".modal-container");
-                modal.classList.remove("modal--close");
-                modal.dataset.targetId = id;
-              });
-            });
-            
-            // Configurar botón de confirmar eliminación
-            document.querySelector('.modal__button--confirm').addEventListener('click', async function() {
-              const id = document.querySelector('.modal-container').dataset.targetId;
-              if (!id) return;
-              
-              try {
-                const deleteResponse = await fetch(`${SUPABASE_URL}/rest/v1/pet?id_pet=eq.${id}`, {
-                  method: 'DELETE',
-                  headers: {
-                    apikey: SUPABASE_KEY,
-                    Authorization: `Bearer ${SUPABASE_KEY}`
-                  }
-                });
-                
-                if (!deleteResponse.ok) {
-                  throw new Error(`Error al eliminar: ${deleteResponse.status}`);
-                }
-                
-                // Cerrar modal
-                document.querySelector('.modal-container').classList.add('modal--close');
-                
-                // Mostrar notificación
-                const alertElement = document.getElementById('actionAlert');
-                alertElement.textContent = 'Mascota eliminada con éxito';
-                alertElement.style.display = 'block';
-                
-                // Recargar página después de 1.5 segundos
-                setTimeout(() => {
-                  window.location.reload();
-                }, 1500);
-                
-              } catch (error) {
-                console.error('Error al eliminar:', error);
-                alert('Error al eliminar mascota: ' + error.message);
-              }
-            });
-            
-            // Configurar botones para cerrar modal
-            document.querySelector('.modal__close').addEventListener('click', function() {
-              document.querySelector('.modal-container').classList.add('modal--close');
-            });
-            
-            document.querySelector('.button--secondary').addEventListener('click', function() {
-              document.querySelector('.modal-container').classList.add('modal--close');
-            });
-          }
-        } catch (error) {
-          console.error('Error cargando mascotas:', error);
-          tbody.innerHTML = '<tr><td colspan="5" class="text-center">Error al cargar mascotas: ' + error.message + '</td></tr>';
-        }
-      }
-    </script>
+                </li>
+                <li class="nav-item">
+                    <a href="./lista_productos.html" class="nav-link">
+                        <i class="fas fa-box"></i> Productos
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a href="./lista_cliente.html" class="nav-link">
+                        <i class="fas fa-users"></i> Clientes
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a href="./lista_pets.html" class="nav-link active">
+                        <i class="fas fa-paw"></i> Mascotas
+                    </a>
+                </li>
+            </ul>
+        </div>
+    </nav>
     
-    <style>
-      /* Estilos específicos para esta página */
-      .mr-2 {
-        margin-right: var(--spacing-sm);
-      }
-      
-      .modal-container {
-        position: fixed;
-        top: 0;
-        left: 0;
-        width: 100%;
-        height: 100%;
-        background-color: rgba(0, 0, 0, 0.5);
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        z-index: 1000;
-      }
-      
-      .modal--close {
-        display: none;
-      }
-      
-      .modal {
-        background-color: white;
-        padding: var(--spacing-lg);
-        border-radius: var(--radius-md);
-        max-width: 90%;
-        width: 400px;
-        position: relative;
-      }
-      
-      .modal__title {
-        margin-top: 0;
-      }
-      
-      .modal__close {
-        position: absolute;
-        top: var(--spacing-sm);
-        right: var(--spacing-sm);
-        background: none;
-        border: none;
-        font-size: var(--text-xl);
-        cursor: pointer;
-        color: var(--gray);
-      }
-      
-      .modal__text {
-        margin-bottom: var(--spacing-md);
-      }
-      
-      /* Acción de botones */
-      .action-button {
-        background: none;
-        border: none;
-        cursor: pointer;
-        font-size: var(--text-md);
-        padding: var(--spacing-xs);
-        margin: 0 var(--spacing-xs);
-        transition: transform 0.2s;
-      }
-      
-      .action-button:hover {
-        transform: scale(1.2);
-      }
-      
-      .edit-button {
-        color: var(--primary);
-      }
-      
-      .delete-button {
-        color: var(--danger);
-      }
-    </style>
-  </body>
+    <!-- Contenido principal -->
+    <div class="content-wrapper">
+        <!-- Título de la página -->
+        <div class="page-title-wrapper">
+            <h1 class="page-title">Lista de Mascotas</h1>
+            <p class="page-subtitle">Gestiona las mascotas registradas en tu tienda</p>
+        </div>
+        
+        <!-- Alerta para mensajes -->
+        <div id="result" class="alert" style="display: none;"></div>
+        
+        <!-- Sección de mascotas -->
+        <div class="section-header">
+            <h2 class="section-title">Mascotas</h2>
+            <a href="./registrar_pet.html" class="action-button-primary">
+                <i class="fas fa-plus"></i> Nueva Mascota
+            </a>
+        </div>
+        
+        <!-- Tabla de mascotas -->
+        <table class="data-table">
+            <thead>
+                <tr>
+                    <th>NOMBRE</th>
+                    <th>DUEÑO</th>
+                    <th>RAZA</th>
+                    <th>EDAD</th>
+                    <th>ACCIONES</th>
+                </tr>
+            </thead>
+            <tbody id="tabla-mascotas">
+                <!-- Aquí se cargarán las mascotas dinámicamente -->
+            </tbody>
+        </table>
+    </div>
+    
+    <script type="module" src="../assets/js/controllers/pet/lista-pet-controller.js"></script>
+</body>
 </html>

@@ -1,340 +1,226 @@
 <!DOCTYPE html>
 <html lang="es">
-  <head>
+<head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Dashboard | Doguito Pet Store</title>
+    <title>Dashboard | Doguito Petshop</title>
     <link rel="icon" href="../assets/img/doguitoadm.svg" type="image/x-icon" />
-    <link
-      href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700&display=swap"
-      rel="stylesheet"
-    />
-    <link href="https://fonts.googleapis.com/css2?family=Pacifico&display=swap" rel="stylesheet" />
-    <link rel="stylesheet" href="../assets/css/base/base.css" />
+    <link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;500;600;700&family=Pacifico&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" />
     <link rel="stylesheet" href="../assets/css/unified-style.css" />
+    <link rel="stylesheet" href="../assets/css/components/dashboard.css" />
     <style>
-      .stats-container {
-        display: grid;
-        grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-        gap: 20px;
-        margin-bottom: 30px;
-      }
-      
-      .stat-card {
-        background-color: #fff;
-        border-radius: 8px;
-        box-shadow: 0 2px 10px rgba(0,0,0,0.1);
-        padding: 20px;
-        text-align: center;
-      }
-      
-      .stat-value {
-        font-size: 2.5rem;
-        font-weight: bold;
-        color: #2a7ae4;
-        margin: 10px 0;
-      }
-      
-      .stat-label {
-        font-size: 1rem;
-        color: #666;
-        margin: 0;
-      }
-      
-      .recent-container {
-        display: grid;
-        grid-template-columns: 1fr 1fr;
-        gap: 20px;
-      }
-      
-      .recent-section {
-        background-color: #fff;
-        border-radius: 8px;
-        box-shadow: 0 2px 10px rgba(0,0,0,0.1);
-        padding: 20px;
-      }
-      
-      .recent-list {
-        list-style: none;
-        padding: 0;
-      }
-      
-      .recent-item {
-        border-bottom: 1px solid #eaeaea;
-        padding: 10px 0;
-      }
-      
-      .recent-item:last-child {
-        border-bottom: none;
-      }
-      
-      .error-message {
-        color: red;
-        font-size: 0.85rem;
-        margin-top: 5px;
-      }
+        .dashboard-cards {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 1.5rem;
+            margin-bottom: 2.5rem;
+        }
+        
+        .dashboard-card {
+            padding: 1.5rem;
+            border-radius: 1rem;
+            position: relative;
+            overflow: hidden;
+            box-shadow: 0 10px 20px rgba(0,0,0,0.1);
+            transition: all 0.3s ease;
+        }
+        
+        .dashboard-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 30px rgba(0,0,0,0.15);
+        }
+        
+        /* Tarjetas con gradientes */
+        .card-productos {
+            background: linear-gradient(135deg, #5e94ff, #38d9d9);
+        }
+        
+        .card-clientes {
+            background: linear-gradient(135deg, #9f7aea, #f687b3);
+        }
+        
+        .card-mascotas {
+            background: linear-gradient(135deg, #ff9f43, #ff5a5a);
+        }
+        
+        .card-icon {
+            position: absolute;
+            top: 1.5rem;
+            right: 1.5rem;
+            font-size: 2.5rem;
+            opacity: 0.3;
+            color: white;
+        }
+        
+        .card-title {
+            color: rgba(255, 255, 255, 0.85);
+            margin: 0;
+            font-size: 1.1rem;
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+        }
+        
+        .card-value {
+            color: white;
+            font-size: 3.5rem;
+            font-family: var(--font-accent);
+            line-height: 1;
+            margin: 0.5rem 0;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.2);
+        }
+        
+        .card-link {
+            display: inline-block;
+            margin-top: 1rem;
+            color: white;
+            text-decoration: none;
+            padding: 0.4rem 1rem;
+            background-color: rgba(255,255,255,0.2);
+            border-radius: 2rem;
+            font-size: 0.9rem;
+            font-weight: 500;
+            transition: all 0.2s ease;
+        }
+        
+        .card-link:hover {
+            background-color: rgba(255,255,255,0.3);
+            transform: translateX(5px);
+        }
+        
+        /* Actividades recientes */
+        .activities-section {
+            background: white;
+            border-radius: 1rem;
+            padding: 1.5rem;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.08);
+        }
+        
+        .activity-item {
+            padding: 1rem;
+            border-bottom: 1px solid rgba(0,0,0,0.05);
+            display: flex;
+            align-items: flex-start;
+            gap: 1rem;
+        }
+        
+        .activity-icon {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background-color: rgba(94, 148, 255, 0.1);
+            color: #5e94ff;
+            flex-shrink: 0;
+        }
+        
+        .activity-content {
+            flex: 1;
+        }
+        
+        .activity-text {
+            margin: 0 0 0.25rem;
+        }
+        
+        .activity-time {
+            font-size: 0.8rem;
+            color: #8c90a0;
+        }
+        
+        .activity-empty {
+            padding: 2rem;
+            text-align: center;
+            color: #8c90a0;
+            font-style: italic;
+        }
     </style>
-  </head>
-  <body>
-    <header class="header container">
-      <img
-        src="../assets/img/doguitoadm.svg"
-        alt="Logotipo Doguito"
-        class="header__logo"
-      />
-      <nav>
-        <ul class="header__list-nav">
-          <li class="header__link"><a href="#" class="active">Dashboard</a></li>
-          <li class="header__link"><a href="./lista_productos.html">Productos</a></li>
-          <li class="header__link"><a href="./lista_cliente.html">Clientes</a></li>
-          <li class="header__link"><a href="./lista_pets.html">Mascotas</a></li>
-        </ul>
-      </nav>
-    </header>
-
-    <main class="container">
-      <h2 class="mb-3">Dashboard</h2>
-      
-      <!-- Sección de estadísticas -->
-      <div class="stats-container">
-        <div class="stat-card" data-cliente-count>
-          <p class="stat-label">Total Clientes</p>
-          <p class="stat-value" id="totalClientes">...</p>
-          <div class="error-message" style="display: none"></div>
+</head>
+<body style="background: linear-gradient(135deg, #e6f3ff, #e6faff);">
+    <!-- Navbar mejorado -->
+    <nav class="navbar">
+        <div class="container">
+            <a href="./dashboard.html" class="navbar-brand">
+                <img src="../assets/img/doguitoadm.svg" alt="Doguito Petshop Logo">
+                <h1>Doguito Petshop</h1>
+            </a>
+            <ul class="navbar-nav">
+                <li class="nav-item">
+                    <a href="./dashboard.html" class="nav-link active">
+                        <i class="fas fa-home"></i> Dashboard
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a href="./lista_productos.html" class="nav-link">
+                        <i class="fas fa-box"></i> Productos
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a href="./lista_cliente.html" class="nav-link">
+                        <i class="fas fa-users"></i> Clientes
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a href="./lista_pets.html" class="nav-link">
+                        <i class="fas fa-paw"></i> Mascotas
+                    </a>
+                </li>
+            </ul>
         </div>
-        
-        <div class="stat-card" data-pet-count>
-          <p class="stat-label">Total Mascotas</p>
-          <p class="stat-value" id="totalMascotas">...</p>
-          <div class="error-message" style="display: none"></div>
-        </div>
-        
-        <div class="stat-card" data-producto-count>
-          <p class="stat-label">Total Productos</p>
-          <p class="stat-value" id="totalProductos">...</p>
-          <div class="error-message" style="display: none"></div>
-        </div>
-        
-        <div class="stat-card">
-          <p class="stat-label">Edad Promedio Mascotas</p>
-          <p class="stat-value" id="edadPromedio">...</p>
-          <div class="error-message" style="display: none"></div>
-        </div>
-      </div>
-      
-      <!-- Secciones de registros recientes -->
-      <div class="recent-container">
-        <div class="recent-section">
-          <h3>Clientes Recientes</h3>
-          <ul class="recent-list" id="clientesRecientes">
-            <li class="recent-item">Cargando...</li>
-          </ul>
-        </div>
-        
-        <div class="recent-section">
-          <h3>Mascotas Recientes</h3>
-          <ul class="recent-list" id="mascotasRecientes">
-            <li class="recent-item">Cargando...</li>
-          </ul>
-        </div>
-      </div>
-    </main>
+    </nav>
     
-    <script>
-    document.addEventListener('DOMContentLoaded', function() {
-        const SUPABASE_URL = 'https://fqxjajxbjlnyrdvdofrq.supabase.co';
-        const SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImZxeGphanhiamxueXJkdmRvZnJxIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NDcwNDg1OTUsImV4cCI6MjA2MjYyNDU5NX0.tmC35WfvvFGwfYaOvBDLLmKVmGtq9cU-ojk2H4EHyV8';
-        const HEADER = {
-            apikey: SUPABASE_KEY,
-            Authorization: `Bearer ${SUPABASE_KEY}`,
-            'Content-Type': 'application/json'
-        };
+    <!-- Contenido principal -->
+    <div class="content-wrapper">
+        <!-- Título de la página -->
+        <div class="page-title-wrapper">
+            <h1 class="page-title">Bienvenido a Doguito Petshop</h1>
+            <p class="page-subtitle">Sistema de gestión para tu tienda de mascotas</p>
+        </div>
         
-        // Iniciar todas las funciones de carga
-        cargarConteoClientes();
-        cargarConteoMascotas();
-        cargarConteoProductos();
-        cargarEdadPromedio();
-        cargarClientesRecientes();
-        cargarMascotasRecientes();
+        <!-- Tarjetas de estadísticas -->
+        <div class="dashboard-cards">
+            <div class="dashboard-card card-productos">
+                <i class="fas fa-box card-icon"></i>
+                <h3 class="card-title">Productos</h3>
+                <div class="card-value" id="productos-count">0</div>
+                <a href="./lista_productos.html" class="card-link">
+                    Ver productos <i class="fas fa-arrow-right"></i>
+                </a>
+            </div>
+            
+            <div class="dashboard-card card-clientes">
+                <i class="fas fa-users card-icon"></i>
+                <h3 class="card-title">Clientes</h3>
+                <div class="card-value" id="clientes-count">0</div>
+                <a href="./lista_cliente.html" class="card-link">
+                    Ver clientes <i class="fas fa-arrow-right"></i>
+                </a>
+            </div>
+            
+            <div class="dashboard-card card-mascotas">
+                <i class="fas fa-paw card-icon"></i>
+                <h3 class="card-title">Mascotas</h3>
+                <div class="card-value" id="mascotas-count">0</div>
+                <a href="./lista_pets.html" class="card-link">
+                    Ver mascotas <i class="fas fa-arrow-right"></i>
+                </a>
+            </div>
+        </div>
         
-        // Función para cargar conteo de clientes
-        async function cargarConteoClientes() {
-            try {
-                console.log("Cargando conteo de clientes...");
-                const response = await fetch(`${SUPABASE_URL}/rest/v1/cliente?select=count`, {
-                    headers: HEADER
-                });
-                
-                if (!response.ok) {
-                    throw new Error(`Error: ${response.status}`);
-                }
-                
-                const data = await response.json();
-                const totalClientes = data[0]?.count || 0;
-                
-                document.getElementById('totalClientes').textContent = totalClientes;
-                console.log("Conteo de clientes cargado:", totalClientes);
-            } catch (error) {
-                console.error("Error cargando conteo de clientes:", error);
-                document.getElementById('totalClientes').textContent = "Error";
-            }
-        }
+        <!-- Sección de actividades recientes -->
+        <div class="section-header">
+            <h2 class="section-title">Actividades Recientes</h2>
+        </div>
         
-        // Función para cargar conteo de mascotas
-        async function cargarConteoMascotas() {
-            try {
-                console.log("Cargando conteo de mascotas...");
-                const response = await fetch(`${SUPABASE_URL}/rest/v1/pet?select=count`, {
-                    headers: HEADER
-                });
-                
-                if (!response.ok) {
-                    throw new Error(`Error: ${response.status}`);
-                }
-                
-                const data = await response.json();
-                const totalMascotas = data[0]?.count || 0;
-                
-                document.getElementById('totalMascotas').textContent = totalMascotas;
-                console.log("Conteo de mascotas cargado:", totalMascotas);
-            } catch (error) {
-                console.error("Error cargando conteo de mascotas:", error);
-                document.getElementById('totalMascotas').textContent = "Error";
-            }
-        }
-        
-        // Función para cargar conteo de productos
-        async function cargarConteoProductos() {
-            try {
-                console.log("Cargando conteo de productos...");
-                const response = await fetch(`${SUPABASE_URL}/rest/v1/producto?select=count`, {
-                    headers: HEADER
-                });
-                
-                if (!response.ok) {
-                    throw new Error(`Error: ${response.status}`);
-                }
-                
-                const data = await response.json();
-                const totalProductos = data[0]?.count || 0;
-                
-                document.getElementById('totalProductos').textContent = totalProductos;
-                console.log("Conteo de productos cargado:", totalProductos);
-            } catch (error) {
-                console.error("Error cargando conteo de productos:", error);
-                document.getElementById('totalProductos').textContent = "Error";
-            }
-        }
-        
-        // Función para cargar edad promedio de mascotas
-        async function cargarEdadPromedio() {
-            try {
-                console.log("Calculando edad promedio...");
-                // Primero obtenemos todas las mascotas
-                const response = await fetch(`${SUPABASE_URL}/rest/v1/pet?select=edad`, {
-                    headers: HEADER
-                });
-                
-                if (!response.ok) {
-                    throw new Error(`Error: ${response.status}`);
-                }
-                
-                const mascotas = await response.json();
-                
-                // Calculamos el promedio (excluyendo valores nulos o 0)
-                const edadesValidas = mascotas
-                    .map(m => m.edad)
-                    .filter(edad => edad !== null && edad !== undefined && edad > 0);
-                
-                const promedio = edadesValidas.length > 0 
-                    ? edadesValidas.reduce((sum, edad) => sum + edad, 0) / edadesValidas.length 
-                    : 0;
-                
-                document.getElementById('edadPromedio').textContent = promedio.toFixed(1);
-                console.log("Promedio de edad calculado:", promedio);
-            } catch (error) {
-                console.error("Error calculando edad promedio:", error);
-                document.getElementById('edadPromedio').textContent = "Error";
-            }
-        }
-        
-        // Función para cargar clientes recientes
-        async function cargarClientesRecientes() {
-            try {
-                console.log("Cargando clientes recientes...");
-                const response = await fetch(`${SUPABASE_URL}/rest/v1/cliente?select=*&order=id.desc&limit=5`, {
-                    headers: HEADER
-                });
-                
-                if (!response.ok) {
-                    throw new Error(`Error: ${response.status}`);
-                }
-                
-                const clientes = await response.json();
-                const clientesRecientes = document.getElementById('clientesRecientes');
-                clientesRecientes.innerHTML = '';
-                
-                if (clientes.length === 0) {
-                    clientesRecientes.innerHTML = '<li class="recent-item">No hay clientes registrados</li>';
-                } else {
-                    clientes.forEach(cliente => {
-                        const listItem = document.createElement('li');
-                        listItem.className = 'recent-item';
-                        listItem.innerHTML = `
-                            <strong>${cliente.nombre || 'Sin nombre'}</strong><br>
-                            <small>${cliente.emal || 'Sin email'}</small>
-                        `;
-                        clientesRecientes.appendChild(listItem);
-                    });
-                }
-                
-                console.log("Clientes recientes cargados:", clientes.length);
-            } catch (error) {
-                console.error("Error cargando clientes recientes:", error);
-                document.getElementById('clientesRecientes').innerHTML = '<li class="recent-item">Error cargando clientes</li>';
-            }
-        }
-        
-        // Función para cargar mascotas recientes
-        async function cargarMascotasRecientes() {
-            try {
-                console.log("Cargando mascotas recientes...");
-                const response = await fetch(`${SUPABASE_URL}/rest/v1/pet?select=*,cliente(nombre)&order=id_pet.desc&limit=5`, {
-                    headers: HEADER
-                });
-                
-                if (!response.ok) {
-                    throw new Error(`Error: ${response.status}`);
-                }
-                
-                const mascotas = await response.json();
-                const mascotasRecientes = document.getElementById('mascotasRecientes');
-                mascotasRecientes.innerHTML = '';
-                
-                if (mascotas.length === 0) {
-                    mascotasRecientes.innerHTML = '<li class="recent-item">No hay mascotas registradas</li>';
-                } else {
-                    mascotas.forEach(mascota => {
-                        const nombreDueno = mascota.cliente ? mascota.cliente.nombre : 'Sin dueño';
-                        const listItem = document.createElement('li');
-                        listItem.className = 'recent-item';
-                        listItem.innerHTML = `
-                            <strong>${mascota.nombre || 'Sin nombre'}</strong><br>
-                            <small>Raza: ${mascota.raza || 'No especificada'} - Edad: ${mascota.edad || '?'} años</small><br>
-                            <small>Dueño: ${nombreDueno}</small>
-                        `;
-                        mascotasRecientes.appendChild(listItem);
-                    });
-                }
-                
-                console.log("Mascotas recientes cargadas:", mascotas.length);
-            } catch (error) {
-                console.error("Error cargando mascotas recientes:", error);
-                document.getElementById('mascotasRecientes').innerHTML = '<li class="recent-item">Error cargando mascotas</li>';
-            }
-        }
-    });
-    </script>
-  </body>
+        <div class="activities-section">
+            <div id="activity-list" class="activity-list">
+                <!-- Las actividades se cargarán dinámicamente -->
+                <div class="activity-empty">No hay actividades recientes</div>
+            </div>
+        </div>
+    </div>
+    
+    <script type="module" src="../assets/js/controllers/dashboard-controller.js"></script>
+</body>
 </html>

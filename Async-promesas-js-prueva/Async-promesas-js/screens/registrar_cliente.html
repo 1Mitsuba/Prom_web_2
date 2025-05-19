@@ -3,16 +3,11 @@
 <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Registrar Cliente | Doguito Pet Store</title>
+    <title>Registrar Cliente | Doguito Petshop</title>
     <link rel="icon" href="../assets/img/doguitoadm.svg" type="image/x-icon" />
-    <link
-      href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700&display=swap"
-      rel="stylesheet"
-    />
-    <link
-      href="https://fonts.googleapis.com/css2?family=Pacifico&display=swap"
-      rel="stylesheet"
-    />
+    <!-- Agregar fuentes -->
+    <link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;500;600;700&family=Pacifico&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" />
     <link rel="stylesheet" href="../assets/css/unified-style.css" />
 </head>
 <body>
@@ -30,121 +25,40 @@
           <ul class="header__list-nav">
             <li class="header__link"><a href="./dashboard.html">Dashboard</a></li>
             <li class="header__link"><a href="./lista_productos.html">Productos</a></li>
-            <li class="header__link"><a href="./lista_cliente.html">Clientes</a></li>
+            <li class="header__link"><a href="./lista_cliente.html" class="active">Clientes</a></li>
             <li class="header__link"><a href="./lista_pets.html">Mascotas</a></li>
           </ul>
         </nav>
       </div>
     </header>
-
-    <main class="container">
+    
+    <div class="container">
+        <h1 class="form-title">Registrar Cliente</h1>
+        
+        <div id="result" class="alert" style="display: none;"></div>
+        
         <div class="card">
-            <h2 class="card__title">Registrar Cliente</h2>
-            
-            <div class="alert" id="result" style="display: none;"></div>
-            
-            <form id="clienteForm" class="form">
+            <!-- Importante: asegúrate de que el ID del formulario sea 'clienteForm' -->
+            <form id="clienteForm">
                 <div class="form-group">
-                    <label class="form-label" for="nombre">Nombre <span class="text-danger">*</span></label>
-                    <input type="text" id="nombre" class="form-control" required>
+                    <label class="form-label" for="nombre">Nombre:</label>
+                    <input type="text" class="form-control" id="nombre" placeholder="Nombre del cliente" required />
                 </div>
                 
                 <div class="form-group">
-                    <label class="form-label" for="email">Email <span class="text-danger">*</span></label>
-                    <input type="email" id="email" class="form-control" required>
+                    <!-- Importante: el ID es 'emal' (no 'email') para mantener consistencia -->
+                    <label class="form-label" for="emal">Email:</label>
+                    <input type="email" class="form-control" id="emal" placeholder="Email del cliente" />
                 </div>
                 
-                <div class="form-group text-center mt-3">
-                    <button type="submit" class="button">Registrar Cliente</button>
+                <div class="text-center">
+                    <button type="submit" class="button">Registrar</button>
                 </div>
             </form>
         </div>
-    </main>
+    </div>
     
-    <script type="module">
-document.addEventListener('DOMContentLoaded', function() {
-    const SUPABASE_URL = 'https://fqxjajxbjlnyrdvdofrq.supabase.co';
-    const SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImZxeGphanhiamxueXJkdmRvZnJxIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NDcwNDg1OTUsImV4cCI6MjA2MjYyNDU5NX0.tmC35WfvvFGwfYaOvBDLLmKVmGtq9cU-ojk2H4EHyV8';
-    
-    // Función para mostrar mensajes
-    function mostrarMensaje(mensaje, esError = false) {
-        const resultElement = document.getElementById('result');
-        if (!resultElement) {
-            console.error('Elemento result no encontrado');
-            alert(mensaje);
-            return;
-        }
-        
-        resultElement.textContent = mensaje;
-        resultElement.className = esError ? 
-            'alert alert--danger' : 
-            'alert alert--success';
-        resultElement.style.display = 'block';
-        
-        if (!esError) {
-            setTimeout(() => {
-                window.location.href = './lista_cliente.html?created=true';
-            }, 1500);
-        }
-    }
-
-    // Manejador para el formulario
-    const form = document.getElementById('clienteForm');
-    if (!form) {
-        console.error('Formulario no encontrado');
-        return;
-    }
-    
-    form.addEventListener('submit', async function(e) {
-        e.preventDefault();
-        
-        const nombre = document.getElementById('nombre').value;
-        const email = document.getElementById('email').value;
-        
-        console.log("Intentando crear cliente:", { nombre, email });
-        
-        try {
-            // Generar ID único con formato UUID
-            const id = Math.floor(Date.now() + Math.random() * 1000);
-        
-            // Crear objeto cliente
-            const cliente = {
-                id,
-                nombre,
-                emal: email
-            };
-            
-            console.log("Cliente a crear:", cliente);
-            
-            // Enviar a Supabase
-            const response = await fetch(`${SUPABASE_URL}/rest/v1/cliente`, {
-                method: 'POST',
-                headers: {
-                    apikey: SUPABASE_KEY,
-                    Authorization: `Bearer ${SUPABASE_KEY}`,
-                    'Content-Type': 'application/json',
-                    'Prefer': 'return=representation'
-                },
-                body: JSON.stringify(cliente)
-            });
-            
-            console.log("Respuesta:", response.status, response.statusText);
-            
-            if (!response.ok) {
-                const errorText = await response.text();
-                throw new Error(`${response.status}: ${errorText}`);
-            }
-            
-            const data = await response.json();
-            console.log("Cliente creado:", data);
-            
-            mostrarMensaje('Cliente registrado con éxito');
-        } catch (error) {
-            console.error("Error al crear cliente:", error);
-            mostrarMensaje(`Error al registrar cliente: ${error.message}`, true);
-        }
-    });
-});
-</script>
+    <!-- Importar el script externo como un módulo -->
+    <script type="module" src="../assets/js/controllers/cliente/registrar-cliente-controller.js"></script>
 </body>
 </html>

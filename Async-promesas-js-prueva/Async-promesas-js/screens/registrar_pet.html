@@ -1,95 +1,74 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Doguito Petshop | Registrar Mascota</title>
-  <link rel="icon" href="../assets/img/doguitoadm.svg" type="image/x-icon" />
-  <link rel="stylesheet" href="../assets/css/base/base.css" />
-  <link rel="stylesheet" href="../assets/css/componentes/header.css" />
-  <link rel="stylesheet" href="../assets/css/componentes/card.css" />
-  <link rel="stylesheet" href="../assets/css/register_client.css" />
-  <link rel="stylesheet" href="../assets/css/componentes/inputs.css" />
-  <link rel="stylesheet" href="../assets/css/componentes/button.css" />
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Registrar Mascota | Doguito Petshop</title>
+    <link rel="icon" href="../assets/img/doguitoadm.svg" type="image/x-icon" />
+    <!-- Agregar fuentes -->
+    <link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;500;600;700&family=Pacifico&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" />
+    <link rel="stylesheet" href="../assets/css/unified-style.css" />
 </head>
 <body>
-  <header class="header container">
-    <div class="menu-hamburguesa">
-      <span class="menu-hamburguesa__icon"></span>
-    </div>
-    <div class="header-logo">
-      <img class="header-logo-image" src="../assets/img/doguitoadm.svg" alt="Logo Doguito" />
-      <h1 class="header-logo-title">Petshop</h1>
-    </div>
-    <nav class="header-navegacion">
-      <ul>
-        <li class="header-navegacion-item"><a href="#">Dashboard</a></li>
-        <li class="header-navegacion-item"><a href="lista_cliente.html">Clientes</a></li>
-        <li class="header-navegacion-item"><a href="lista_pets.html">Mascotas</a></li>
-      </ul>
-    </nav>
-    <div class="header-usuario">
-      <a href="#">Cerrar Sesión</a>
-    </div>
-  </header>
-  <main class="container flex flex--center flex--column">
-    <section class="card card--register">
-      <h2 class="card__title card__title--register">Registrar Mascota</h2>
-      <form class="flex flex--column" data-form>
-        <!-- CAMPO NOMBRE - FALTANTE EN TU CÓDIGO -->
-        <div class="input-container">
-          <input
-            name="nombre"
-            id="nombre"
-            class="input"
-            type="text"
-            placeholder="Nombre de la mascota"
-            required
-            data-nombre
+    <header class="header">
+      <div class="container flex flex--between">
+        <div class="flex flex--center">
+          <img
+            src="../assets/img/doguitoadm.svg"
+            alt="Logotipo Doguito"
+            class="header__logo"
           />
-          <label class="input-label" for="nombre">Nombre</label>
+          <h1 class="ml-2" style="font-family: var(--font-accent); font-size: var(--text-xl); margin-left: 10px;">Doguito Petshop</h1>
         </div>
+        <nav>
+          <ul class="header__list-nav">
+            <li class="header__link"><a href="./dashboard.html">Dashboard</a></li>
+            <li class="header__link"><a href="./lista_productos.html">Productos</a></li>
+            <li class="header__link"><a href="./lista_cliente.html" >Clientes</a></li>
+            <li class="header__link"><a href="./lista_pets.html" class="active">Mascotas</a></li>
+          </ul>
+        </nav>
+      </div>
+    </header>
+    <div class="container">
+        <!-- Cambiar el título por uno con clase form-title -->
+        <h1 class="form-title">Registrar Nueva Mascota</h1>
         
-        <!-- CAMPO RAZA - FALTANTE EN TU CÓDIGO -->
-        <div class="input-container">
-          <input
-            name="raza"
-            id="raza"
-            class="input"
-            type="text"
-            placeholder="Raza"
-            data-raza
-          />
-          <label class="input-label" for="raza">Raza</label>
+        <!-- Agregar div para mensajes/alertas -->
+        <div id="result" class="alert" style="display: none;"></div>
+        
+        <div class="card">
+            <form id="petForm">
+                <div class="form-group">
+                    <label class="form-label" for="nombre">Nombre:</label>
+                    <input type="text" class="form-control" id="nombre" placeholder="Nombre de la mascota" required />
+                </div>
+                
+                <div class="form-group">
+                    <label class="form-label" for="raza">Raza:</label>
+                    <input type="text" class="form-control" id="raza" placeholder="Raza de la mascota" />
+                </div>
+                
+                <div class="form-group">
+                    <label class="form-label" for="edad">Edad:</label>
+                    <input type="number" class="form-control" id="edad" placeholder="Edad en años" min="0" />
+                </div>
+                
+                <div class="form-group">
+                    <label class="form-label" for="dueno">Dueño:</label>
+                    <select class="form-control" id="dueno" required>
+                        <option value="">Seleccione un dueño</option>
+                    </select>
+                </div>
+                
+                <div class="text-center">
+                    <button type="submit" class="button">Registrar</button>
+                </div>
+            </form>
         </div>
-        
-        <!-- CAMPO EDAD - YA EXISTENTE PERO INCOMPLETO -->
-        <div class="input-container">
-          <input
-            name="edad"
-            id="edad"
-            class="input"
-            type="number"
-            min="0"
-            placeholder="Edad"
-            data-edad
-          />
-          <label class="input-label" for="edad">Edad</label>
-        </div>
-        
-        <!-- CAMPO DUEÑO - YA EXISTENTE -->
-        <div class="input-container">
-          <select id="cliente" name="cliente" class="input" data-cliente>
-            <option value="">Seleccionar dueño</option>
-            <!-- Los clientes se cargarán dinámicamente -->
-          </select>
-          <label class="input-label" for="cliente">Dueño</label>
-        </div>
-        
-        <button type="submit" class="button">Registrar mascota</button>
-      </form>
-    </section>
-  </main>
-  <script type="module" src="../controllers/registrar_pet_controller.js"></script>
+    </div>
+    
+    <script type="module" src="../assets/js/controllers/pet/test-pet-controller.js"></script>
 </body>
 </html>

@@ -3,220 +3,78 @@
 <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Productos | Doguito Pet Store</title>
+    <title>Lista de Productos | Doguito Petshop</title>
     <link rel="icon" href="../assets/img/doguitoadm.svg" type="image/x-icon" />
-    <link
-      href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700&display=swap"
-      rel="stylesheet"
-    />
-    <link
-      href="https://fonts.googleapis.com/css2?family=Pacifico&display=swap"
-      rel="stylesheet"
-    />
+    <link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;500;600;700&family=Pacifico&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" />
     <link rel="stylesheet" href="../assets/css/unified-style.css" />
-    <style>
-        .search-container {
-            margin-bottom: 20px;
-        }
-        
-        .search-input {
-            padding: 8px;
-            width: 300px;
-            border: 1px solid #ccc;
-            border-radius: 4px;
-            margin-right: 10px;
-        }
-        
-        .price {
-            font-weight: bold;
-            color: #2a7ae4;
-        }
-    </style>
 </head>
-<body>
-    <header class="header">
-      <div class="container flex flex--between">
-        <div class="flex flex--center">
-          <img
-            src="../assets/img/doguitoadm.svg"
-            alt="Logotipo Doguito"
-            class="header__logo"
-          />
-          <h1 class="ml-2" style="font-family: var(--font-accent); font-size: var(--text-xl); margin-left: 10px;">Doguito Petshop</h1>
+<body style="background: linear-gradient(135deg, #e6f3ff, #e6faff);">
+    <!-- Navbar mejorado -->
+    <nav class="navbar">
+        <div class="container">
+            <a href="./dashboard.html" class="navbar-brand">
+                <img src="../assets/img/doguitoadm.svg" alt="Doguito Petshop Logo">
+                <h1>Doguito Petshop</h1>
+            </a>
+            <ul class="navbar-nav">
+                <li class="nav-item">
+                    <a href="./dashboard.html" class="nav-link">
+                        <i class="fas fa-home"></i> Dashboard
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a href="./lista_productos.html" class="nav-link active">
+                        <i class="fas fa-box"></i> Productos
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a href="./lista_cliente.html" class="nav-link">
+                        <i class="fas fa-users"></i> Clientes
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a href="./lista_pets.html" class="nav-link">
+                        <i class="fas fa-paw"></i> Mascotas
+                    </a>
+                </li>
+            </ul>
         </div>
-        <nav>
-          <ul class="header__list-nav">
-            <li class="header__link"><a href="./dashboard.html">Dashboard</a></li>
-            <li class="header__link"><a href="./lista_productos.html" class="active">Productos</a></li>
-            <li class="header__link"><a href="./lista_cliente.html">Clientes</a></li>
-            <li class="header__link"><a href="./lista_pets.html">Mascotas</a></li>
-          </ul>
-        </nav>
-      </div>
-    </header>
-
-    <main class="container">
-      <div class="flex flex--between mb-3">
-        <h2>Lista de Productos</h2>
-        <a href="./registrar_producto.html" class="button">+ Nuevo Producto</a>
-      </div>
-      
-      <!-- Alerta de acción completada -->
-      <div class="alert alert--success" id="actionAlert" style="display: none;">
-        Acción completada con éxito
-      </div>
-      
-      <!-- Barra de búsqueda -->
-        <div class="search-container">
-            <input type="text" id="searchInput" class="search-input" placeholder="Buscar productos...">
-            <button id="searchButton" class="button">Buscar</button>
+    </nav>
+    
+    <!-- Contenido principal -->
+    <div class="content-wrapper">
+        <!-- Título de la página -->
+        <div class="page-title-wrapper">
+            <h1 class="page-title">Lista de Productos</h1>
+            <p class="page-subtitle">Administra el catálogo de productos para tu tienda de mascotas</p>
         </div>
-
-      <div class="card p-0">
-        <table class="table">
-          <thead>
-            <tr>
-              <th>Nombre</th>
-              <th>Precio</th>
-              <th>Descripción</th>
-              <th class="text-right">Acciones</th>
-            </tr>
-          </thead>
-          <tbody data-table>
-            <!-- Los productos se insertarán aquí dinámicamente -->
-            <tr>
-              <td colspan="4" class="text-center">Cargando productos...</td>
-            </tr>
-          </tbody>
+        
+        <!-- Alerta para mensajes -->
+        <div id="result" class="alert" style="display: none;"></div>
+        
+        <!-- Sección de productos -->
+        <div class="section-header">
+            <h2 class="section-title">Productos</h2>
+            <a href="./registrar_producto.html" class="action-button-primary btn-pulse">
+                <i class="fas fa-plus"></i> Nuevo Producto
+            </a>
+        </div>
+        
+        <!-- Tabla de productos -->
+        <table class="data-table">
+            <thead>
+                <tr>
+                    <th>NOMBRE</th>
+                    <th>PRECIO</th>
+                    <th>DESCRIPCIÓN</th>
+                    <th>ACCIONES</th>
+                </tr>
+            </thead>
+            <tbody id="tabla-productos"></tbody>
         </table>
-      </div>
-
-      <!-- Para lista_cliente.html, añadir antes del cierre de </main> -->
-<div class="modal-container modal--close">
-  <div class="modal">
-    <h3 class="modal__title">Confirmar eliminación</h3>
-    <button class="modal__close">&times;</button>
-    <p class="modal__text">¿Estás seguro de que deseas eliminar este cliente?</p>
-    <div class="flex flex--center">
-      <button class="button button--danger modal__button--confirm mr-2">
-        Eliminar
-      </button>
-      <button class="button button--secondary">
-        Cancelar
-      </button>
     </div>
-  </div>
-</div>
-    </main>
     
-    <script type="module">
-    import { productoService } from "../service/producto-service.js";
-    
-    document.addEventListener('DOMContentLoaded', async function() {
-        const tbody = document.querySelector('[data-table]');
-        const searchInput = document.getElementById('searchInput');
-        const searchButton = document.getElementById('searchButton');
-        
-        // Función para cargar productos
-        const cargarProductos = async (terminoBusqueda = '') => {
-            try {
-                console.log('Cargando productos...');
-                const productos = await productoService.listarProductos(terminoBusqueda);
-                console.log('Productos cargados:', productos);
-                
-                tbody.innerHTML = '';
-                
-                if (productos.length === 0) {
-                    tbody.innerHTML = '<tr><td colspan="4" class="text-center">No hay productos registrados</td></tr>';
-                    return;
-                }
-                
-                productos.forEach(producto => {
-                    const row = document.createElement('tr');
-                    row.innerHTML = `
-                        <td>${producto.nombre || 'Sin nombre'}</td>
-                        <td class="price">$${producto.precio?.toFixed(2) || '0.00'}</td>
-                        <td>${producto.descripcion || 'Sin descripción'}</td>
-                        <td class="text-center">
-                            <div class="table-actions">
-                                <a href="../screens/editar_producto.html?id=${producto.id_pro}" class="action-button edit">
-                                    <span>✏️</span>
-                                </a>
-                                <button class="action-button delete" type="button" data-id="${producto.id_pro}">
-                                    <span>🗑️</span>
-                                </button>
-                            </div>
-                        </td>
-                    `;
-                    tbody.appendChild(row);
-                });
-                
-                // Configurar botones de eliminar
-                document.querySelectorAll('.delete').forEach(btn => {
-                    btn.addEventListener('click', function() {
-                        const id = this.getAttribute('data-id');
-                        const modal = document.querySelector(".modal-container");
-                        modal.classList.remove("modal--close");
-                        modal.dataset.targetId = id;
-                    });
-                });
-            } catch (error) {
-                console.error('Error cargando productos:', error);
-                tbody.innerHTML = '<tr><td colspan="4" class="text-center">Error al cargar productos: ' + error.message + '</td></tr>';
-            }
-        };
-        
-        // Cargar productos inicialmente
-        await cargarProductos();
-        
-        // Configurar búsqueda
-        searchButton.addEventListener('click', () => {
-            cargarProductos(searchInput.value);
-        });
-        
-        searchInput.addEventListener('keypress', (e) => {
-            if (e.key === 'Enter') {
-                cargarProductos(searchInput.value);
-            }
-        });
-        
-        // Configurar botón de confirmar eliminación
-        document.querySelector('.modal__button--confirm').addEventListener('click', async function() {
-            const id = document.querySelector('.modal-container').dataset.targetId;
-            if (!id) return;
-            
-            try {
-                await productoService.eliminarProducto(id);
-                
-                // Cerrar modal
-                document.querySelector('.modal-container').classList.add('modal--close');
-                
-                // Mostrar notificación
-                const alertElement = document.getElementById('actionAlert');
-                alertElement.textContent = 'Producto eliminado con éxito';
-                alertElement.style.display = 'block';
-                
-                // Recargar productos después de 1.5 segundos
-                setTimeout(() => {
-                    cargarProductos();
-                    alertElement.style.display = 'none';
-                }, 1500);
-            } catch (error) {
-                console.error('Error al eliminar:', error);
-                alert('Error al eliminar producto: ' + error.message);
-            }
-        });
-        
-        // Configurar botones para cerrar modal
-        document.querySelector('.modal__close').addEventListener('click', function() {
-            document.querySelector('.modal-container').classList.add('modal--close');
-        });
-        
-        document.querySelector('.button--secondary').addEventListener('click', function() {
-            document.querySelector('.modal-container').classList.add('modal--close');
-        });
-    });
-    </script>
-    
-  </body>
+    <script type="module" src="../assets/js/controllers/producto/lista-producto-controller.js"></script>
+</body>
 </html>

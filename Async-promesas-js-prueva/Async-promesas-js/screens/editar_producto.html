@@ -3,16 +3,11 @@
 <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Editar Producto | Doguito Pet Store</title>
+    <title>Editar Producto | Doguito Petshop</title>
     <link rel="icon" href="../assets/img/doguitoadm.svg" type="image/x-icon" />
-    <link
-      href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700&display=swap"
-      rel="stylesheet"
-    />
-    <link
-      href="https://fonts.googleapis.com/css2?family=Pacifico&display=swap"
-      rel="stylesheet"
-    />
+    <!-- Agregar fuentes -->
+    <link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;500;600;700&family=Pacifico&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" />
     <link rel="stylesheet" href="../assets/css/unified-style.css" />
 </head>
 <body>
@@ -37,190 +32,40 @@
       </div>
     </header>
 
-    <main class="container">
+    <div class="container">
+        <!-- Cambiar el título por uno con clase form-title -->
+        <h1 class="form-title">Editar Producto</h1>
+        
+        <!-- Agregar div para mensajes/alertas -->
+        <div id="result" class="alert" style="display: none;"></div>
+        
         <div class="card">
-            <h2 class="card__title">Editar Producto</h2>
-            
-            <div class="alert" id="result" style="display: none;"></div>
-            
-            <form id="productoForm" class="form">
-                <input type="hidden" id="id">
+            <form id="productoForm">
+                <input type="hidden" id="id_pro" />
                 
                 <div class="form-group">
-                    <label class="form-label" for="nombre">Nombre <span class="text-danger">*</span></label>
-                    <input type="text" id="nombre" class="form-control" required>
+                    <label class="form-label" for="nombre">Nombre:</label>
+                    <input type="text" class="form-control" id="nombre" placeholder="Nombre del producto" required />
                 </div>
                 
                 <div class="form-group">
-                    <label class="form-label" for="precio">Precio <span class="text-danger">*</span></label>
-                    <input type="number" id="precio" class="form-control" step="0.01" min="0" required>
+                    <label class="form-label" for="precio">Precio:</label>
+                    <input type="number" class="form-control" id="precio" placeholder="Precio del producto" min="0" step="0.01" required />
                 </div>
                 
                 <div class="form-group">
-                    <label class="form-label" for="descripcion">Descripción</label>
-                    <textarea id="descripcion" class="form-control" rows="3"></textarea>
+                    <label class="form-label" for="descripcion">Descripción:</label>
+                    <textarea class="form-control" id="descripcion" placeholder="Descripción del producto" rows="3"></textarea>
                 </div>
                 
-                <div class="form-group text-center mt-3">
-                    <button type="submit" class="button">Actualizar Producto</button>
+                <div class="text-center">
+                    <button type="submit" class="button">Actualizar</button>
                 </div>
             </form>
         </div>
-    </main>
+    </div>
     
-    <script type="module">
-        import { v4 as uuidv4 } from 'https://jspm.dev/uuid';
-        
-        const SUPABASE_URL = 'https://fqxjajxbjlnyrdvdofrq.supabase.co';
-        const SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImZxeGphanhiamxueXJkdmRvZnJxIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NDcwNDg1OTUsImV4cCI6MjA2MjYyNDU5NX0.tmC35WfvvFGwfYaOvBDLLmKVmGtq9cU-ojk2H4EHyV8';
-        const HEADER = {
-            apikey: SUPABASE_KEY,
-            Authorization: `Bearer ${SUPABASE_KEY}`,
-            'Content-Type': 'application/json'
-        };
-        
-        // Obtener ID del producto de la URL
-        const url = new URL(window.location);
-        const id = url.searchParams.get("id");
-        
-        // Verificar si se proporcionó un ID
-        if (!id) {
-            window.location.href = "./lista_productos.html";
-        }
-        
-        // Función para mostrar mensajes
-        function mostrarMensaje(mensaje, esError = false) {
-            const resultElement = document.getElementById('result');
-            if (resultElement) {
-                resultElement.textContent = mensaje;
-                resultElement.className = esError ? 'alert alert--danger' : 'alert alert--success';
-                resultElement.style.display = 'block';
-                
-                if (!esError) {
-                    setTimeout(() => {
-                        window.location.href = './lista_productos.html?updated=true';
-                    }, 1500);
-                }
-            } else {
-                console.error('Elemento de resultado no encontrado');
-                alert(mensaje); // Fallback si no se encuentra el elemento
-            }
-        }
-        
-        // Esperar a que el DOM esté completamente cargado
-        document.addEventListener('DOMContentLoaded', async function() {
-            try {
-                // Referencias a elementos del formulario (verificando que existan)
-                const nombreInput = document.getElementById('nombre');
-                const precioInput = document.getElementById('precio');
-                const descripcionInput = document.getElementById('descripcion');
-                const idInput = document.getElementById('id_pro');
-                
-                // Verificar que todos los elementos existan
-                if (!nombreInput || !precioInput || !descripcionInput || !idInput) {
-                    throw new Error('No se encontraron todos los elementos del formulario. Verifica los IDs.');
-                }
-                
-                mostrarMensaje("Cargando producto...");
-                
-                // Obtener datos del producto
-                const response = await fetch(`${SUPABASE_URL}/rest/v1/producto?id_pro=eq.${id}&select=*`, {
-                    headers: HEADER
-                });
-                
-                if (!response.ok) {
-                    throw new Error(`Error HTTP: ${response.status}`);
-                }
-                
-                const productos = await response.json();
-                
-                if (productos.length === 0) {
-                    throw new Error("No se encontró el producto");
-                }
-                
-                const producto = productos[0];
-                console.log("Producto cargado:", producto);
-                
-                // Llenar formulario con los datos
-                nombreInput.value = producto.nombre || '';
-                precioInput.value = producto.precio || '';
-                descripcionInput.value = producto.descripcion || '';
-                idInput.value = producto.id_pro;
-                
-                // Ocultar mensaje de carga
-                const resultElement = document.getElementById('result');
-                if (resultElement) {
-                    resultElement.style.display = 'none';
-                }
-                
-            } catch (error) {
-                console.error("Error:", error);
-                mostrarMensaje("Error al cargar el producto: " + error.message, true);
-            }
-            
-            // Agregar manejador de envío al formulario
-            const form = document.getElementById('productoForm');
-            if (form) {
-                form.addEventListener('submit', async function(e) {
-                    e.preventDefault();
-                    
-                    try {
-                        const nombreInput = document.getElementById('nombre');
-                        const precioInput = document.getElementById('precio');
-                        const descripcionInput = document.getElementById('descripcion');
-                        
-                        if (!nombreInput || !precioInput || !descripcionInput) {
-                            throw new Error('No se encontraron los campos del formulario');
-                        }
-                        
-                        const nombre = nombreInput.value;
-                        const precio = precioInput.value;
-                        const descripcion = descripcionInput.value;
-                        
-                        // Validaciones
-                        if (!nombre.trim()) {
-                            throw new Error("El nombre del producto es obligatorio");
-                        }
-                        
-                        if (isNaN(parseFloat(precio)) || parseFloat(precio) < 0) {
-                            throw new Error("El precio debe ser un número positivo");
-                        }
-                        
-                        console.log("Datos actualizados:", { nombre, precio, descripcion });
-                        
-                        // Producto actualizado
-                        const productoActualizado = {
-                            nombre,
-                            precio: parseFloat(precio),
-                            descripcion: descripcion || null
-                        };
-                        
-                        // Mostrar mensaje de procesamiento
-                        mostrarMensaje("Actualizando producto...");
-                        
-                        // Enviar a Supabase
-                        const response = await fetch(`${SUPABASE_URL}/rest/v1/producto?id_pro=eq.${id}`, {
-                            method: 'PATCH',
-                            headers: HEADER,
-                            body: JSON.stringify(productoActualizado)
-                        });
-                        
-                        if (!response.ok) {
-                            const errorText = await response.text();
-                            throw new Error(`Error ${response.status}: ${errorText}`);
-                        }
-                        
-                        mostrarMensaje('Producto actualizado con éxito');
-                        
-                    } catch (error) {
-                        console.error("Error:", error);
-                        mostrarMensaje('Error al actualizar el producto: ' + error.message, true);
-                    }
-                });
-            } else {
-                console.error('Formulario no encontrado');
-            }
-        });
-    </script>
+    <!-- Importar el script externo como un módulo -->
+    <script type="module" src="../assets/js/controllers/producto/editar-producto-controller.js"></script>
 </body>
 </html>
