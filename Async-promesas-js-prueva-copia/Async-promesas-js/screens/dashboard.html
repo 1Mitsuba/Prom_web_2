@@ -1,0 +1,226 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Dashboard | Doguito Petshop</title>
+    <link rel="icon" href="../assets/img/doguitoadm.svg" type="image/x-icon" />
+    <link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;500;600;700&family=Pacifico&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" />
+    <link rel="stylesheet" href="../assets/css/unified-style.css" />
+    <link rel="stylesheet" href="../assets/css/components/dashboard.css" />
+    <style>
+        .dashboard-cards {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 1.5rem;
+            margin-bottom: 2.5rem;
+        }
+        
+        .dashboard-card {
+            padding: 1.5rem;
+            border-radius: 1rem;
+            position: relative;
+            overflow: hidden;
+            box-shadow: 0 10px 20px rgba(0,0,0,0.1);
+            transition: all 0.3s ease;
+        }
+        
+        .dashboard-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 30px rgba(0,0,0,0.15);
+        }
+        
+        /* Tarjetas con gradientes */
+        .card-productos {
+            background: linear-gradient(135deg, #5e94ff, #38d9d9);
+        }
+        
+        .card-clientes {
+            background: linear-gradient(135deg, #9f7aea, #f687b3);
+        }
+        
+        .card-mascotas {
+            background: linear-gradient(135deg, #ff9f43, #ff5a5a);
+        }
+        
+        .card-icon {
+            position: absolute;
+            top: 1.5rem;
+            right: 1.5rem;
+            font-size: 2.5rem;
+            opacity: 0.3;
+            color: white;
+        }
+        
+        .card-title {
+            color: rgba(255, 255, 255, 0.85);
+            margin: 0;
+            font-size: 1.1rem;
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+        }
+        
+        .card-value {
+            color: white;
+            font-size: 3.5rem;
+            font-family: var(--font-accent);
+            line-height: 1;
+            margin: 0.5rem 0;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.2);
+        }
+        
+        .card-link {
+            display: inline-block;
+            margin-top: 1rem;
+            color: white;
+            text-decoration: none;
+            padding: 0.4rem 1rem;
+            background-color: rgba(255,255,255,0.2);
+            border-radius: 2rem;
+            font-size: 0.9rem;
+            font-weight: 500;
+            transition: all 0.2s ease;
+        }
+        
+        .card-link:hover {
+            background-color: rgba(255,255,255,0.3);
+            transform: translateX(5px);
+        }
+        
+        /* Actividades recientes */
+        .activities-section {
+            background: white;
+            border-radius: 1rem;
+            padding: 1.5rem;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.08);
+        }
+        
+        .activity-item {
+            padding: 1rem;
+            border-bottom: 1px solid rgba(0,0,0,0.05);
+            display: flex;
+            align-items: flex-start;
+            gap: 1rem;
+        }
+        
+        .activity-icon {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background-color: rgba(94, 148, 255, 0.1);
+            color: #5e94ff;
+            flex-shrink: 0;
+        }
+        
+        .activity-content {
+            flex: 1;
+        }
+        
+        .activity-text {
+            margin: 0 0 0.25rem;
+        }
+        
+        .activity-time {
+            font-size: 0.8rem;
+            color: #8c90a0;
+        }
+        
+        .activity-empty {
+            padding: 2rem;
+            text-align: center;
+            color: #8c90a0;
+            font-style: italic;
+        }
+    </style>
+</head>
+<body style="background: linear-gradient(135deg, #e6f3ff, #e6faff);">
+    <!-- Navbar mejorado -->
+    <nav class="navbar">
+        <div class="container">
+            <a href="./dashboard.html" class="navbar-brand">
+                <img src="../assets/img/doguitoadm.svg" alt="Doguito Petshop Logo">
+                <h1>Doguito Petshop</h1>
+            </a>
+            <ul class="navbar-nav">
+                <li class="nav-item">
+                    <a href="./dashboard.html" class="nav-link active">
+                        <i class="fas fa-home"></i> Dashboard
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a href="./lista_productos.html" class="nav-link">
+                        <i class="fas fa-box"></i> Productos
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a href="./lista_cliente.html" class="nav-link">
+                        <i class="fas fa-users"></i> Clientes
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a href="./lista_pets.html" class="nav-link">
+                        <i class="fas fa-paw"></i> Mascotas
+                    </a>
+                </li>
+            </ul>
+        </div>
+    </nav>
+    
+    <!-- Contenido principal -->
+    <div class="content-wrapper">
+        <!-- Título de la página -->
+        <div class="page-title-wrapper">
+            <h1 class="page-title">Bienvenido a Doguito Petshop</h1>
+            <p class="page-subtitle">Sistema de gestión para tu tienda de mascotas</p>
+        </div>
+        
+        <!-- Tarjetas de estadísticas -->
+        <div class="dashboard-cards">
+            <div class="dashboard-card card-productos">
+                <i class="fas fa-box card-icon"></i>
+                <h3 class="card-title">Productos</h3>
+                <div class="card-value" id="productos-count">0</div>
+                <a href="./lista_productos.html" class="card-link">
+                    Ver productos <i class="fas fa-arrow-right"></i>
+                </a>
+            </div>
+            
+            <div class="dashboard-card card-clientes">
+                <i class="fas fa-users card-icon"></i>
+                <h3 class="card-title">Clientes</h3>
+                <div class="card-value" id="clientes-count">0</div>
+                <a href="./lista_cliente.html" class="card-link">
+                    Ver clientes <i class="fas fa-arrow-right"></i>
+                </a>
+            </div>
+            
+            <div class="dashboard-card card-mascotas">
+                <i class="fas fa-paw card-icon"></i>
+                <h3 class="card-title">Mascotas</h3>
+                <div class="card-value" id="mascotas-count">0</div>
+                <a href="./lista_pets.html" class="card-link">
+                    Ver mascotas <i class="fas fa-arrow-right"></i>
+                </a>
+            </div>
+        </div>
+        
+        <!-- Sección de actividades recientes -->
+        <div class="section-header">
+            <h2 class="section-title">Actividades Recientes</h2>
+        </div>
+        
+        <div class="activities-section">
+            <div id="activity-list" class="activity-list">
+                <!-- Las actividades se cargarán dinámicamente -->
+                <div class="activity-empty">No hay actividades recientes</div>
+            </div>
+        </div>
+    </div>
+    
+    <script type="module" src="../assets/js/controllers/dashboard-controller.js"></script>
+</body>
+</html>

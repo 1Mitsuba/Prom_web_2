@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Editar Mascota | Doguito Petshop</title>
+    <link rel="icon" href="../assets/img/doguitoadm.svg" type="image/x-icon" />
+    <!-- Agregar fuentes -->
+    <link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;500;600;700&family=Pacifico&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" />
+    <link rel="stylesheet" href="../assets/css/unified-style.css" />
+</head>
+<body>
+    <header class="header">
+      <div class="container flex flex--between">
+        <div class="flex flex--center">
+          <img src="../assets/img/doguitoadm.svg" alt="Logotipo Doguito" class="header__logo" />
+          <h1 class="ml-2" style="font-family: var(--font-accent); font-size: var(--text-xl); margin-left: 10px;">Doguito Petshop</h1>
+        </div>
+        <nav>
+          <ul class="header__list-nav">
+            <li class="header__link"><a href="./dashboard.html">Dashboard</a></li>
+            <li class="header__link"><a href="./lista_productos.html">Productos</a></li>
+            <li class="header__link"><a href="./lista_cliente.html">Clientes</a></li>
+            <li class="header__link"><a href="./lista_pets.html" class="active">Mascotas</a></li>
+          </ul>
+        </nav>
+      </div>
+    </header>
+
+    <main class="container">
+        <!-- Cambiar el título por uno con clase form-title -->
+        <h1 class="form-title">Editar Mascota</h1>
+        
+        <!-- Agregar div para mensajes/alertas -->
+        <div id="result" class="alert" style="display: none;"></div>
+        
+        <div class="card">
+            <form id="petForm">
+                <input type="hidden" id="id_pet" />
+                
+                <div class="form-group">
+                    <label class="form-label" for="nombre">Nombre:</label>
+                    <input type="text" class="form-control" id="nombre" placeholder="Nombre de la mascota" required />
+                </div>
+                
+                <div class="form-group">
+                    <label class="form-label" for="raza">Raza:</label>
+                    <input type="text" class="form-control" id="raza" placeholder="Raza de la mascota" />
+                </div>
+                
+                <div class="form-group">
+                    <label class="form-label" for="edad">Edad:</label>
+                    <input type="number" class="form-control" id="edad" placeholder="Edad en años" min="0" />
+                </div>
+                
+                <div class="form-group">
+                    <label class="form-label" for="dueno">Dueño:</label>
+                    <select class="form-control" id="dueno" required>
+                        <option value="">Seleccione un dueño</option>
+                    </select>
+                </div>
+                
+                <div class="text-center">
+                    <button type="submit" class="button">Actualizar</button>
+                </div>
+            </form>
+        </div>
+    </main>
+    
+    <!-- Importar el script externo como un módulo -->
+    <script type="module" src="../assets/js/controllers/pet/editar-pet-controller.js"></script>
+</body>
+</html>

@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Registrar Cliente | Doguito Petshop</title>
+    <link rel="icon" href="../assets/img/doguitoadm.svg" type="image/x-icon" />
+    <!-- Agregar fuentes -->
+    <link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;500;600;700&family=Pacifico&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" />
+    <link rel="stylesheet" href="../assets/css/unified-style.css" />
+</head>
+<body>
+    <header class="header">
+      <div class="container flex flex--between">
+        <div class="flex flex--center">
+          <img
+            src="../assets/img/doguitoadm.svg"
+            alt="Logotipo Doguito"
+            class="header__logo"
+          />
+          <h1 class="ml-2" style="font-family: var(--font-accent); font-size: var(--text-xl); margin-left: 10px;">Doguito Petshop</h1>
+        </div>
+        <nav>
+          <ul class="header__list-nav">
+            <li class="header__link"><a href="./dashboard.html">Dashboard</a></li>
+            <li class="header__link"><a href="./lista_productos.html">Productos</a></li>
+            <li class="header__link"><a href="./lista_cliente.html" class="active">Clientes</a></li>
+            <li class="header__link"><a href="./lista_pets.html">Mascotas</a></li>
+          </ul>
+        </nav>
+      </div>
+    </header>
+    
+    <div class="container">
+        <h1 class="form-title">Registrar Cliente</h1>
+        
+        <div id="result" class="alert" style="display: none;"></div>
+        
+        <div class="card">
+            <!-- Importante: asegúrate de que el ID del formulario sea 'clienteForm' -->
+            <form id="clienteForm">
+                <div class="form-group">
+                    <label class="form-label" for="nombre">Nombre:</label>
+                    <input type="text" class="form-control" id="nombre" placeholder="Nombre del cliente" required />
+                </div>
+                
+                <div class="form-group">
+                    <!-- Importante: el ID es 'emal' (no 'email') para mantener consistencia -->
+                    <label class="form-label" for="emal">Email:</label>
+                    <input type="email" class="form-control" id="emal" placeholder="Email del cliente" />
+                </div>
+                
+                <div class="text-center">
+                    <button type="submit" class="button">Registrar</button>
+                </div>
+            </form>
+        </div>
+    </div>
+    
+    <!-- Importar el script externo como un módulo -->
+    <script type="module" src="../assets/js/controllers/cliente/registrar-cliente-controller.js"></script>
+</body>
+</html>
